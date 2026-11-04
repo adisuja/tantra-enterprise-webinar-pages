@@ -121,9 +121,26 @@
     if (bad.length) { bad[0].focus(); return; }
     var body = payload();
     btn.disabled = true; btn.textContent = 'Saving your seat...';
-    // Stub: no network. Live, this POSTs body as JSON to integrations.register_worker_url (the register Worker, item 17),
-    // which registers the person in WebinarJam for a personal join_url, then posts webinar.registered to the CRM.
-    // The page never posts to the CRM directly (CRM_CONTRACT.md, Registration flow).
+    // LIVE: POST to integrations.register_worker_url (the register Worker, item 17), which checks Turnstile, registers the
+    // person in WebinarJam for a personal join_url, then posts webinar.registered to the CRM. Never to the CRM directly.
+    if (F.live && F.register_worker_url) {
+      var fail = function () { if (window.turnstile) window.turnstile.reset(); btn.disabled = false; btn.textContent = 'Save my seat'; serverErr.hidden = false; };
+      var tokenEl = form.querySelector('[name="cf-turnstile-response"]');
+      var token = tokenEl ? tokenEl.value : '';
+      if (!token) { fail(); return; }
+      body.turnstile_token = token;
+      body.data.timezone = body.data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+      fetch(F.register_worker_url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (!j.ok) throw new Error(j.error || 'failed');
+          try { sessionStorage.setItem('tantra_first_name', body.data.first_name); } catch (e) {}
+          location.href = j.redirect || F.thank_you_path;
+        })
+        .catch(fail);
+      return;
+    }
+    // REVIEW: stub, no network. Logs the body the live form would send.
     setTimeout(function () {
       if (state === 'error') {
         btn.disabled = false; btn.textContent = 'Save my seat';
