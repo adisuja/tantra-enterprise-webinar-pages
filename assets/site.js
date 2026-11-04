@@ -7,6 +7,15 @@
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var WEEK = 7 * 864e5;
 
+  // Review mode (?review=1): keep it on while moving between the review pages.
+  if (document.documentElement.classList.contains('review')) {
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var h = a.getAttribute('href'); if (!h || /^(https?:|mailto:|#)/.test(h) || h.indexOf('review=1') > -1) return;
+      var i = h.indexOf('#'), base = i > -1 ? h.slice(0, i) : h, frag = i > -1 ? h.slice(i) : '';
+      a.setAttribute('href', base + (base.indexOf('?') > -1 ? '&' : '?') + 'review=1' + frag);
+    });
+  }
+
   // Recording page: ?state=expired shows the closed replay card.
   if (state === 'expired') document.body.classList.add('is-expired');
 
@@ -67,7 +76,7 @@
     var room = join.getAttribute('data-room');
     if (state === 'preparing') { join.setAttribute('data-state', 'preparing'); jt.textContent = 'Preparing your link...'; jn.textContent = 'Looking up your personal join link.'; }
     else if (state === 'unavailable') { join.setAttribute('data-state', 'unavailable'); jt.textContent = 'Link unavailable'; jn.textContent = 'Use the personal link in your email from WebinarJam. Still stuck? Ask in the WhatsApp community.'; }
-    else if (room) { jt.textContent = 'Enter the live session'; jn.textContent = 'Your personal link from the WebinarJam email works too.'; }
+    else if (room) { join.setAttribute('data-state', 'live'); jt.textContent = 'Enter the live session'; jn.textContent = 'Your personal link from the WebinarJam email works too.'; }
     if (!room || state) jb.setAttribute('href', '#email');
   }
 
@@ -166,8 +175,9 @@
     var el = $(id);
     el.hidden = !bad;
     inputs.forEach(function (i) {
-      if (bad) { i.setAttribute('aria-invalid', 'true'); i.setAttribute('aria-describedby', id); }
-      else { i.removeAttribute('aria-invalid'); i.removeAttribute('aria-describedby'); }
+      var base = i.getAttribute('data-desc');
+      if (bad) { i.setAttribute('aria-invalid', 'true'); i.setAttribute('aria-describedby', (base ? base + ' ' : '') + id); }
+      else { i.removeAttribute('aria-invalid'); if (base) i.setAttribute('aria-describedby', base); else i.removeAttribute('aria-describedby'); }
     });
     return bad;
   }
