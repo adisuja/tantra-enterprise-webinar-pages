@@ -71,6 +71,12 @@
     if (!room || state) jb.setAttribute('href', '#email');
   }
 
+  // Drop the right-edge fade once a sideways scroller reaches its end.
+  document.querySelectorAll('.mx-wrap, .phones').forEach(function (el) {
+    var f = function () { el.classList.toggle('at-end', el.scrollLeft + el.clientWidth >= el.scrollWidth - 4); };
+    el.addEventListener('scroll', f, { passive: true }); f();
+  });
+
   // ---------- Indoctrination checklists, saved on this device ----------
   document.querySelectorAll('[data-checklist] input[type=checkbox]').forEach(function (box) {
     var k = 'tantra_check_' + box.getAttribute('data-key');

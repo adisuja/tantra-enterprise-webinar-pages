@@ -32,12 +32,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* ---------- Type: huge condensed caps (Clash Display, tight tracking) ---------- */
 .mega, .caps, .bigt, .tytitle, .h-mont, .ddhero__h { font-family: var(--display); margin: 0; }
-.mega { font-weight: 700; text-transform: uppercase; font-size: clamp(30px, 4.1vw, 58px); line-height: 1.16; letter-spacing: 0; word-spacing: .16em; color: var(--white); max-width: 1060px; margin: 22px auto 0; }
-.caps { font-weight: 700; text-transform: uppercase; font-size: clamp(28px, 3.9vw, 54px); line-height: 1.16; letter-spacing: 0; word-spacing: .16em; color: var(--ink); max-width: 1000px; margin: 0 auto; }
+.mega { font-weight: 700; text-transform: uppercase; font-size: clamp(28px, 3.6vw, 52px); line-height: 1.05; letter-spacing: -.03em; word-spacing: .16em; color: var(--white); max-width: 1240px; margin: 22px auto 0; }
+.caps { font-weight: 700; text-transform: uppercase; font-size: clamp(28px, 3.9vw, 54px); line-height: 1.05; letter-spacing: -.03em; word-spacing: .14em; color: var(--ink); max-width: 1000px; margin: 0 auto; }
 .caps--light { color: var(--white); }
-.caps--mont { font-weight: 600; font-size: clamp(26px, 3.1vw, 44px); letter-spacing: 0; }
+.caps--mont { font-weight: 600; font-size: clamp(26px, 3.1vw, 44px); letter-spacing: -.02em; line-height: 1.12; }
 .caps--sm { font-size: clamp(22px, 2.2vw, 30px); margin-top: 48px; }
-.hl { background: linear-gradient(90deg, var(--haze), var(--iris)); color: var(--ink); padding: 0 .18em; border-radius: .14em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.hl { letter-spacing: -.02em; background: linear-gradient(90deg, var(--haze), var(--iris)); color: var(--ink); padding: 0 .18em; border-radius: .14em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .h-mont { font-weight: 600; font-size: clamp(26px, 3vw, 40px); line-height: 1.2; margin-bottom: 28px; }
 .h-mont--caps { text-transform: uppercase; font-size: clamp(30px, 3.4vw, 48px); }
 .eyebrow { font-family: var(--display); font-weight: 600; font-size: 26px; color: var(--volt); text-transform: uppercase; margin: 0 0 4px; }
@@ -184,7 +184,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .face--ring { width: 136px; height: 136px; border: 3px solid var(--ink); box-shadow: 0 0 0 5px var(--iris); }
 .face--md { width: 96px; height: 96px; }
 .face--lg { width: 150px; height: 150px; }
-.face--bio { width: 100%; height: 100%; border-radius: 0; }
+.face--bio { width: 200px; height: 290px; border-radius: 0; }
 .face--mono { background: linear-gradient(140deg, var(--volt), var(--night)); color: var(--white); font: 600 40px var(--display); }
 .face--ring.face--mono { font-size: 54px; }
 
@@ -449,7 +449,7 @@ body.modal-open { overflow: hidden; }
 .team__note { font-size: 13px; color: var(--slate); margin: 30px 0 0; }
 .rule { border: 0; border-top: 1px solid var(--line); max-width: 1100px; margin: 0 auto 50px; }
 .bio { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: center; max-width: 900px; margin: 0 auto 50px; }
-.bio__photo { background: var(--paper); height: 280px; display: flex; }
+.bio__photo { background: #eceef4; height: 230px; margin-top: 60px; display: flex; align-items: flex-end; justify-content: center; }
 .bio h3 { font: 600 22px var(--display); margin: 0; }
 .bio__role { color: var(--volt-deep); font-weight: 600; font-size: 14px; margin: 0 0 12px; }
 .bio p:last-child { font-size: 14.5px; text-align: justify; }
@@ -471,8 +471,9 @@ body.modal-open { overflow: hidden; }
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
   .ddnav__in { flex-direction: column; align-items: flex-start; gap: 0; padding: 6px 16px 0; }
-  .ddnav nav { width: 100%; overflow-x: auto; }
-  .ddnav__list a { padding: 8px 10px 10px 0; }
+  .ddnav nav { width: 100%; }
+  .ddnav__list { flex-wrap: wrap; gap: 0 4px; }
+  .ddnav__list a { padding: 6px 10px 8px 0; }
   .dd-drop ul, .dd-drop:hover ul, .dd-drop:focus-within ul { display: none; }
   .dd-drop > a::after { content: ''; }
 }
@@ -524,7 +525,8 @@ body.modal-open { overflow: hidden; }
   .team li { width: 140px; }
   .face--lg { width: 120px; height: 120px; }
   .bio { grid-template-columns: 1fr; gap: 16px; }
-  .bio__photo { height: 260px; max-width: 280px; }
+  .bio__photo { height: 210px; max-width: 280px; margin-top: 50px; }
+  .face--bio { width: 170px; height: 250px; }
   .stages { grid-template-columns: 1fr; }
   .mock { height: 230px; }
   .mock__doc { width: 130px; height: 180px; padding: 12px 10px; }
@@ -535,3 +537,14 @@ body.modal-open { overflow: hidden; }
 
 /* Clash Display sets words close together; open the word gap on every display setting. */
 .h-mont, .ddhero__h, .reg__title, .case__head, .case h4, .emailcard, .tyhero__pre, .bonus__lead, .team strong, .hostc h3, .mx th b, .mx tbody th, .kpistrip span, .iris-i, .stages strong, .btn--cta, .btn--join, .mock__t, .vtoc a, .checklist legend, .names li, .incl__name, .otherinfo h2, .bio h3, .dash__top strong, .cd__label, .stepcards__n, .eyebrow, .ttimer, .wbonus__h, .replay-closed h2, .phone-frame p, .cal__title { word-spacing: .12em; }
+
+/* Phone hints for the sideways-scrolling matrix and the wins slider. */
+.swipe { display: none; font-size: 13px; font-weight: 600; color: var(--volt-deep); margin: 0 0 8px; text-align: right; }
+@media (max-width: 760px) {
+  .swipe { display: block; }
+  .mx-wrap { -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); }
+  .mx-wrap.at-end { -webkit-mask-image: none; mask-image: none; }
+  .phones { -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent); mask-image: linear-gradient(90deg, #000 80%, transparent); }
+  .phones.at-end { -webkit-mask-image: none; mask-image: none; }
+  .caps--mont br { display: none; }
+}
