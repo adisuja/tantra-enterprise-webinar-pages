@@ -53,6 +53,8 @@
   }
   var $ = function (id) { return document.getElementById(id); };
   var serverErr = $('reg-server-error');
+  // Visitor's IANA time zone, captured silently: nurture times WhatsApp inside 8am to 8pm local.
+  try { $('f-tz').value = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
   var btn = form.querySelector('button[type=submit]');
 
   function show(id, inputs, bad) {
@@ -89,6 +91,7 @@
       whatsapp_opt_in: fd.get('whatsapp_opt_in') === 'on',
       revenue_band: fd.get('revenue_band'),
       invest_12m: fd.get('invest_12m'),
+      timezone: fd.get('timezone') || null,
     };
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { if (params.get(k)) data[k] = params.get(k); });
     return {
