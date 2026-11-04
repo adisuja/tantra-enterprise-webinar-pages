@@ -119,14 +119,16 @@
     if (bad.length) { bad[0].focus(); return; }
     var body = payload();
     btn.disabled = true; btn.textContent = 'Saving your seat...';
-    // Stub: no network. Live, this POSTs body as JSON to integrations.crm_webhook_url (CRM_CONTRACT.md).
+    // Stub: no network. Live, this POSTs body as JSON to integrations.register_worker_url (the register Worker, item 17),
+    // which registers the person in WebinarJam for a personal join_url, then posts webinar.registered to the CRM.
+    // The page never posts to the CRM directly (CRM_CONTRACT.md, Registration flow).
     setTimeout(function () {
       if (state === 'error') {
         btn.disabled = false; btn.textContent = 'Save my seat';
         serverErr.hidden = false; serverErr.focus && serverErr.setAttribute('tabindex', '-1'); serverErr.focus();
         return;
       }
-      console.log('[stub] would POST to ' + (F.form_endpoint || 'crm_webhook_url') + ':', JSON.stringify(body, null, 2));
+      console.log('[stub] would POST to integrations.register_worker_url (' + (F.register_worker_url || 'FILL_REGISTER_WORKER_URL') + '):', JSON.stringify(body, null, 2));
       try { sessionStorage.setItem('tantra_first_name', body.data.first_name); } catch (e) {}
       location.href = F.thank_you_path || 'thank-you/';
     }, 700);
