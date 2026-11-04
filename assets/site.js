@@ -75,7 +75,7 @@
     if (show('e-email', [email], !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()))) bad.push(email);
     if (show('e-company', [company], !company.value.trim())) bad.push(company);
     var digits = phone.value.replace(/\D/g, '');
-    var phoneBad = (optin.checked || phone.value.trim()) && !(/^\+?[\d\s().-]+$/.test(phone.value.trim()) && digits.length >= 8 && digits.length <= 15 && phone.value.trim().charAt(0) === '+');
+    var phoneBad = (optin.checked || $('f-call').checked || phone.value.trim()) && !(/^\+?[\d\s().-]+$/.test(phone.value.trim()) && digits.length >= 8 && digits.length <= 15 && phone.value.trim().charAt(0) === '+');
     if (show('e-phone', [phone], !!phoneBad)) bad.push(phone);
     if (show('e-band', [band], !band.value)) bad.push(band);
     if (show('e-invest', radios, !radios.some(function (r) { return r.checked; }))) bad.push(radios[0]);
@@ -89,6 +89,8 @@
       company: fd.get('company').trim(),
       phone: fd.get('phone').trim(),
       whatsapp_opt_in: fd.get('whatsapp_opt_in') === 'on',
+      call_opt_in: fd.get('call_opt_in') === 'on',
+      newsletter_opt_in: fd.get('newsletter_opt_in') === 'on',
       revenue_band: fd.get('revenue_band'),
       invest_12m: fd.get('invest_12m'),
       timezone: fd.get('timezone') || null,

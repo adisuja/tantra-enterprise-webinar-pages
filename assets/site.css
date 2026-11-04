@@ -81,6 +81,7 @@ p { margin: 0 0 1em; }
 .hero__facts li { display: grid; grid-template-columns: 90px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(201, 195, 236, 0.25); color: var(--white); }
 .hero__facts b { color: var(--iris); font-weight: 600; font-size: 15px; }
 .hero .reg p { color: var(--slate); }
+.hero .reg .field__err { color: #b42318; }
 .hero .reg .reg__error { color: #7c2d12; }
 
 /* Registration form */
@@ -99,6 +100,7 @@ p { margin: 0 0 1em; }
 .field__err { color: #b42318; font-size: 14px; margin: 6px 0 0; }
 .check { display: flex !important; gap: 10px; align-items: flex-start; font-weight: 400 !important; font-size: 14px !important; color: var(--slate); margin-top: 10px; cursor: pointer; }
 .check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--volt); flex: none; }
+.check--field { margin: 0 0 16px; }
 .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .seg label { margin: 0; cursor: pointer; }
 .seg input { position: absolute; opacity: 0; }
