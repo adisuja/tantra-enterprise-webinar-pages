@@ -27,7 +27,6 @@ h2{font:600 32px/1.15 var(--display);margin:0 0 8px}
 .sub{color:var(--slate);margin:0 0 24px;max-width:880px}
 .fill{display:inline-block;font:600 9.5px/1.5 var(--mono);letter-spacing:.06em;background:var(--cream);color:var(--amber-ink);padding:0 5px;border-radius:3px;vertical-align:1px}
 .draft{display:inline-block;font:600 8.5px/1.5 var(--mono);letter-spacing:.1em;background:var(--cream);color:var(--amber-ink);padding:0 4px;border-radius:3px;vertical-align:1px}
-.prop{display:inline-block;font:600 8.5px/1.5 var(--mono);letter-spacing:.1em;background:var(--lilac);color:var(--volt-deep);border:1px dashed var(--volt);padding:0 4px;border-radius:3px;vertical-align:1px}
 .hint{display:none;font:500 10px/1.4 var(--mono);color:var(--slate);margin:0 0 8px}
 .bm{display:block;font:500 8.5px/1.3 var(--mono);letter-spacing:.04em;color:var(--slate);margin-top:2px;text-transform:uppercase}
 
@@ -225,7 +224,7 @@ table.out td+td{font:500 12px var(--mono)}
         <div class="node"><div class="box"><h4>Books the call</h4><p>Cal.com + qualifying questions</p></div></div>
         <div class="node"><div class="box"><h4>Call 1</h4><p>30-min Enterprise Evaluation Call</p></div></div>
         <div class="node"><div class="box"><h4>Proposal + due diligence</h4><p>Within one business day</p></div></div>
-        <div class="node"><div class="box"><h4>Call 2 <span class="prop">PROPOSED</span></h4><p>Proposal walkthrough and decision</p></div></div>
+        <div class="node"><div class="box"><h4>Call 2</h4><p>30-min Proposal Review: the decision</p></div></div>
         <div class="node"><div class="box"><h4>Agreement + payment</h4><p>Signed and paid: Closed Won</p></div></div>
         <div class="endshape"><span>Handoff<small>to onboarding</small></span></div>
       </div>
@@ -259,13 +258,16 @@ table.out td+td{font:500 12px var(--mono)}
           <div class="card exit"><div class="k">Exit</div><h5>Not a fit</h5><p>Closed Lost with a reason</p></div>
         </div>
         <div class="dcol">
-          <div class="card rec"><div class="k">Recovery loop</div><h5>No decision by day 8</h5><p>Follow-Up: 4 touches in 14 days</p><span class="back">Go to Call 2 →</span></div>
+          <div class="card rec"><div class="k">Recovery loop</div><h5>Doesn't book Call 2</h5><p>Seq. D on days 1, 3 and 7; Follow-Up from day 8</p><span class="back">Go to Call 2 →</span></div>
         </div>
         <div class="dcol">
-          <div class="card rec"><div class="k">Recovery loop <span class="prop">PROPOSED</span></div><h5>Misses Call 2</h5><p>No sequence yet (RECONCILE)</p><span class="back">Back to Call 2 ↑</span></div>
+          <div class="card exit"><div class="k">Exit</div><h5>Misses Call 2</h5><p>Not rebooked while the switch is off (A8); Nurture day 7</p></div>
+          <div class="card rec"><div class="k">Recovery loop</div><h5>Cancels Call 2</h5><p>Seq. RC: rebook link; Follow-Up day 7</p><span class="back">Back to Call 2 ↑</span></div>
+        </div>
+        <div class="dcol">
+          <div class="card rec"><div class="k">Recovery loop</div><h5>No decision on Call 2</h5><p>Seq. RS; Follow-Up from day 7: 4 touches in 14 days</p><span class="back">Back to Call 2 ↑</span></div>
           <div class="card exit"><div class="k">Exit</div><h5>Lost with a reason</h5><p>Timing goes to Nurture: check-in every 75 days</p></div>
         </div>
-        <div class="dcol"></div>
         <div class="dcol"></div>
       </div>
     </div>
@@ -281,13 +283,13 @@ table.out td+td{font:500 12px var(--mono)}
     <div class="step"><div class="k">Step 2</div><h3>Send invites</h3><div class="ft">Invites out → webinar day</div><div class="val">8 to 12<small>days</small></div><div class="note">The send window in item 12</div><div class="tgt">Target: <span class="fill">FILL</span></div></div>
     <div class="step"><div class="k">Step 3</div><h3>Book Call 1</h3><div class="ft">Webinar → Call 1</div><div class="val"><span class="fill">FILL</span></div><div class="note">Cal.com shows slots 4 hours to 21 days ahead</div><div class="tgt">Target: <span class="fill">FILL</span></div></div>
     <div class="step"><div class="k">Step 4</div><h3>Proposal</h3><div class="ft">Call 1 → proposal sent</div><div class="val">≤ 1<small>business day</small></div><div class="note">The promise in the booking description</div><div class="tgt">Target: 1 business day</div></div>
-    <div class="step"><div class="k">Step 5</div><h3>Close</h3><div class="ft">Proposal → Call 2 → signed</div><div class="val"><span class="fill">FILL</span></div><div class="note">Follow-Up ends 22 days after the proposal</div><div class="tgt">Estimated · Target: <span class="fill">FILL</span></div></div>
+    <div class="step"><div class="k">Step 5</div><h3>Close</h3><div class="ft">Proposal → Call 2 → signed</div><div class="val"><span class="fill">FILL</span></div><div class="note">Call 2 window: <span class="fill">FILL</span> days</div><div class="tgt">Estimated · Target: <span class="fill">FILL</span></div></div>
   </div>
   <div class="totals">
     <div class="tot dark"><div class="k">Total · slice to signed deal<small>Target: FILL</small></div><div class="big"><span class="fill">FILL</span><small>days</small></div></div>
     <div class="tot light"><div class="k">Webinar to signed deal<small>Range: from the first deals · target: FILL</small></div><div class="big"><span class="fill">FILL</span><small>days</small></div></div>
   </div>
-  <p class="foot">Steps 2 and 4 come from our own plan (the item 12 send window and the one-business-day promise). Every other figure fills from the CRM once deals close: <code>call_date</code>, <code>proposal_sent_at</code> and <code>paid_at</code> on the Pipeline tab. The 22 days in step 5 is the built pipeline: Seq. D moves an undecided deal to Follow-Up on day 8, and Follow-Up ends 14 days later. Targets still to set.</p>
+  <p class="foot">Steps 2 and 4 come from our own plan (the item 12 send window and the one-business-day promise). Every other figure fills from the CRM once deals close: <code>call_date</code>, <code>proposal_sent_at</code> and <code>paid_at</code> on the Pipeline tab. Step 5 is bounded by the built pipeline: with no Call 2 booked, Seq. D moves the deal to Follow-Up on day 8; after a Call 2 with no decision, Follow-Up starts on day 7; Follow-Up ends 14 days later. The Call 2 booking window is Adi's to set. Targets still to set.</p>
 </section>
 
 <!-- 3 -->
@@ -334,14 +336,14 @@ table.out td+td{font:500 12px var(--mono)}
     </div>
 
     <div class="sc"><div class="k">Stage 07</div><h3>Written proposal + due diligence</h3><p class="lead">Between calls, the prospect sees what working with us would look like.</p>
-      <ul><li>A written proposal and agreement within one business day: their situation, the leak, the build, the 3-month plan and the $9,999 investment.</li><li>The due diligence page: review the proposal, watch the deep-dive and the replay, read the case studies and testimonials.</li><li>Seq. D follows up on days 1, 3 and 7. No decision by day 8 moves the deal to Follow-Up.</li></ul>
+      <ul><li>A written proposal within one business day: their situation, the leak, the build, the 3-month plan and the $9,999 investment.</li><li>The due diligence page: review the proposal, watch the deep-dive and the replay, read the case studies and testimonials.</li><li>The proposal and Seq. D carry the closer's own Proposal Review link, with reminders to book it on days 1, 3 and 7. No Call 2 and no decision by day 8 moves the deal to Follow-Up.</li></ul>
       <div class="lab">Software</div><p class="sw2">Proposal generator (item 24) · due diligence page (item 20) · Tantra · CRM sheet</p>
       <div class="kpis"><div class="lab">Key KPIs</div><table class="kt"><tr><th>KPI</th><th>Actual</th><th>Target</th></tr><tr><td>Proposals sent within one business day</td><td class="a">·</td><td class="t">100%<span class="bm">The promise</span></td></tr></table></div>
     </div>
 
-    <div class="sc"><div class="k">Stage 08 <span class="prop">PROPOSED</span></div><h3>Call 2</h3><p class="lead">The proposal walkthrough, where the deal is won or lost.</p>
-      <ul><li>Proposed, not built: the closer walks through the proposal and answers what stands between the prospect and a yes.</li><li>The built flow today closes by proposal and follow-up: four rep touches over 14 days, then Nurture.</li><li>Lost deals record a reason. Timing goes to Nurture with a check-in every 75 days.</li></ul>
-      <div class="lab">Software</div><p class="sw2">Google Meet · Cal.com (a second event type, proposed) · CRM sheet</p>
+    <div class="sc"><div class="k">Stage 08</div><h3>Call 2</h3><p class="lead">The Tantra Enterprise Proposal Review, where the decision is made.</p>
+      <ul><li>30 minutes with the closer who ran Call 1, booked from the proposal email on that closer's own Cal.com link.</li><li>Reminders 24 hours, 3 hours and 15 minutes before; a prep task 2 hours before.</li><li>The closer walks through the proposal, answers objections from the FAQ and asks for the decision. A yes gets the agreement and payment link on the call.</li><li>No decision 7 days after Call 2 moves the deal to Follow-Up. A missed Call 2 follows the same rebooking switch as Call 1.</li></ul>
+      <div class="lab">Software</div><p class="sw2">Google Meet · Cal.com (Proposal Review event type per closer) · CRM sheet (Tantra CRM menu) · Tantra</p>
       <div class="kpis"><div class="lab">Key KPIs</div><table class="kt"><tr><th>KPI</th><th>Actual</th><th>Target</th></tr><tr><td>Call 2 show rate</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr><tr><td>Close rate</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr></table></div>
     </div>
 
@@ -368,8 +370,8 @@ table.out td+td{font:500 12px var(--mono)}
     <tr><td class="s">06</td><td class="n">Call 1 show rate</td><td class="m"><code>show_status</code> Showed ÷ (Showed + No-Show)</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr>
     <tr><td class="s">06</td><td class="n">Proposal rate</td><td class="m">Deals with <code>proposal.sent</code> ÷ Showed</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr>
     <tr><td class="s">07</td><td class="n">Proposal on time</td><td class="m"><code>proposal_sent_at</code> within one business day of <code>call_date</code></td><td class="a">·</td><td class="t">100% (the promise)</td></tr>
-    <tr><td class="s">08</td><td class="n">Call 2 show rate <span class="prop">PROPOSED</span></td><td class="m">Needs a <code>call2</code> date and show status on Pipeline (RECONCILE.md)</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr>
-    <tr><td class="s">08</td><td class="n">Close rate</td><td class="m"><code>deal.won</code> ÷ Call 1 Showed</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr>
+    <tr><td class="s">08</td><td class="n">Call 2 show rate</td><td class="m"><code>call2_status</code> Showed ÷ (Showed + No-Show)</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr>
+    <tr><td class="s">08</td><td class="n">Close rate</td><td class="m">Closed Won with <code>call2_status</code> Showed ÷ Call 2 Showed</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr>
     <tr><td class="s">09</td><td class="n">Paid on signature</td><td class="m">Closed Won with <code>paid_at</code> set</td><td class="a">·</td><td class="t"><span class="fill">FILL</span></td></tr>
   </table></div>
   <p class="foot">GI = Growth Idea benchmark: measured on their 11 webinars, May 2025 to Feb 2026 (registration 0.23% on the first to 2.0% on the best; about 16% of registrants live and about 8 sales calls per 100 live, both on the best). Their offer is not ours, so these are a reference line, not a forecast.</p>
@@ -388,14 +390,14 @@ table.out td+td{font:500 12px var(--mono)}
       <label class="q"><input type="checkbox" data-q="s05"><span><span class="t">05 · Booking</span><span class="d">Planned: Cal.com team round robin. Who is the setter: the closer (default) or a named person? (A8b)</span></span></label>
       <label class="q"><input type="checkbox" data-q="s06"><span><span class="t">06 · Call 1</span><span class="d">Planned: Google Meet, CRM sheet. Keep no-show rebooking off, as the call description promises? (A8a)</span></span></label>
       <label class="q"><input type="checkbox" data-q="s07"><span><span class="t">07 · Written proposal + due diligence</span><span class="d">Planned: proposal generator, due diligence page. Payment terms, 13-week plan, Who Does What (A4). One business day or 1 hour? (A8c)</span></span></label>
-      <label class="q"><input type="checkbox" data-q="s08"><span><span class="t">08 · Call 2</span><span class="d">Proposed. Add a proposal walkthrough call, or keep closing by proposal and follow-up as built?</span></span></label>
+      <label class="q"><input type="checkbox" data-q="s08"><span><span class="t">08 · Call 2</span><span class="d">Planned: a Proposal Review event type per closer on Cal.com, Google Meet, CRM sheet. A missed Call 2 follows the Call 1 rebooking switch: keep that, or always rebook? (Item 18, decision 7)</span></span></label>
       <label class="q"><input type="checkbox" data-q="s09"><span><span class="t">09 · Agreement + payment</span><span class="d">How is the agreement signed and paid: which tool and which link?</span></span></label>
     </div>
   </div>
   <div class="qrow">
     <div class="qcard"><div class="k">Time to close</div><div class="qgrid one">
       <label class="q"><input type="checkbox" data-q="t1"><span><span class="t">What's the target for each step and for the total?</span><span class="d">Steps 1, 3 and 5 have no number until deals close.</span></span></label>
-      <label class="q"><input type="checkbox" data-q="t2"><span><span class="t">How many days between the proposal and Call 2?</span><span class="d">Sets the Call 2 booking window and when Seq. D moves a deal to Follow-Up.</span></span></label>
+      <label class="q"><input type="checkbox" data-q="t2"><span><span class="t">How many days between the proposal and Call 2?</span><span class="d">Sets Limit future bookings on the two Proposal Review event types (<code>booking.call2.book_within_days</code>).</span></span></label>
     </div></div>
     <div class="qcard"><div class="k">Handoff</div><div class="qgrid one">
       <label class="q"><input type="checkbox" data-q="h1"><span><span class="t">What triggers the handoff to delivery: signed agreement, first payment, or both?</span><span class="d">Today the CRM hands over on payment received (deal.won).</span></span></label>

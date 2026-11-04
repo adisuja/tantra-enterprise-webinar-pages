@@ -71,9 +71,28 @@
     if (!room || state) jb.setAttribute('href', '#email');
   }
 
-  // Drop the right-edge fade once a sideways scroller reaches its end.
-  document.querySelectorAll('.mx-wrap, .phones').forEach(function (el) {
-    var f = function () { el.classList.toggle('at-end', el.scrollLeft + el.clientWidth >= el.scrollWidth - 4); };
+  // ---------- Due diligence nav: compact menu on phones and tablets ----------
+  var navBtn = document.querySelector('[data-nav-toggle]');
+  if (navBtn) {
+    var nav = navBtn.closest('.ddnav'), navLabel = navBtn.querySelector('[data-nav-label]');
+    var setNav = function (open) {
+      nav.classList.toggle('is-open', open); navBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navLabel.textContent = open ? 'Close' : 'Menu';
+    };
+    navBtn.addEventListener('click', function () { setNav(!nav.classList.contains('is-open')); });
+    nav.querySelectorAll('.ddnav__list a').forEach(function (a) { a.addEventListener('click', function () { setNav(false); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('is-open')) { setNav(false); navBtn.focus(); } });
+  }
+
+  // ---------- Swipe slider (recent wins): the dots follow the card in view; the right-edge fade drops at the end ----------
+  document.querySelectorAll('[data-slider]').forEach(function (el) {
+    var dots = el.parentNode.querySelectorAll('[data-dots] i');
+    var f = function () {
+      el.classList.toggle('at-end', el.scrollLeft + el.clientWidth >= el.scrollWidth - 4);
+      var kids = el.children, best = 0, bd = Infinity, mid = el.scrollLeft + el.clientWidth / 2;
+      for (var i = 0; i < kids.length; i++) { var c = kids[i].offsetLeft - el.offsetLeft + kids[i].offsetWidth / 2, d = Math.abs(c - mid); if (d < bd) { bd = d; best = i; } }
+      for (var j = 0; j < dots.length; j++) dots[j].classList.toggle('on', j === best);
+    };
     el.addEventListener('scroll', f, { passive: true }); f();
   });
 
@@ -100,10 +119,23 @@
   if (!modal || !form) return;
   var $ = function (id) { return document.getElementById(id); };
   var lastFocus = null;
+  // Phones: the sheet takes the visible viewport, so the on-screen keyboard never hides the Save my seat button.
+  var vv = window.visualViewport;
+  function fitSheet() {
+    if (!vv || modal.hidden) return;
+    modal.style.setProperty('--vvh', vv.height + 'px');
+    modal.style.setProperty('--vvt', vv.offsetTop + 'px');
+  }
+  if (vv) { vv.addEventListener('resize', fitSheet); vv.addEventListener('scroll', fitSheet); }
+  form.addEventListener('focusin', function (e) {
+    var t = e.target; if (!/INPUT|SELECT/.test(t.tagName) || window.innerWidth >= 768) return;
+    setTimeout(function () { t.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }); }, 260);
+  });
   function openModal() {
     lastFocus = document.activeElement;
-    modal.hidden = false; document.body.classList.add('modal-open');
-    setTimeout(function () { $('f-first').focus(); }, 30);
+    modal.hidden = false; document.body.classList.add('modal-open'); fitSheet();
+    // Desktop focuses the first field; phones wait for a tap so the keyboard does not cover the sheet on open.
+    setTimeout(function () { (window.innerWidth >= 768 ? $('f-first') : modal.querySelector('.reg__title')).focus({ preventScroll: true }); }, 30);
   }
   function closeModal() {
     modal.hidden = true; document.body.classList.remove('modal-open');
