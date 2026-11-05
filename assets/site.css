@@ -1,9 +1,8 @@
 /* Tantra Enterprise webinar funnel.
    Section order, layout shapes and formatting mirror the reference pages (REFERENCE_MAP.md).
-   Type is usetantra.com's: Inter only (self-hosted variable font), JetBrains Mono for tiny labels and numbers.
+   Type is usetantra.com's: Inter only (self-hosted variable font), small labels and numbers included (Adi 2026-11-05: Inter only).
    Palette: Tantra tokens. Spacing: 8px grid. Written mobile first: 360 to 430, then 768, 1024, 1280, 1600. */
 @font-face { font-family: 'Inter'; src: url('fonts/inter-var.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: swap; }
-@font-face { font-family: 'JetBrains Mono'; src: url('fonts/jetbrains-mono-var.woff2') format('woff2'); font-weight: 400 800; font-style: normal; font-display: swap; }
 
 :root {
   /* Colour */
@@ -14,7 +13,7 @@
   --amber: #fbbf24; --focus: var(--volt);
   /* Type */
   --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --mono: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; /* labels: Inter, tabular figures */
   --fs-hero: clamp(2.125rem, 1.35rem + 3.4vw, 4.5rem);
   --fs-h2: clamp(1.75rem, 1.25rem + 2.2vw, 3.25rem);
   --fs-h3: clamp(1.25rem, 1.1rem + .6vw, 1.625rem);
@@ -227,31 +226,52 @@ html:not(.review) .fill, html:not(.review) .rv, html:not(.review) .rv-i { displa
   .cols { gap: var(--s2); height: 240px; }
 }
 
-/* ---------- Testimonial collage (message-style cards) ---------- */
-.collage { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s3); max-width: 640px; margin: 0 auto; text-align: left; }
-.collage__col { display: grid; gap: var(--s3); align-content: start; }
-@media (min-width: 640px) and (max-width: 1023px) { .collage:not(.collage--1) { display: block; max-width: none; columns: 2; column-gap: var(--s3); } .collage__col { display: contents; } .collage .msg { margin-bottom: var(--s3); } }
-@media (min-width: 1024px) { .collage { max-width: 1080px; } .collage--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .collage--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 760px; } .collage--1 { max-width: 560px; } }
-.msg { break-inside: avoid; display: block; margin: 0; padding: 20px; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-1); }
-.msg figcaption { display: flex; align-items: center; gap: 12px; margin-bottom: var(--s2); }
-.msg figcaption strong { display: block; font-size: 15.5px; font-weight: 700; letter-spacing: -.015em; color: var(--ink); line-height: 1.3; }
-.msg figcaption small { display: block; font-size: 13px; color: var(--muted); line-height: 1.4; }
-.msg__av { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(140deg, var(--volt), var(--volt-deep)); color: var(--white); font: 700 14px var(--sans); letter-spacing: -.01em; }
-.msg blockquote { margin: 0; }
-.msg blockquote p { margin: 0; padding: 14px 16px; font-size: 16px; line-height: 1.6; color: var(--text); background: var(--lilac); border-radius: 4px 16px 16px 16px; }
-.msg--dark { background: var(--ink-2); border-color: #262b38; box-shadow: 0 12px 32px -16px rgba(11, 13, 18, .5); }
-.msg--dark figcaption strong { color: var(--white); }
-.msg--dark figcaption small { color: var(--muted-d); }
-.msg--dark blockquote p { background: #222736; color: var(--text-d); }
-@media (min-width: 768px) { .msg { padding: var(--s3); } }
+/* ---------- Testimonials: one card per person, one anatomy at every width ----------
+   Company logo, the person (real published photo, name, designation), then the verbatim quote.
+   Phones: stacked, the person as a row with a 64px photo. From 640px the person becomes a profile column on the
+   left (152 x 190 portrait, name and designation under it); logo and quote sit to its right behind a hairline.
+   One column, then two from 1024px; cards in a row share a height, and an odd last card sits centred. */
+.tq-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s2); max-width: 760px; margin: 0 auto; text-align: left; }
+.tq { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto 1fr; grid-template-areas: "logo" "side" "q"; padding: 20px; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-2); }
+.tq__logo { grid-area: logo; display: flex; align-items: center; min-height: 44px; }
+.tq__logo img { display: block; }
+.tq__side { grid-area: side; display: flex; align-items: center; gap: 14px; margin: var(--s2) 0 0; padding-bottom: var(--s2); border-bottom: 1px solid var(--line-2); }
+.tq__photo { flex: none; display: block; width: 64px; height: 64px; object-fit: cover; object-position: 50% 18%; border-radius: 16px; background: var(--line-2); }
+.tq__who { display: flex; flex-direction: column; gap: 2px; min-width: 0; line-height: 1.35; }
+.tq__who strong { font-size: 16px; font-weight: 700; letter-spacing: -.015em; color: var(--ink); }
+.tq__who span { font-size: 14px; color: var(--muted); }
+.tq__who .nw { font-size: inherit; white-space: nowrap; }
+.tq__q { grid-area: q; margin: var(--s2) 0 0; }
+.tq__q p { margin: 0; font-size: 16.5px; line-height: 1.62; color: var(--text); }
+@media (min-width: 640px) {
+  .tq { grid-template-columns: 184px minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "side logo" "side q"; column-gap: 0; padding: var(--s4); }
+  .tq__side { flex-direction: column; align-items: stretch; gap: 14px; margin: 0; padding: 0 var(--s4) 0 0; border: 0; }
+  .tq__photo { width: 152px; height: 190px; box-shadow: 0 10px 24px -14px rgba(11, 13, 18, .45); }
+  .tq__who span { font-size: 13.5px; }
+  .tq__logo, .tq__q { padding-left: var(--s4); border-left: 1px solid var(--line-2); }
+  .tq__logo { padding-bottom: var(--s2); }
+  .tq__q { margin: 0; }
+}
+@media (min-width: 1024px) {
+  .tq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); max-width: 1160px; }
+  .tq-grid > .tq:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - var(--s3) / 2); }
+  .tq__q p { font-size: 17px; }
+}
+/* A mark with no wordmark: the company name is set beside it */
+.lmark { display: inline-flex; align-items: center; gap: 8px; }
+.lmark__t { font-size: 17px; font-weight: 750; letter-spacing: -.03em; color: var(--ink); line-height: 1; }
 
-/* ---------- Companies banner and name strip ---------- */
+/* ---------- Companies banner and logo strip ---------- */
 .banner { max-width: 1200px; margin: 0 auto; padding: var(--s5) var(--s3); text-align: center; border-radius: var(--r-lg); background: radial-gradient(80% 120% at 50% 0%, rgba(109, 74, 255, .28), transparent 70%), var(--ink); }
 .banner .caps { max-width: none; }
-.names { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 32px; max-width: 1000px; margin: var(--s5) auto 0; padding: 0; }
-.names li { font-size: 17px; font-weight: 650; letter-spacing: -.02em; color: #6b7280; }
-.names--dark li { color: #c4c9d4; }
-@media (min-width: 768px) { .banner { padding: var(--s6) var(--s4); } .names { gap: 16px 48px; } .names li { font-size: 19px; } }
+.logos { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 24px 32px; max-width: 1040px; margin: var(--s5) auto 0; padding: 0; }
+.logos li { display: flex; align-items: center; min-height: 44px; }
+.logos img { display: block; }
+.logos--light img { filter: brightness(0); opacity: .58; }
+.logos--light .lmark__t { color: #5f6570; }
+.logos--dark img { filter: brightness(0) invert(1); opacity: .8; }
+.logos--dark .lmark__t { color: #e3e6ec; }
+@media (min-width: 768px) { .banner { padding: var(--s6) var(--s4); } .logos { gap: 28px 48px; } }
 
 /* ---------- Hosted by (Adi alone, single centred card) ---------- */
 .hosts { display: grid; justify-content: center; margin-top: var(--s5); }
@@ -463,6 +483,8 @@ body.modal-open { overflow: hidden; }
 .mx__case { display: flex; align-items: center; gap: 10px; flex-direction: row-reverse; min-height: 44px; text-decoration: none; }
 .mx__badge { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(140deg, var(--volt), var(--night)); color: var(--white); font: 700 14px var(--sans); letter-spacing: -.01em; box-shadow: 0 0 0 3px var(--white), 0 0 0 4px var(--lilac-2), 0 8px 16px -6px rgba(75, 47, 214, .5); transition: transform .18s var(--ease); }
 .mx__case:hover .mx__badge { transform: scale(1.05); }
+.mx__badge--photo { overflow: hidden; background: var(--lilac-2); }
+.mx__badge--photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block; }
 .mx__name { font-size: 14.5px; font-weight: 650; color: var(--volt-deep); letter-spacing: -.015em; line-height: 1.3; }
 .mx__case:hover .mx__name { text-decoration: underline; text-underline-offset: .18em; }
 .mx__cell--empty .mx__val { flex-direction: row-reverse; align-items: center; gap: 10px; }
@@ -505,6 +527,21 @@ body.modal-open { overflow: hidden; }
 .case { max-width: 1000px; margin: 0 auto var(--s6); overflow: hidden; background: var(--white); border: 2px solid var(--volt-deep); border-radius: var(--r-lg); box-shadow: var(--sh-3); }
 .case:last-child { margin-bottom: 0; }
 .case__head { margin: 0; padding: 18px var(--s3); background: var(--volt-deep); color: var(--white) !important; text-align: center; font-size: clamp(1.375rem, 1.1rem + 1vw, 1.875rem); font-weight: 800; letter-spacing: -.03em; }
+/* Case header bar: the client's logo on a white plate, the company name, then the client contact (real published photo). */
+.case__bar { display: flex; flex-direction: column; align-items: center; gap: var(--s2); padding: var(--s3); background: radial-gradient(120% 160% at 0% 0%, rgba(167, 139, 250, .35), transparent 60%), var(--volt-deep); color: var(--white); text-align: center; }
+.case__logo { display: inline-flex; align-items: center; justify-content: center; min-width: 120px; min-height: 64px; padding: 10px 18px; background: var(--white); border-radius: 14px; box-shadow: 0 8px 20px -10px rgba(11, 13, 18, .45); }
+.case__logo img { display: block; }
+.case__id { min-width: 0; }
+.case__name { margin: 0; color: var(--white) !important; font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+.case__id p { margin: 4px 0 0; font-size: 15px; color: #ddd6fe; }
+.case__who { display: flex; align-items: center; gap: 12px; margin: 4px 0 0; padding: 8px 16px 8px 8px; text-align: left; background: rgba(11, 13, 18, .22); border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14); }
+.case__photo { flex: none; width: 52px; height: 52px; object-fit: cover; object-position: 50% 18%; border-radius: 50%; box-shadow: 0 0 0 2px var(--white); }
+.case__who span { display: flex; flex-direction: column; font-size: 13.5px; line-height: 1.35; color: #e9e4ff; }
+.case__who b { font-size: 16px; font-weight: 700; color: var(--white); letter-spacing: -.015em; }
+@media (min-width: 768px) {
+  .case__bar { flex-direction: row; text-align: left; gap: var(--s3); padding: var(--s3) var(--s4); }
+  .case__who { margin: 0 0 0 auto; }
+}
 .case__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s4); padding: var(--s4) var(--s3); align-items: center; text-align: center; }
 .case h4 { margin: 0 0 var(--s1); font-size: 18px; font-weight: 800; letter-spacing: -.02em; color: var(--volt-deep); }
 .case__left p { margin: 0 0 var(--s3); }
@@ -534,9 +571,6 @@ body.modal-open { overflow: hidden; }
 }
 
 /* ---------- What clients say (dark band) ---------- */
-.saygrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s3); max-width: 1160px; margin: 0 auto; text-align: left; }
-.saygrid .msg { margin: 0; }
-@media (min-width: 900px) { .saygrid { grid-template-columns: repeat(3, 1fr); align-items: start; } }
 
 /* ---------- Alternating title and video rows ---------- */
 .vrow-sec { padding: var(--sec) 0 calc(var(--sec) * .75); background: var(--white); }
@@ -751,11 +785,11 @@ body.modal-open { overflow: hidden; }
 .otherinds .btn { width: 100%; }
 @media (min-width: 768px) { .otherinds { flex-direction: row; flex-wrap: wrap; justify-content: center; max-width: none; } .otherinds .btn { width: auto; } }
 
-.sublime + .collage { margin-top: var(--s5); }
+.sublime + .tq-grid { margin-top: var(--s5); }
 /* ---------- Heading rhythm: more space above a heading than below, one rule for every section ---------- */
-:is(.caps, .h-mont) + :is(.collage, .dash, .hosts, .bonus, .saygrid, .stepcards, .phones, .team__group, .bio, .names, .mx-wrap, .otherinds, .case, .emailcard) { margin-top: var(--s5); }
+:is(.caps, .h-mont) + :is(.tq-grid, .dash, .hosts, .bonus, .stepcards, .phones, .team__group, .bio, .logos, .mx-wrap, .otherinds, .case, .emailcard) { margin-top: var(--s5); }
 .h-mont + .case { margin-top: var(--s5); }
-@media (min-width: 1024px) { :is(.caps, .h-mont) + :is(.collage, .hosts, .bonus, .saygrid, .phones, .case) { margin-top: var(--s6); } }
+@media (min-width: 1024px) { :is(.caps, .h-mont) + :is(.tq-grid, .hosts, .bonus, .phones, .case) { margin-top: var(--s6); } }
 .learn .caps + .ticks { margin-top: var(--s5); }
 
 /* The WhatsApp community button is required by the brief: keep it on the page (disabled) until the invite link is filled. */

@@ -134,19 +134,16 @@ html:has(body.theme-b) { background: var(--mid, #02070a); scrollbar-color: #9fb0
 
 /* ---------- Testimonials ---------- */
 .theme-b .sublime--ink { color: var(--b-muted); }
-.theme-b .msg { background: #fff; border-color: var(--rule); box-shadow: var(--b-sh-1); }
-.theme-b .msg figcaption strong { color: var(--b-ink); }
-.theme-b .msg figcaption small { color: var(--b-muted); }
-.theme-b .msg__av { background: var(--blue); color: var(--b-ink); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3); }
-.theme-b .msg blockquote p { color: var(--b-text); background: var(--mist); box-shadow: inset 0 0 0 1px var(--mist-2); }
-.theme-b .msg--dark { background: var(--grain), linear-gradient(180deg, var(--e2), var(--mid)); border-color: #15252e; box-shadow: 0 1px 2px rgba(2, 7, 10, .2), 0 24px 48px -24px rgba(2, 7, 10, .55); }
-.theme-b .msg--dark figcaption strong { color: #fff; }
-.theme-b .msg--dark figcaption small { color: var(--d-muted); }
-.theme-b .msg--dark blockquote p { color: var(--d-text); background: var(--e3); box-shadow: inset 0 0 0 1px var(--edge); }
+.theme-b .tq { border-color: var(--rule); box-shadow: var(--b-sh-2); }
+.theme-b .tq__side, .theme-b .tq__logo, .theme-b .tq__q { border-color: var(--mist-2); }
+.theme-b .tq__q p { color: var(--b-text); }
+.theme-b .tq__who strong, .theme-b .lmark__t { color: var(--b-ink); }
+.theme-b .tq__who span { color: var(--b-muted); }
+.theme-b .tq__photo { background: var(--mist-2); }
 
 /* ---------- Companies banner and names ---------- */
 .theme-b .banner { background: var(--grain), radial-gradient(70% 140% at 50% 0%, rgba(2, 151, 222, .26), transparent 70%), var(--mid); box-shadow: inset 0 0 0 1px rgba(2, 151, 222, .18), var(--b-sh-2); }
-.theme-b .names li { color: #52616a; font-weight: 650; }
+.theme-b .logos--light .lmark__t { color: #52616a; }
 
 /* ---------- Hosted by: a dark card with a blue ring ---------- */
 .theme-b .hostc { background: linear-gradient(180deg, var(--e3) 0%, var(--e1) 100%); color: var(--d-text); box-shadow: 0 0 0 1px var(--edge-2), var(--b-sh-dark); }
