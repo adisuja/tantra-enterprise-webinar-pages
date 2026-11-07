@@ -204,3 +204,6 @@ body.page-reg .tq-slider .tq__logo { min-height: 72px; }
   body.page-reg .tq-track { gap: var(--s3); }
   body.page-reg .tq-track > .tq { flex-basis: calc((100% - var(--s3)) / 2); }
 }
+
+/* ---------- Brands we've helped grow: the full logo cloud gets the wider row ---------- */
+@media (min-width: 1024px) { body.page-reg .logos { max-width: 1180px; gap: 30px 52px; } }
