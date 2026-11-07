@@ -263,29 +263,49 @@
   });
 })();
 
-// Testimonial row (registration page): advances one card every 7 seconds and loops for ever. Pauses while the
-// pointer or keyboard focus is on it and while the tab is hidden. Reduced motion keeps the plain swipeable row.
+// Testimonial row (registration page): advances one card every 7 seconds and loops for ever, with previous and next
+// buttons and one dot per testimonial (the active dot fills as a timer). Pauses while the pointer or keyboard focus
+// is on it and while the tab is hidden. Reduced motion: no auto-advance, the buttons and dots still work.
 (function () {
-  var root = document.querySelector('[data-tq-slider]');
-  if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var track = root.querySelector('.tq-track'), cards = [].slice.call(track.children), n = cards.length;
+  var box = document.querySelector('[data-tq-carousel]');
+  if (!box) return;
+  var root = box.querySelector('[data-tq-slider]'), track = root.querySelector('.tq-track');
+  var cards = [].slice.call(track.children), n = cards.length;
   if (n < 2) return;
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches, DELAY = 7000;
   cards.forEach(function (c) {
     var k = c.cloneNode(true);
     k.setAttribute('aria-hidden', 'true'); k.inert = true;
     [].forEach.call(k.querySelectorAll('img'), function (img) { img.alt = ''; });
     track.appendChild(k);
   });
-  root.classList.add('is-auto');
-  var i = 0, hold = false, holdUntil = 0;
+  box.classList.add('is-on'); root.classList.add('is-auto'); root.scrollLeft = 0;
+  if (still) box.classList.add('is-still');
+  var dots = [].slice.call(box.querySelectorAll('[data-tq-dot]'));
+  var i = 0, hold = false, holdUntil = 0, timer;
   var step = function () { return track.children[1].getBoundingClientRect().left - track.children[0].getBoundingClientRect().left; };
-  var place = function (animate) { track.style.transition = animate ? '' : 'none'; track.style.transform = 'translateX(' + (-i * step()) + 'px)'; };
-  track.addEventListener('transitionend', function () { if (i >= n) { i = 0; place(false); void track.offsetHeight; track.style.transition = ''; } });
-  setInterval(function () { if (hold || document.hidden || Date.now() < holdUntil) return; i += 1; place(true); }, 7000);
-  root.addEventListener('mouseenter', function () { hold = true; });
-  root.addEventListener('mouseleave', function () { hold = false; });
-  root.addEventListener('focusin', function () { hold = true; });
-  root.addEventListener('focusout', function () { hold = false; });
+  var place = function (animate) { track.style.transition = animate && !still ? '' : 'none'; track.style.transform = 'translateX(' + (-i * step()) + 'px)'; };
+  var mark = function () {
+    dots.forEach(function (d, k) { var on = k === i % n; d.classList.toggle('is-active', on); if (on) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+    // Restart the active dot's fill so it tracks the time to the next slide.
+    var fill = dots[i % n].querySelector('i'); fill.style.animation = 'none'; void fill.offsetWidth; fill.style.animation = '';
+  };
+  var go = function (to, animate) {
+    if (to < 0) { i = n; place(false); void track.offsetHeight; to = n - 1; }
+    i = to; if (still && i >= n) i -= n;
+    place(animate !== false); mark();
+  };
+  track.addEventListener('transitionend', function () { if (i >= n) { i -= n; place(false); void track.offsetHeight; track.style.transition = ''; } });
+  var tick = function () { if (hold || document.hidden || Date.now() < holdUntil) { restart(); return; } go(i + 1); restart(); };
+  var restart = function () { clearTimeout(timer); if (!still) timer = setTimeout(tick, DELAY); };
+  box.querySelector('[data-tq-prev]').addEventListener('click', function () { go(i % n - 1 < 0 && i < n ? -1 : i - 1); restart(); });
+  box.querySelector('[data-tq-next]').addEventListener('click', function () { go(i + 1); restart(); });
+  dots.forEach(function (d, k) { d.addEventListener('click', function () { go(k); restart(); }); });
+  root.addEventListener('mouseenter', function () { hold = true; box.classList.add('is-held'); });
+  root.addEventListener('mouseleave', function () { hold = false; box.classList.remove('is-held'); mark(); restart(); });
+  root.addEventListener('focusin', function () { hold = true; box.classList.add('is-held'); });
+  root.addEventListener('focusout', function () { hold = false; box.classList.remove('is-held'); mark(); restart(); });
   root.addEventListener('touchstart', function () { holdUntil = Date.now() + 8000; }, { passive: true });
   window.addEventListener('resize', function () { place(false); });
+  mark(); restart();
 })();

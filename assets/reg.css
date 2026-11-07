@@ -191,7 +191,7 @@ body.page-reg .wa-proof img { display: block; width: 100%; height: auto; margin:
 @media (min-width: 1200px) { body.page-reg .wa-proof { columns: 3; max-width: 1324px; } }
 
 /* ---------- What revenue leaders say: one auto-sliding row (site.js), two cards in view from 1024px ---------- */
-body.page-reg .tq-slider { margin: var(--s5) calc(var(--gutter) * -1) 0; padding: 6px var(--gutter) 30px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; text-align: left; }
+body.page-reg .tq-slider { margin: var(--s5) calc(var(--gutter) * -1) 0; padding: 6px var(--gutter) 30px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); scrollbar-width: none; text-align: left; }
 body.page-reg .tq-slider::-webkit-scrollbar { display: none; }
 body.page-reg .tq-slider.is-auto { overflow: hidden; scroll-snap-type: none; }
 body.page-reg .tq-track { display: flex; align-items: stretch; gap: var(--s2); transition: transform .9s cubic-bezier(.65, 0, .35, 1); will-change: transform; }
@@ -207,3 +207,48 @@ body.page-reg .tq-slider .tq__logo { min-height: 72px; }
 
 /* ---------- Brands we've helped grow: the full logo cloud gets the wider row ---------- */
 @media (min-width: 1024px) { body.page-reg .logos { max-width: 1180px; gap: 30px 52px; } }
+
+/* Slider controls: previous and next buttons beside the cards, one dot per testimonial; the active dot fills as a 7 second timer. */
+body.page-reg .tq-carousel { position: relative; }
+body.page-reg .tq-nav, body.page-reg .tq-dots { display: none; }
+body.page-reg .tq-carousel.is-on { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: "s s s" "p d n"; align-items: center; column-gap: var(--s2); }
+body.page-reg .tq-carousel.is-on .tq-slider { grid-area: s; }
+body.page-reg .tq-carousel.is-on .tq-nav { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line);
+  background: var(--white); color: var(--ink); box-shadow: 0 10px 24px -12px rgba(11, 13, 18, .35); cursor: pointer; transition: background .2s, color .2s, transform .2s; }
+body.page-reg .tq-carousel.is-on .tq-nav:hover { background: var(--btn); border-color: var(--btn); color: var(--btn-text); transform: scale(1.06); }
+body.page-reg .tq-carousel.is-on .tq-nav:focus-visible { outline: 3px solid var(--btn); outline-offset: 3px; }
+body.page-reg .tq-nav--prev { grid-area: p; } body.page-reg .tq-nav--next { grid-area: n; }
+body.page-reg .tq-carousel.is-on .tq-dots { grid-area: d; display: flex; justify-content: center; align-items: center; gap: 10px; }
+body.page-reg .tq-dot { position: relative; width: 10px; height: 10px; padding: 0; border: 0; border-radius: 99px; background: #cfd3db; cursor: pointer; overflow: hidden; transition: width .35s, background .2s; }
+body.page-reg .tq-dot:hover { background: #aab0bb; }
+body.page-reg .tq-dot.is-active { width: 44px; background: color-mix(in srgb, var(--btn) 22%, #e4e6ec); }
+body.page-reg .tq-dot i { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit; background: var(--btn); }
+body.page-reg .tq-dot.is-active i { animation: tq-fill 7s linear forwards; }
+body.page-reg .tq-carousel.is-held .tq-dot.is-active i { animation-play-state: paused; }
+body.page-reg .tq-carousel.is-still .tq-dot.is-active i { animation: none; width: 100%; }
+@keyframes tq-fill { to { width: 100%; } }
+body.page-reg .tq-carousel.is-on .tq-slider { padding-bottom: 22px; }
+/* From 1360px the buttons sit outside the cards, level with their middle; the dots stay centred below. */
+@media (min-width: 1360px) {
+  body.page-reg .tq-carousel.is-on { display: block; max-width: 1160px; margin: 0 auto; }
+  body.page-reg .tq-carousel.is-on .tq-nav { position: absolute; top: calc(50% - 40px); width: 56px; height: 56px; z-index: 2; }
+  body.page-reg .tq-nav--prev { left: -84px; } body.page-reg .tq-nav--next { right: -84px; }
+  body.page-reg .tq-carousel.is-on .tq-nav .ico { width: 26px; height: 26px; }
+}
+
+/* Brands we've helped grow: a section heading like the others (no dark box), bigger logos with more air. */
+body.page-reg .brands .logos { gap: 30px 40px; margin-top: var(--s6); }
+body.page-reg .brands .logos li { min-height: 66px; }
+body.page-reg .brands .logos--light img { opacity: .62; }
+@media (min-width: 1024px) { body.page-reg .brands .logos { max-width: 1200px; gap: 38px 60px; } }
+body.page-reg .tq-carousel.is-on .tq-slider { min-width: 0; }
+body.page-reg .tq-dots { gap: 12px; }
+body.page-reg .tq-dot { width: 12px; height: 12px; }
+body.page-reg .tq-dot.is-active { width: 56px; }
+@media (min-width: 1024px) { body.page-reg .tq-slider.is-auto { margin-left: -24px; margin-right: -24px; padding: 6px 24px 30px; } }
+@media (min-width: 1360px) { body.page-reg .tq-slider.is-auto { max-width: none; } }
+/* Room for the card shadows inside the clipped row, so no hard edge shows at its sides or bottom. */
+@media (min-width: 1024px) { body.page-reg .tq-slider.is-auto { margin-left: -12px; margin-right: -12px; padding: 6px 12px 50px; } }
+body.page-reg .tq-carousel.is-on .tq-slider { padding-bottom: 50px; }
+body.page-reg .tq-carousel.is-on .tq-dots, body.page-reg .tq-carousel.is-on .tq-nav { margin-top: -22px; }
+@media (min-width: 1360px) { body.page-reg .tq-carousel.is-on .tq-nav { margin-top: 0; } body.page-reg .tq-carousel.is-on .tq-dots { display: flex; margin-top: -22px; } }
