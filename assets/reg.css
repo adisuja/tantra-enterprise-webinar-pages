@@ -123,7 +123,7 @@ body.page-reg .reg__mark img:first-child { height: 30px; width: auto; }
 body.page-reg .reg__mark img:last-child { height: 16px; width: auto; }
 body.page-reg .modal__frame--split .modal__close { top: 10px; right: 10px; z-index: 2; }
 body.page-reg .reg__head { padding-right: 20px; }
-body.page-reg .reg__title { font-family: var(--disp); font-stretch: 75%; font-weight: 800; font-size: 26px; line-height: 1.15; letter-spacing: 0; }
+body.page-reg .reg__title { font-family: var(--disp); font-stretch: 75%; font-weight: 800; font-size: 26px; line-height: 1.15; letter-spacing: 0; text-transform: uppercase; }
 body.page-reg .reg__row { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: var(--s2); }
 body.page-reg .reg .check { margin: 4px 0 0; }
 body.page-reg .reg .check a { color: var(--accent-d); font-weight: 600; }
@@ -180,3 +180,11 @@ body.page-reg.theme-b .reg__brand {
 /* Case studies heading on one line from tablet width up (Adi, 2026-11-07); phones wrap it to two. */
 body.page-reg .caps--one { max-width: none; font-size: clamp(1.5rem, .9rem + 2.4vw, 1.75rem); }
 @media (min-width: 768px) { body.page-reg .caps--one { white-space: nowrap; font-size: clamp(1.75rem, .45rem + 3.05vw, 3.25rem); } }
+
+/* ---------- Need more proof: WhatsApp message replicas (wa-replica/build.py), masonry columns ---------- */
+body.page-reg .caps--upper { text-transform: uppercase; }
+body.page-reg .wa-proof { columns: 1; column-gap: 20px; max-width: 428px; margin: var(--s6) auto 0; text-align: left; }
+body.page-reg .wa-proof img { display: block; width: 100%; height: auto; margin: 0 0 20px; border-radius: 14px; break-inside: avoid;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset, 0 18px 40px -22px rgba(10, 10, 20, .55); }
+@media (min-width: 768px) { body.page-reg .wa-proof { columns: 2; max-width: 876px; } }
+@media (min-width: 1200px) { body.page-reg .wa-proof { columns: 3; max-width: 1324px; } }

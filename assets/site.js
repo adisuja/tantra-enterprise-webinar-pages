@@ -128,7 +128,7 @@
   if (!modal || !form) return;
   var $ = function (id) { return document.getElementById(id); };
   var lastFocus = null;
-  // Phones: the sheet takes the visible viewport, so the on-screen keyboard never hides the Save my seat button.
+  // Phones: the sheet takes the visible viewport, so the on-screen keyboard never hides the Let Me In button.
   var vv = window.visualViewport;
   function fitSheet() {
     if (!vv || modal.hidden) return;
@@ -233,7 +233,7 @@
     // LIVE: POST to integrations.register_worker_url (the register Worker, item 17), which checks Turnstile, registers the
     // person in WebinarJam for a personal join_url, then posts webinar.registered to the CRM. Never to the CRM directly.
     if (F.live && F.register_worker_url) {
-      var fail = function () { if (window.turnstile) window.turnstile.reset(); btn.disabled = false; btn.textContent = 'Save my seat'; serverErr.hidden = false; };
+      var fail = function () { if (window.turnstile) window.turnstile.reset(); btn.disabled = false; btn.textContent = 'Let Me In'; serverErr.hidden = false; };
       var tokenEl = form.querySelector('[name="cf-turnstile-response"]');
       var token = tokenEl ? tokenEl.value : '';
       if (!token) { fail(); return; }
@@ -252,7 +252,7 @@
     // REVIEW: stub, no network. Logs the body the live form would send.
     setTimeout(function () {
       if (state === 'error') {
-        btn.disabled = false; btn.textContent = 'Save my seat';
+        btn.disabled = false; btn.textContent = 'Let Me In';
         serverErr.hidden = false; serverErr.setAttribute('tabindex', '-1'); serverErr.focus();
         return;
       }
