@@ -1,0 +1,108 @@
+/* Registration page, both versions (/ and /palette-b/). Loaded after site.css and before theme-b.css, on the registration pages only.
+   Adi, 2026-11-07: keep the reference's way of using colour and formatting (one dark textured band, one saturated accent highlighter,
+   big solid buttons, accent stat labels, a tinted learn card with a heavy shadow, bold captions), but make every element our own:
+   a condensed grotesque in Title Case (not condensed caps), a dot texture (not vertical stripes), a curved break under the hero,
+   a raised button edge, a hairline legend over the stats. Headline type: Archivo, condensed width, 800 (Adi asked for a compact,
+   bold, easily readable headline). Body type stays Inter. */
+
+body.page-reg {
+  --disp: 'Archivo', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --accent-d: #b9a6ff;           /* accent on dark grounds */
+  --hl-bg: linear-gradient(100deg, #e6ddff 0%, #a98bff 100%);
+  --btn: #6d4aff; --btn-hi: #7b5bff; --btn-edge: #3f26b8; --btn-text: #fff;
+  --card: #f5f1ff; --card-line: #e3daff;
+  --next: #fff;                  /* ground of the section under the hero */
+  --arc-line: rgba(169, 139, 255, .75);
+  --dots: radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.6px);
+}
+
+/* ---------- Display type ---------- */
+body.page-reg .mega,
+body.page-reg .caps { font-family: var(--disp); font-stretch: 75%; font-weight: 800; letter-spacing: -.005em; text-wrap: balance; }
+body.page-reg .hero .mega { font-size: clamp(2.5rem, 1.35rem + 4.6vw, 5.5rem); line-height: 1.16; letter-spacing: -.012em; max-width: 20ch; margin-top: var(--s6); }
+body.page-reg .caps { font-size: clamp(2.125rem, 1.45rem + 2.7vw, 3.75rem); line-height: 1.14; max-width: 22ch; }
+body.page-reg .learn .caps { max-width: 24ch; }
+@media (min-width: 340px) { body.page-reg .learn .caps .hl { white-space: nowrap; } }
+
+/* Highlighter: a light-to-saturated accent sweep with ink text, sitting inside the line box so lines never touch */
+body.page-reg .hl { background: var(--hl-bg); color: var(--ink); padding: 0 .16em; margin: 0 .02em; border-radius: .1em; box-shadow: none; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+body.page-reg .mega .hl { display: inline-block; line-height: 1.08; padding: .02em .16em .04em; margin: .04em 0; }
+
+/* ---------- Dark bands: deep ground, one glow, a fine dot texture ---------- */
+body.page-reg .band--dark {
+  background:
+    radial-gradient(70% 55% at 50% 0%, rgba(109, 74, 255, .34), transparent 72%),
+    radial-gradient(40% 30% at 50% 62%, rgba(109, 74, 255, .12), transparent 70%),
+    var(--dots) 0 0 / 22px 22px,
+    linear-gradient(180deg, #0b0918 0%, #150c31 100%);
+}
+body.page-reg .hero .cta-wrap { margin-top: var(--s6); }
+
+/* ---------- Buttons: solid accent, condensed caps, a raised edge ---------- */
+body.page-reg .btn--cta {
+  min-height: 66px; padding: 14px 28px 12px; border-radius: 10px;
+  background: var(--btn); color: var(--btn-text);
+  font-family: var(--disp); font-stretch: 82%; font-weight: 800; font-size: 19px; line-height: 1.15; letter-spacing: .03em; text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 5px 0 var(--btn-edge), 0 22px 40px -16px color-mix(in srgb, var(--btn) 80%, transparent);
+  transform: translateY(0);
+}
+body.page-reg .btn--cta:hover { background: var(--btn-hi); transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 6px 0 var(--btn-edge), 0 26px 44px -16px color-mix(in srgb, var(--btn) 90%, transparent); }
+body.page-reg .btn--cta:active { background: var(--btn); transform: translateY(4px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 0 var(--btn-edge), 0 8px 18px -10px color-mix(in srgb, var(--btn) 80%, transparent); }
+@media (min-width: 768px) { body.page-reg .btn--cta { min-width: 460px; font-size: 21px; padding: 16px 48px 14px; } }
+
+/* ---------- Stats: a hairline legend, big white figures, accent labels ---------- */
+body.page-reg .stats-wrap { max-width: 1080px; margin: var(--s8) auto 0; }
+body.page-reg .stats__title { display: flex; align-items: center; gap: var(--s2); margin: 0; font: 700 13px/1.35 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-d); }
+body.page-reg .stats__title::before, body.page-reg .stats__title::after { content: ''; flex: 1; height: 1px; background: var(--line-d); }
+body.page-reg .stats { margin: 0; border-top: 0; padding-top: var(--s4); }
+body.page-reg .stats b { font-family: var(--disp); font-stretch: 75%; font-weight: 800; font-size: clamp(2.5rem, 1.8rem + 2.2vw, 3.75rem); letter-spacing: 0; }
+body.page-reg .stats span { font-size: 15px; font-weight: 600; color: var(--accent-d); max-width: 22ch; margin: 4px auto 0; }
+@media (max-width: 599px) { body.page-reg .stats__title { font-size: 11.5px; letter-spacing: .08em; } body.page-reg .stats__title::before, body.page-reg .stats__title::after { display: none; } body.page-reg .stats__title { justify-content: center; text-align: center; } }
+
+/* ---------- Curved break under the hero (replaces the slanted bars there) ---------- */
+body.page-reg .arc { line-height: 0; margin-top: var(--s8); }
+body.page-reg .arc svg { display: block; width: 100%; height: 40px; }
+body.page-reg .arc__fill { fill: var(--next); }
+body.page-reg .arc__line { fill: none; stroke: var(--arc-line); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+@media (min-width: 768px) { body.page-reg .arc svg { height: 64px; } }
+@media (min-width: 1280px) { body.page-reg .arc { margin-top: var(--s10); } body.page-reg .arc svg { height: 88px; } }
+
+/* ---------- Learn card: tinted, compact, a heavy soft shadow ---------- */
+body.page-reg .learn { max-width: 920px; background: var(--card); border: 1px solid var(--card-line); border-radius: 18px; box-shadow: 0 2px 0 var(--card-line), 0 44px 70px -36px rgba(25, 14, 70, .45); }
+body.page-reg .ticks { margin-top: var(--s5); }
+body.page-reg .ticks li { font-size: 17px; line-height: 1.6; padding-left: 42px; margin-bottom: var(--s3); }
+body.page-reg .ticks li::before { top: .18em; width: 26px; height: 26px; }
+body.page-reg .ticks strong { display: inline; font-weight: 750; margin: 0; }
+body.page-reg .ticks strong::after { content: ' '; }
+body.page-reg .ttimer { font-size: 16px; font-weight: 600; }
+body.page-reg .ttimer b { font-weight: 800; }
+@media (min-width: 768px) { body.page-reg .ticks li { font-size: 18px; } }
+
+/* ---------- Case studies: the pipeline screenshots, framed like a captured window, with bold captions ---------- */
+body.page-reg .shot { max-width: 1100px; margin: var(--s6) auto 0; }
+body.page-reg .shot img { display: block; width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 48px 90px -36px rgba(0, 0, 0, .85); }
+body.page-reg .shot + .dash__cap { max-width: 62ch; margin: var(--s3) auto 0; color: #fff; font-weight: 700; font-size: clamp(1rem, .95rem + .3vw, 1.1875rem); line-height: 1.5; }
+
+/* ---------- Palette B (/palette-b/): Midnight, Electric Blue buttons, Cantaloupe highlighter ---------- */
+body.page-reg.theme-b {
+  --accent-d: #39b3ec;
+  --hl-bg: linear-gradient(100deg, #ffd3c2 0%, #fc734d 100%);
+  --btn: #0297de; --btn-hi: #19a6e6; --btn-edge: #015f8c; --btn-text: #02070a;
+  --card: #fff; --card-line: #dce5ea;
+  --next: #f4f7f8;
+  --arc-line: rgba(2, 151, 222, .9);
+}
+body.page-reg.theme-b .hl { color: #02070a; }
+body.page-reg.theme-b .band--dark {
+  background:
+    var(--grain),
+    radial-gradient(70% 55% at 50% 0%, rgba(2, 151, 222, .28), transparent 72%),
+    radial-gradient(40% 30% at 50% 62%, rgba(252, 115, 77, .07), transparent 70%),
+    var(--dots) 0 0 / 22px 22px,
+    linear-gradient(180deg, #02070a 0%, #03111a 100%);
+}
+body.page-reg.theme-b .stats__title { color: #fc8a69; }
+body.page-reg.theme-b .stats span { color: var(--accent-d); }
+body.page-reg.theme-b .learn { background: linear-gradient(#fc734d, #fc734d) top / 100% 4px no-repeat, #fff; box-shadow: 0 44px 70px -36px rgba(2, 7, 10, .35); }
+body.page-reg.theme-b .ticks li + li { padding-top: 0; border-top: 0; }
+body.page-reg.theme-b .ticks li + li::before { top: .18em; }
