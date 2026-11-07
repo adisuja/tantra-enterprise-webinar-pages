@@ -58,13 +58,13 @@
   // ---------- Stat counters count up once when they come into view ----------
   var counters = document.querySelectorAll('.stats [data-count]');
   function countUp(el) {
-    var end = Number(el.getAttribute('data-count')), suf = el.getAttribute('data-suffix') || '', t0 = null;
-    if (reduce) { el.textContent = end + suf; return; }
-    function step(ts) { if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / 1400); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suf; if (p < 1) requestAnimationFrame(step); }
+    var end = Number(el.getAttribute('data-count')), pre = el.getAttribute('data-prefix') || '', suf = el.getAttribute('data-suffix') || '', t0 = null;
+    if (reduce) { el.textContent = pre + end + suf; return; }
+    function step(ts) { if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / 1400); el.textContent = pre + Math.round(end * (1 - Math.pow(1 - p, 3))) + suf; if (p < 1) requestAnimationFrame(step); }
     requestAnimationFrame(step);
   }
   if (counters.length && 'IntersectionObserver' in window && !reduce) {
-    counters.forEach(function (c) { c.textContent = '0' + (c.getAttribute('data-suffix') || ''); });
+    counters.forEach(function (c) { c.textContent = (c.getAttribute('data-prefix') || '') + '0' + (c.getAttribute('data-suffix') || ''); });
     var co = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); co.unobserve(e.target); } }); }, { threshold: 0.4 });
     counters.forEach(function (c) { co.observe(c); });
   }

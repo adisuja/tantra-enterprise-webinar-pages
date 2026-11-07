@@ -176,3 +176,7 @@ body.page-reg.theme-b .reg__brand {
       linear-gradient(160deg, #071a26 0%, #02070a 100%); }
   body.page-reg.theme-b .reg__mark img:first-child { filter: drop-shadow(0 0 40px rgba(2, 151, 222, .5)); }
 }
+
+/* Case studies heading on one line from tablet width up (Adi, 2026-11-07); phones wrap it to two. */
+body.page-reg .caps--one { max-width: none; font-size: clamp(1.5rem, .9rem + 2.4vw, 1.75rem); }
+@media (min-width: 768px) { body.page-reg .caps--one { white-space: nowrap; font-size: clamp(1.75rem, .45rem + 3.05vw, 3.25rem); } }
