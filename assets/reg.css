@@ -421,3 +421,6 @@ body.page-reg .learn .caps--upper { max-width: none; }
   .bundle:hover .book--3, .bundle.is-open .book--3 { transform: translate3d(8px, -10px, -46px) rotateY(-38deg) rotateZ(3deg); }
   .bundle:hover :is(.bundle__icons--l, .bundle__icons--r) .bi__t, .bundle.is-open :is(.bundle__icons--l, .bundle__icons--r) .bi__t { transform: scale(1.06); }
 }
+/* $1MN+ is the key part of the bonus titles (Adi 2026-11-08): highlighted in the cards as on the covers */
+.wb__hl { display: inline-block; padding: 0 .16em .02em; margin-right: .05em; border-radius: .14em; font-size: 1.22em; line-height: 1; color: #fff;
+  background: linear-gradient(140deg, var(--acc-2), var(--acc)); box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--acc) 80%, transparent); }
