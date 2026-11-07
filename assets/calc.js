@@ -71,7 +71,7 @@
         ks.forEach(function (k) {
           var line = p.lines.find(function (l) { return l.id === k.channel; }) || {};
           var share = (S.mix[S.funnel] || {})[k.channel];
-          var val = k.fmt === 'usd' ? round(k.value) : round(k.value);
+          var val = k.fmt === 'usd' ? (Math.round(k.value * 100) / 100).toFixed(2) : round(k.value);
           h += '<div class="cx-r cx-r--ch' + (k.over ? ' is-over' : '') + '"><span class="cx-r__n">' + esc(T.CH[k.channel].name) + '<small>' + esc(k.name) + '</small></span>' +
             field('data-k="' + k.id + '"', val, k.fmt === 'usd' ? '$' : '%', k.name) +
             (f.adsOnly ? '' : field('data-mix="' + k.channel + '"', share != null ? share : (line.share > 0 && line.share < 1 ? Math.round(line.share * 10) / 10 : Math.round(line.share || 0)), '%', T.CH[k.channel].name + ' share of sign-ups', share != null ? ' is-share is-set' : ' is-share')) +
