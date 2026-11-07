@@ -10,11 +10,11 @@
 <meta name="description" content="A live session with Adi, founder of Tantra, on the webinar funnel his team builds for B2B founders.">
 <link rel="icon" href="../assets/img/tantra-mark-ink.png">
 <link rel="preload" href="../assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/site.css?v=8e8c07df4f">
+<link rel="stylesheet" href="../assets/site.css?v=b76002ddeb">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,700..900&display=swap">
-<link rel="stylesheet" href="../assets/reg.css?v=8e8c07df4f">
-<link rel="stylesheet" href="../assets/theme-b.css?v=8e8c07df4f">
+<link rel="stylesheet" href="../assets/reg.css?v=b76002ddeb">
+<link rel="stylesheet" href="../assets/theme-b.css?v=b76002ddeb">
 </head>
 <body class="page-reg theme-b">
 <a class="skip" href="#main">Skip to content</a>
@@ -67,11 +67,11 @@
       <h2 id="results" class="caps caps--light"><span class="hl">Real Case Studies</span> of Million-Dollar AI Revenue Systems</h2>
       <!-- GoHighLevel Opportunities screenshots: one image file each, built by ghl-replica/build.py (Adi, 2026-11-07). -->
       <figure class="shot">
-        <img src="../assets/img/ghl-pipeline-a.webp?v=8e8c07df4f" width="2880" height="1800" loading="lazy" decoding="async" alt="GoHighLevel Opportunities board: the sales pipeline from booked first calls to second calls, with deal values per funnel">
+        <img src="../assets/img/ghl-pipeline-a.webp?v=b76002ddeb" width="2880" height="1800" loading="lazy" decoding="async" alt="GoHighLevel Opportunities board: the sales pipeline from booked first calls to second calls, with deal values per funnel">
       </figure>
       <p class="dash__cap">765,105 people reached and 80 sales calls booked across 11 webinars, for a UK business-coaching group.</p>
       <figure class="shot">
-        <img src="../assets/img/ghl-pipeline-b.webp?v=8e8c07df4f" width="2880" height="1800" loading="lazy" decoding="async" alt="GoHighLevel Opportunities board: warm, hot and won deals, with deal values per funnel">
+        <img src="../assets/img/ghl-pipeline-b.webp?v=b76002ddeb" width="2880" height="1800" loading="lazy" decoding="async" alt="GoHighLevel Opportunities board: warm, hot and won deals, with deal values per funnel">
       </figure>
       <p class="dash__cap">17 sales calls across three episodes as outreach grew from 10,000 to 30,000 invites, for a London fintech network.</p>
     </div>
@@ -171,74 +171,50 @@
 </main>
 
 <div class="modal" id="register" role="dialog" aria-modal="true" aria-labelledby="reg-title" hidden>
-  <div class="modal__frame">
+  <div class="modal__frame modal__frame--split">
     <form class="reg" id="reg-form" method="post" action="#" novalidate>
       <div class="reg__head">
         <h2 id="reg-title" class="reg__title" tabindex="-1">Save your seat for the live session</h2>
         <p class="reg__when"><time datetime="2026-11-12T10:00:00.000Z">Thursday, 12 November 2026, 10:00 UK time (GMT)</time></p>
-        <a class="modal__close" href="#" data-close-modal aria-label="Close"><svg class="ico " viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
       </div>
       <div class="reg__body">
       <div class="reg__error" id="reg-server-error" role="alert" hidden>
         <strong>Your seat was not saved.</strong> Our registration system did not respond. Your details are still here: press Save my seat again. If it fails twice, <span class="rv-i">email <span class="fill" title="Fill once in deliverables/_shared/funnel-config.json at brand.support_email: FILL_SUPPORT_EMAIL">FILL_SUPPORT_EMAIL</span></span><span class="tbc">reply to any email from us</span>.
       </div>
-      <div class="field">
-        <label for="f-first">First name</label>
-        <input id="f-first" name="first_name" autocomplete="given-name" required maxlength="60" placeholder="First name">
-        <p class="field__err" id="e-first" hidden>Enter your first name.</p>
+      <div class="reg__row">
+        <div class="field">
+          <label for="f-first">First name</label>
+          <input id="f-first" name="first_name" autocomplete="given-name" maxlength="60" placeholder="First name">
+        </div>
+        <div class="field">
+          <label for="f-last">Last name</label>
+          <input id="f-last" name="last_name" autocomplete="family-name" maxlength="60" placeholder="Last name">
+        </div>
       </div>
       <div class="field">
-        <label for="f-last">Last name</label>
-        <input id="f-last" name="last_name" autocomplete="family-name" maxlength="60" placeholder="Last name">
-      </div>
-      <div class="field">
-        <label for="f-email">Work email <span class="req">*</span></label>
-        <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="120" spellcheck="false" placeholder="name@company.com">
+        <label for="f-email">Email <span class="req">*</span></label>
+        <input id="f-email" name="email" type="email" autocomplete="email" required aria-required="true" maxlength="120" spellcheck="false" placeholder="name@company.com">
         <p class="field__err" id="e-email" hidden>Enter an email address like name@company.com.</p>
       </div>
       <div class="field">
-        <label for="f-company">Company <span class="req">*</span></label>
-        <input id="f-company" name="company" autocomplete="organization" required maxlength="120" placeholder="Company">
-        <p class="field__err" id="e-company" hidden>Enter your company name.</p>
-      </div>
-      <div class="field">
-        <label for="f-local">WhatsApp number</label>
+        <label for="f-local">Phone number <span class="req">*</span></label>
         <div class="phone">
           <select id="f-cc" name="dial_code" aria-label="Country code"><option value="+1">🇺🇸 US/CA +1</option><option value="+44">🇬🇧 UK +44</option><option value="+91">🇮🇳 IN +91</option><option value="+61">🇦🇺 AU +61</option><option value="+971">🇦🇪 AE +971</option><option value="+65">🇸🇬 SG +65</option><option value="+49">🇩🇪 DE +49</option><option value="+33">🇫🇷 FR +33</option><option value="+31">🇳🇱 NL +31</option><option value="+353">🇮🇪 IE +353</option><option value="+41">🇨🇭 CH +41</option><option value="+46">🇸🇪 SE +46</option><option value="+34">🇪🇸 ES +34</option><option value="+39">🇮🇹 IT +39</option><option value="+972">🇮🇱 IL +972</option><option value="+27">🇿🇦 ZA +27</option><option value="+234">🇳🇬 NG +234</option><option value="+254">🇰🇪 KE +254</option><option value="+966">🇸🇦 SA +966</option><option value="+974">🇶🇦 QA +974</option><option value="+60">🇲🇾 MY +60</option><option value="+63">🇵🇭 PH +63</option><option value="+62">🇮🇩 ID +62</option><option value="+64">🇳🇿 NZ +64</option><option value="+55">🇧🇷 BR +55</option><option value="+52">🇲🇽 MX +52</option><option value="+81">🇯🇵 JP +81</option><option value="+852">🇭🇰 HK +852</option></select>
-          <input id="f-local" name="phone_local" type="tel" autocomplete="tel-national" inputmode="tel" maxlength="20" placeholder="7700 900123" aria-describedby="h-phone" data-desc="h-phone">
+          <input id="f-local" name="phone_local" type="tel" autocomplete="tel-national" inputmode="tel" required aria-required="true" maxlength="20" placeholder="7700 900123">
         </div>
-        <p class="field__hint" id="h-phone">Needed only if you tick WhatsApp or the reminder call below.</p>
         <input type="hidden" name="phone" id="f-phone" value="">
-        <p class="field__err" id="e-phone" hidden>Enter your number, for example 7700 900123 with the right country code, or untick the WhatsApp and call boxes.</p>
+        <p class="field__err" id="e-phone" hidden>Enter your phone number, for example 7700 900123, with the right country code.</p>
       </div>
-      <div class="field">
-        <label for="f-band">Monthly revenue <span class="req">*</span></label>
-        <select id="f-band" name="revenue_band" required>
-          <option value="">Choose a range</option>
-          <option>Under $10K a month</option>
-          <option>$10K to $25K a month</option>
-          <option>$25K to $100K a month</option>
-          <option>$100K to $500K a month</option>
-          <option>Over $500K a month</option>
-        </select>
-        <p class="field__err" id="e-band" hidden>Choose your monthly revenue range.</p>
-      </div>
-      <fieldset class="field">
-        <legend>Do you have $10K+ to invest in growth in the next 12 months? <span class="req">*</span></legend>
-        <div class="seg">
-          <label><input type="radio" name="invest_12m" value="yes" required> <span>Yes</span></label>
-          <label><input type="radio" name="invest_12m" value="no"> <span>No</span></label>
-        </div>
-        <p class="field__err" id="e-invest" hidden>Choose yes or no.</p>
-      </fieldset>
-      <label class="check"><input type="checkbox" name="whatsapp_opt_in" id="f-optin"> <span>Send me the join link and reminders on WhatsApp. Reply STOP at any time.</span></label>
-      <label class="check"><input type="checkbox" name="call_opt_in" id="f-call"> <span>Give me a short reminder call from your AI assistant before the session.</span></label>
-      <label class="check"><input type="checkbox" name="newsletter_opt_in" id="f-news"> <span>Send me the weekly Tantra AI Brief by email. Unsubscribe any time.</span></label>
+      <label class="check" id="consent"><input type="checkbox" name="privacy_accepted" id="f-privacy" required aria-required="true"> <span>I have read and agreed to the <a href="../privacy-policy/" target="_blank" rel="noopener">privacy policy</a>.</span></label>
+      <p class="field__err" id="e-privacy" hidden>Tick the box to agree to the privacy policy.</p>
       <input type="hidden" name="timezone" id="f-tz" value="">
-      <p class="reg__small">We use your details for this session and its follow-up by email. WhatsApp, the reminder call and the newsletter happen only if you tick their boxes.</p>
       </div>
       <div class="reg__foot"><button class="btn btn--cta btn--block" type="submit">Save my seat</button></div>
     </form>
+    <div class="reg__brand" aria-hidden="true">
+      <span class="reg__mark"><img src="../assets/img/tantra-mark-white.png" alt="" height="64" width="76"><img src="../assets/img/tantra-word-white.png" alt="Tantra" height="34" width="171"></span>
+    </div>
+    <a class="modal__close" href="#" data-close-modal aria-label="Close"><svg class="ico " viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
   </div>
 </div>
 <footer class="foot"><div class="foot__in">
@@ -248,6 +224,6 @@
     <p class="foot__small">Results shown are those of specific clients and are not a guarantee of your own results. This site is not part of the Facebook, LinkedIn or Google websites, nor is it endorsed by them in any way.</p>
     <p class="foot__small">Copyright 2026 Tantra. All rights reserved.</p>
   </div></footer>
-<script>window.FUNNEL={"webinar_date":"2026-11-12","register_worker_url":null,"live":false,"thank_you_path":"../thank-you/","cal_namespace":"team/tantra/enterprise-evaluation-call"};</script><script src="../assets/site.js?v=8e8c07df4f" defer></script>
+<script>window.FUNNEL={"webinar_date":"2026-11-12","register_worker_url":null,"live":false,"thank_you_path":"../thank-you/","cal_namespace":"team/tantra/enterprise-evaluation-call"};</script><script src="../assets/site.js?v=b76002ddeb" defer></script>
 </body>
 </html>

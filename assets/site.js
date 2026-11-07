@@ -185,30 +185,21 @@
   function validate() {
     composePhone();
     var bad = [];
-    var first = $('f-first'), email = $('f-email'), company = $('f-company'), local = $('f-local'), optin = $('f-optin'), band = $('f-band');
-    var radios = Array.prototype.slice.call(form.querySelectorAll('input[name=invest_12m]'));
-    if (show('e-first', [first], !first.value.trim())) bad.push(first);
+    var email = $('f-email'), local = $('f-local'), privacy = $('f-privacy');
     if (show('e-email', [email], !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()))) bad.push(email);
-    if (show('e-company', [company], !company.value.trim())) bad.push(company);
-    var phone = $('f-phone').value, digits = phone.replace(/\D/g, '');
-    var phoneBad = (optin.checked || $('f-call').checked || local.value.trim()) && !(/^[\d\s().-]+$/.test(local.value.trim()) && digits.length >= 8 && digits.length <= 15);
-    if (show('e-phone', [local], !!phoneBad)) bad.push(local);
-    if (show('e-band', [band], !band.value)) bad.push(band);
-    if (show('e-invest', radios, !radios.some(function (r) { return r.checked; }))) bad.push(radios[0]);
+    var digits = $('f-phone').value.replace(/\D/g, '');
+    var phoneBad = !(/^[\d\s().-]+$/.test(local.value.trim()) && digits.length >= 8 && digits.length <= 15);
+    if (show('e-phone', [local], phoneBad)) bad.push(local);
+    if (show('e-privacy', [privacy], !privacy.checked)) bad.push(privacy);
     return bad;
   }
 
   function payload() {
     var fd = new FormData(form);
     var data = {
-      first_name: fd.get('first_name').trim(),
-      company: fd.get('company').trim(),
+      first_name: (fd.get('first_name') || '').trim(),
       phone: fd.get('phone').trim(),
-      whatsapp_opt_in: fd.get('whatsapp_opt_in') === 'on',
-      call_opt_in: fd.get('call_opt_in') === 'on',
-      newsletter_opt_in: fd.get('newsletter_opt_in') === 'on',
-      revenue_band: fd.get('revenue_band'),
-      invest_12m: fd.get('invest_12m'),
+      privacy_accepted: fd.get('privacy_accepted') === 'on',
       timezone: fd.get('timezone') || null,
     };
     var last = (fd.get('last_name') || '').trim();
@@ -228,8 +219,7 @@
   if (state === 'invalid') { openModal(); validate(); }
   if (state === 'error') {
     openModal();
-    $('f-first').value = 'Sam'; $('f-last').value = 'Lee'; $('f-email').value = 'sam@example.com'; $('f-company').value = 'Example Ltd';
-    $('f-band').value = '$25K to $100K a month'; form.querySelector('input[name=invest_12m][value=yes]').checked = true;
+    $('f-first').value = 'Sam'; $('f-last').value = 'Lee'; $('f-email').value = 'sam@example.com'; $('f-local').value = '7700 900123'; $('f-privacy').checked = true;
     serverErr.hidden = false;
   }
 

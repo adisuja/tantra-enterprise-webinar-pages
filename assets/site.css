@@ -798,3 +798,31 @@ body.modal-open { overflow: hidden; }
 /* The WhatsApp community button is required by the brief: keep it on the page (disabled) until the invite link is filled. */
 html:not(.review) .btn-wrap.rv:has(.btn--wa) { display: inline-flex !important; }
 html:not(.review) .btn-wrap:has(.btn--wa) .btn--wa[disabled] { opacity: 1; background: transparent; color: #7ee2a8; box-shadow: inset 0 0 0 1.5px rgba(126, 226, 168, .55); }
+
+/* ---------- Privacy policy (/privacy-policy/) ---------- */
+.legal__hero { padding: var(--s6) 0 var(--s8); }
+.legal__title { margin: var(--s3) 0 var(--s1); font-size: var(--fs-h2); font-weight: 800; letter-spacing: -.035em; line-height: 1.1; }
+.legal__meta { margin: 0; font-size: 14px; color: var(--muted-d); }
+.legal { display: grid; gap: var(--s5); max-width: 1040px; }
+.legal__toc p { margin: 0 0 var(--s1); font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.legal__toc ol { margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.5; }
+.legal__toc li { margin: 0 0 6px; }
+.legal__toc a { color: var(--text); text-decoration: none; }
+.legal__toc a:hover { color: var(--volt-deep); text-decoration: underline; }
+.legal__body { max-width: 68ch; }
+.legal__body section { scroll-margin-top: var(--s3); padding-bottom: var(--s4); margin-bottom: var(--s4); border-bottom: 1px solid var(--line); }
+.legal__body section:last-child { border-bottom: 0; }
+.legal__body h2 { margin: 0 0 var(--s2); font-size: var(--fs-h3); font-weight: 800; letter-spacing: -.025em; line-height: 1.2; }
+.legal__body h3 { margin: var(--s3) 0 var(--s1); font-size: 17px; font-weight: 700; letter-spacing: -.015em; }
+.legal__body p, .legal__body li { color: var(--text); }
+.legal__body p { margin: 0 0 var(--s2); }
+.legal__body ul, .legal__body ol { margin: 0 0 var(--s2); padding-left: 22px; }
+.legal__body li { margin: 0 0 var(--s1); }
+.legal__links { list-style: none; padding-left: 0 !important; display: flex; flex-wrap: wrap; gap: var(--s1); }
+.legal__links li { margin: 0; }
+.legal__links a { display: inline-block; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; font-weight: 600; text-decoration: none; }
+.legal__links a:hover { border-color: var(--volt); }
+@media (min-width: 1024px) {
+  .legal { grid-template-columns: 240px minmax(0, 1fr); gap: var(--s8); }
+  .legal__toc { position: sticky; top: var(--s4); align-self: start; }
+}

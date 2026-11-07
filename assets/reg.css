@@ -106,3 +106,73 @@ body.page-reg.theme-b .stats span { color: var(--accent-d); }
 body.page-reg.theme-b .learn { background: linear-gradient(#fc734d, #fc734d) top / 100% 4px no-repeat, #fff; box-shadow: 0 44px 70px -36px rgba(2, 7, 10, .35); }
 body.page-reg.theme-b .ticks li + li { padding-top: 0; border-top: 0; }
 body.page-reg.theme-b .ticks li + li::before { top: .18em; }
+
+/* ---------- Registration popup (Adi, 2026-11-07): wide, two columns, the form left and the Tantra logo panel right ----------
+   Phones and narrow tablets: one column, the logo panel becomes a slim band above the form. */
+body.page-reg .modal__frame--split { flex-direction: column; }
+body.page-reg .reg__brand {
+  order: -1; flex: none; display: flex; align-items: center; justify-content: center; height: 64px; padding: 0 64px;
+  background:
+    radial-gradient(80% 120% at 50% 0%, rgba(109, 74, 255, .45), transparent 70%),
+    var(--dots) 0 0 / 18px 18px,
+    linear-gradient(180deg, #120c2a 0%, #0b0918 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+body.page-reg .reg__mark { display: inline-flex; align-items: center; gap: 10px; }
+body.page-reg .reg__mark img:first-child { height: 30px; width: auto; }
+body.page-reg .reg__mark img:last-child { height: 16px; width: auto; }
+body.page-reg .modal__frame--split .modal__close { top: 10px; right: 10px; z-index: 2; }
+body.page-reg .reg__head { padding-right: 20px; }
+body.page-reg .reg__title { font-family: var(--disp); font-stretch: 75%; font-weight: 800; font-size: 26px; line-height: 1.15; letter-spacing: 0; }
+body.page-reg .reg__row { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: var(--s2); }
+body.page-reg .reg .check { margin: 4px 0 0; }
+body.page-reg .reg .check a { color: var(--accent-d); font-weight: 600; }
+body.page-reg #e-privacy { margin: -4px 0 var(--s1) 32px; }
+@media (min-width: 480px) { body.page-reg .reg__row { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 768px) {
+  body.page-reg .modal__frame--split { max-width: 640px; }
+  body.page-reg .modal__frame--split .reg__brand { height: 96px; border-radius: 19px 19px 0 0; }
+  body.page-reg .modal__frame--split .reg { border-radius: 0 0 19px 19px; }
+  body.page-reg .reg__head { padding: var(--s4) var(--s5) var(--s2); text-align: left; }
+  body.page-reg .reg__title { font-size: 34px; }
+  body.page-reg .modal__frame--split .modal__close { top: 18px; right: 18px; }
+}
+@media (min-width: 920px) {
+  body.page-reg .modal__frame--split { flex-direction: row; max-width: 1000px; }
+  body.page-reg .modal__frame--split .reg { flex: 1 1 58%; border-radius: 19px 0 0 19px; }
+  body.page-reg .modal__frame--split .reg__brand { order: 0; flex: 0 0 42%; height: auto; padding: var(--s6); border-radius: 0 19px 19px 0; border-bottom: 0; border-left: 1px solid rgba(255, 255, 255, .08);
+    background:
+      radial-gradient(60% 45% at 50% 46%, rgba(109, 74, 255, .5), transparent 72%),
+      var(--dots) 0 0 / 20px 20px,
+      linear-gradient(160deg, #1a1040 0%, #0b0918 100%); }
+  body.page-reg .reg__mark { flex-direction: column; gap: 22px; }
+  body.page-reg .reg__mark img:first-child { height: 120px; filter: drop-shadow(0 0 40px rgba(169, 139, 255, .45)); }
+  body.page-reg .reg__mark img:last-child { height: 34px; }
+  body.page-reg .reg__head { padding: var(--s6) var(--s6) var(--s2); }
+  body.page-reg .reg__body { padding: var(--s2) var(--s6) var(--s2); }
+  body.page-reg .reg__foot { padding: var(--s2) var(--s6) var(--s6); }
+}
+/* Palette B popup */
+body.page-reg.theme-b .reg__brand {
+  background:
+    var(--grain),
+    radial-gradient(80% 120% at 50% 0%, rgba(2, 151, 222, .4), transparent 70%),
+    var(--dots) 0 0 / 18px 18px,
+    linear-gradient(180deg, #06151e 0%, #02070a 100%);
+  border-color: var(--edge);
+}
+@media (min-width: 768px) {
+  body.page-reg.theme-b .modal__frame--split .reg { border-radius: 0 0 21px 21px; }
+  body.page-reg.theme-b .modal__frame--split .reg__brand { border-radius: 21px 21px 0 0; }
+}
+@media (min-width: 920px) {
+  body.page-reg.theme-b .modal__frame--split .reg { border-radius: 21px 0 0 21px; }
+  body.page-reg.theme-b .modal__frame--split .reg__brand { border-radius: 0 21px 21px 0; border-left-color: var(--edge);
+    background:
+      var(--grain),
+      radial-gradient(60% 45% at 50% 46%, rgba(2, 151, 222, .42), transparent 72%),
+      radial-gradient(40% 30% at 50% 100%, rgba(252, 115, 77, .12), transparent 70%),
+      var(--dots) 0 0 / 20px 20px,
+      linear-gradient(160deg, #071a26 0%, #02070a 100%); }
+  body.page-reg.theme-b .reg__mark img:first-child { filter: drop-shadow(0 0 40px rgba(2, 151, 222, .5)); }
+}
