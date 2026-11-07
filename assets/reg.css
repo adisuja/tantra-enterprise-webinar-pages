@@ -183,8 +183,24 @@ body.page-reg .caps--one { max-width: none; font-size: clamp(1.5rem, .9rem + 2.4
 
 /* ---------- Need more proof: WhatsApp message replicas (wa-replica/build.py), masonry columns ---------- */
 body.page-reg .caps--upper { text-transform: uppercase; }
+@media (min-width: 768px) { body.page-reg .caps--upper { max-width: none; } }
 body.page-reg .wa-proof { columns: 1; column-gap: 20px; max-width: 428px; margin: var(--s6) auto 0; text-align: left; }
 body.page-reg .wa-proof img { display: block; width: 100%; height: auto; margin: 0 0 20px; border-radius: 14px; break-inside: avoid;
   box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset, 0 18px 40px -22px rgba(10, 10, 20, .55); }
 @media (min-width: 768px) { body.page-reg .wa-proof { columns: 2; max-width: 876px; } }
 @media (min-width: 1200px) { body.page-reg .wa-proof { columns: 3; max-width: 1324px; } }
+
+/* ---------- What revenue leaders say: one auto-sliding row (site.js), two cards in view from 1024px ---------- */
+body.page-reg .tq-slider { margin: var(--s5) calc(var(--gutter) * -1) 0; padding: 6px var(--gutter) 30px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; text-align: left; }
+body.page-reg .tq-slider::-webkit-scrollbar { display: none; }
+body.page-reg .tq-slider.is-auto { overflow: hidden; scroll-snap-type: none; }
+body.page-reg .tq-track { display: flex; align-items: stretch; gap: var(--s2); transition: transform .9s cubic-bezier(.65, 0, .35, 1); will-change: transform; }
+body.page-reg .tq-track > .tq { flex: 0 0 88%; scroll-snap-align: start; }
+body.page-reg .tq-slider .tq__logo { min-height: 72px; }
+@media (min-width: 768px) { body.page-reg .tq-track > .tq { flex-basis: 78%; } }
+@media (min-width: 1024px) {
+  body.page-reg .tq-slider { max-width: 1160px; margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+  body.page-reg .tq-slider.is-auto { overflow: hidden; padding: 6px 2px 30px; }
+  body.page-reg .tq-track { gap: var(--s3); }
+  body.page-reg .tq-track > .tq { flex-basis: calc((100% - var(--s3)) / 2); }
+}

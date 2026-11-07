@@ -262,3 +262,30 @@
     }, 700);
   });
 })();
+
+// Testimonial row (registration page): advances one card every 7 seconds and loops for ever. Pauses while the
+// pointer or keyboard focus is on it and while the tab is hidden. Reduced motion keeps the plain swipeable row.
+(function () {
+  var root = document.querySelector('[data-tq-slider]');
+  if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var track = root.querySelector('.tq-track'), cards = [].slice.call(track.children), n = cards.length;
+  if (n < 2) return;
+  cards.forEach(function (c) {
+    var k = c.cloneNode(true);
+    k.setAttribute('aria-hidden', 'true'); k.inert = true;
+    [].forEach.call(k.querySelectorAll('img'), function (img) { img.alt = ''; });
+    track.appendChild(k);
+  });
+  root.classList.add('is-auto');
+  var i = 0, hold = false, holdUntil = 0;
+  var step = function () { return track.children[1].getBoundingClientRect().left - track.children[0].getBoundingClientRect().left; };
+  var place = function (animate) { track.style.transition = animate ? '' : 'none'; track.style.transform = 'translateX(' + (-i * step()) + 'px)'; };
+  track.addEventListener('transitionend', function () { if (i >= n) { i = 0; place(false); void track.offsetHeight; track.style.transition = ''; } });
+  setInterval(function () { if (hold || document.hidden || Date.now() < holdUntil) return; i += 1; place(true); }, 7000);
+  root.addEventListener('mouseenter', function () { hold = true; });
+  root.addEventListener('mouseleave', function () { hold = false; });
+  root.addEventListener('focusin', function () { hold = true; });
+  root.addEventListener('focusout', function () { hold = false; });
+  root.addEventListener('touchstart', function () { holdUntil = Date.now() + 8000; }, { passive: true });
+  window.addEventListener('resize', function () { place(false); });
+})();
