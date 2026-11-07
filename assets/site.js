@@ -28,6 +28,14 @@
     } catch (e) {}
   }
 
+  // Confirmed page: the link to this visitor's Revenue Plan, saved by the survey in this browser.
+  var planLink = document.querySelector('[data-plan-link]');
+  if (planLink) {
+    var planUrl = null; try { planUrl = localStorage.getItem('tantra_plan_url'); } catch (e) {}
+    if (planUrl) { planLink.href = planUrl; document.querySelector('[data-plan-ready]').hidden = false; document.querySelector('[data-plan-none]').hidden = true; var sv = document.querySelector('[data-plan-survey]'); if (sv) sv.hidden = true; }
+    else planLink.hidden = true;
+  }
+
   // ---------- Countdowns: only to a real configured date. Weekly cadence rolls a past date to the next session. ----------
   function targetOf(el) {
     var t = Date.parse(el.getAttribute('data-target'));
@@ -243,7 +251,7 @@
         .then(function (r) { return r.json(); })
         .then(function (j) {
           if (!j.ok) throw new Error(j.error || 'failed');
-          try { sessionStorage.setItem('tantra_first_name', body.data.first_name); } catch (e) {}
+          try { sessionStorage.setItem('tantra_first_name', body.data.first_name); sessionStorage.setItem('tantra_email', body.email); } catch (e) {}
           location.href = j.redirect || F.thank_you_path;
         })
         .catch(fail);
@@ -257,7 +265,7 @@
         return;
       }
       console.log('[stub] would POST to integrations.register_worker_url (' + (F.register_worker_url || 'FILL_REGISTER_WORKER_URL') + '):', JSON.stringify(body, null, 2));
-      try { sessionStorage.setItem('tantra_first_name', body.data.first_name); } catch (e) {}
+      try { sessionStorage.setItem('tantra_first_name', body.data.first_name); sessionStorage.setItem('tantra_email', body.email); } catch (e) {}
       location.href = F.thank_you_path || 'thank-you/';
     }, 700);
   });
@@ -292,19 +300,22 @@
   };
   var go = function (to, animate) {
     if (to < 0) { i = n; place(false); void track.offsetHeight; to = n - 1; }
+    // Rapid clicks can arrive before transitionend snaps back from the clones: snap first so the row never runs empty.
+    if (i >= n && to >= n) { i -= n; to -= n; place(false); void track.offsetHeight; }
     i = to; if (still && i >= n) i -= n;
     place(animate !== false); mark();
   };
-  track.addEventListener('transitionend', function () { if (i >= n) { i -= n; place(false); void track.offsetHeight; track.style.transition = ''; } });
+  track.addEventListener('transitionend', function (e) { if (e.target !== track) return; if (i >= n) { i -= n; place(false); void track.offsetHeight; track.style.transition = ''; } });
   var tick = function () { if (hold || document.hidden || Date.now() < holdUntil) { restart(); return; } go(i + 1); restart(); };
   var restart = function () { clearTimeout(timer); if (!still) timer = setTimeout(tick, DELAY); };
   box.querySelector('[data-tq-prev]').addEventListener('click', function () { go(i % n - 1 < 0 && i < n ? -1 : i - 1); restart(); });
   box.querySelector('[data-tq-next]').addEventListener('click', function () { go(i + 1); restart(); });
   dots.forEach(function (d, k) { d.addEventListener('click', function () { go(k); restart(); }); });
-  root.addEventListener('mouseenter', function () { hold = true; box.classList.add('is-held'); });
-  root.addEventListener('mouseleave', function () { hold = false; box.classList.remove('is-held'); mark(); restart(); });
-  root.addEventListener('focusin', function () { hold = true; box.classList.add('is-held'); });
-  root.addEventListener('focusout', function () { hold = false; box.classList.remove('is-held'); mark(); restart(); });
+  // Pause while the pointer or keyboard focus is anywhere on the carousel, its arrows and dots included (WCAG 2.2.2).
+  box.addEventListener('mouseenter', function () { hold = true; box.classList.add('is-held'); });
+  box.addEventListener('mouseleave', function () { hold = false; box.classList.remove('is-held'); mark(); restart(); });
+  box.addEventListener('focusin', function () { hold = true; box.classList.add('is-held'); });
+  box.addEventListener('focusout', function (e) { if (box.contains(e.relatedTarget)) return; hold = false; box.classList.remove('is-held'); mark(); restart(); });
   root.addEventListener('touchstart', function () { holdUntil = Date.now() + 8000; }, { passive: true });
   window.addEventListener('resize', function () { place(false); });
   mark(); restart();

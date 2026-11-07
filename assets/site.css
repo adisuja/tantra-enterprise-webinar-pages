@@ -152,8 +152,8 @@ html:not(.review) .fill, html:not(.review) .rv, html:not(.review) .rv-i { displa
 }
 
 /* ---------- Registration hero ---------- */
-.hero__logo { display: flex; justify-content: flex-start; align-items: center; gap: 14px; margin: 0 0 var(--s5); }
-/* The logo sits at the side, large (Adi 2026-11-08): mark 48 px on phones, 64 px from tablets up; files are 400 px tall. */
+.hero__logo { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 0 0 var(--s5); }
+/* The logo is centred at the very top, large (Adi 2026-11-08): mark 48 px on phones, 64 px from tablets up; files are 400 px tall. */
 .hero__logo img:first-child { height: 48px; width: auto; }
 .hero__logo img:nth-child(2) { height: 25px; width: auto; }
 @media (min-width: 768px) { .hero__logo img:first-child { height: 64px; } .hero__logo img:nth-child(2) { height: 33px; } }
