@@ -31,6 +31,9 @@
     NUMS.forEach(function (k) { if (a[k] != null) a[k] = a[k] === '' ? 0 : Number(String(a[k]).replace(/[^\d.]/g, '')); });
     INTS.forEach(function (k) { if (a[k] != null) a[k] = Number(a[k]); });
     a.channels = a.channels || []; a.funnels_built = a.funnels_built || [];
+    // Answers behind a hidden follow-up do not count once the question that opened it changes.
+    if (a.channels.indexOf('ads') < 0) a.ad_budget = 0;
+    if (!(a.funnel_exp > 0)) a.funnels_built = [];
     return a;
   }
 

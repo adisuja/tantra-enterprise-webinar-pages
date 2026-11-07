@@ -96,11 +96,11 @@
       });
       if (rows.length) html += '<ol class="cx-rows">' + rows.map(function (r) { return '<li><span>' + esc(r.label) + '</span><b>' + fmtN(r.n) + '</b></li>'; }).join('') + '</ol>';
       if (st === 5) {
-        html += '<ol class="cx-rows cx-rows--rev"><li><span>Revenue per customer in the first 12 months' + (p.churn ? ' (at ' + fmtP(p.churn * 100) + ' monthly churn)' : '') + '</span><b>' + fmtU(p.value12) + '</b></li>' +
+        html += '<ol class="cx-rows cx-rows--rev"><li><span>Revenue per customer inside these 12 months' + (p.churn ? ' (customers join through the year and ' + fmtP(p.churn * 100) + ' leave each month)' : '') + '</span><b>' + fmtU(p.value12) + '</b></li>' +
           (p.extraLabel ? '<li><span>Plus ' + esc(p.extraLabel) + ', a year</span><b>' + fmtU(p.extra12) + '</b></li>' : '') +
           '<li><span>Revenue per ' + p.cadence.per + '</span><b>' + fmtU(p.revCycle) + '</b></li><li><span>Revenue in 12 months</span><b>' + fmtU(p.rev12) + '</b></li></ol>';
       }
-      if (st === 6) html += '<p class="cx-note">' + fmtN(p.listLeft) + ' people a year join your list and do not buy at first. Weekly email, WhatsApp and check-in calls bring back about ' + fmtP(p.kpis.find(function (k) { return k.id === 'YRR'; }).value) + ' of them in the following year: ' + fmtU(p.laterRev) + ' more, not counted in your goal.</p>';
+      if (st === 6) html += '<p class="cx-note">' + fmtN(p.listLeft) + ' people a year join your list and do not buy at first. A year of weekly email, WhatsApp and check-in calls turns some of them into customers: about ' + fmtN(p.later) + ' more in the following 52 weeks. A planning figure, never counted in your goal.</p>';
       html += '</div></details>';
     }
     host.innerHTML = html;
@@ -121,11 +121,13 @@
     if (reach.length || t.owned.length) h += '<p class="cx-k cx-k--sub">Where the traffic comes from, a month</p><ul class="cx-list">' +
       t.owned.map(function (o) { return '<li><span>' + esc(o.name) + '</span><b>' + fmtN(o.used) + ' visits</b></li>'; }).join('') +
       t.lines.map(function (l) { return '<li><span>' + esc(l.name) + (l.money ? ' (' + fmtU(l.reach) + ')' : ' (' + fmtN(l.reach) + ' ' + esc(l.unit.replace(' a month', '')) + (l.seats ? ', ' + fmtN(l.seats) + ' ' + esc(l.seatUnit.split(' at ')[0]) : '') + ')') + '</span><b>' + fmtN(l.visits) + (p.funnel === 'social' ? ' viewers' : ' visits') + '</b></li>'; }).join('') + '</ul>';
-    if (t.gap > 0) h += '<p class="cx-warn">' + fmtN(t.gap) + ' visits a month still need a channel.</p>';
+    if (p.unreachable) h += '<p class="cx-warn">With these rates the funnel makes no customers, so no amount of traffic reaches the goal. Put back a KPI you set to 0 (click Auto).</p>';
+    if (t.gap > 0) h += '<p class="cx-warn">' + fmtN(t.gap) + ' visits a month still need a channel. Raise the ad budget in your answers, add a channel, or plan from your traffic.</p>';
+    if (t.budgetShort > 0) h += '<p class="cx-warn">The SLO needs ' + fmtU(t.adSpend) + ' a month of ads, ' + fmtU(t.budgetShort) + ' more than your budget.</p>';
     if (p.roas && p.roas < 1) h += '<p class="cx-warn">The front-end sales cover ' + Math.round(p.roas * 100) + '% of the ad spend. To self-liquidate, lift the offer conversion or the bump and backend take rates, or raise the entry price.</p>';
     h += '<p class="cx-k cx-k--sub">The funnel, per ' + p.cadence.per + '</p><ol class="cx-funnel">' +
       [{ label: p.funnel === 'social' ? 'Offer post viewers' : 'Page visits', n: p.visits }].concat(p.rows).map(function (r, i, all) {
-        var w = Math.max(3, Math.log10(r.n + 1) / Math.log10(all[0].n + 1) * 100);
+        var w = all[0].n > 0 ? Math.max(3, Math.log10(r.n + 1) / Math.log10(all[0].n + 1) * 100) : 3;
         return '<li><span>' + esc(r.label) + '</span><b>' + fmtN(r.n) + '</b><i style="width:' + w.toFixed(1) + '%"></i></li>';
       }).join('') + '</ol>';
     $('[data-cx-summary]').innerHTML = h;
@@ -219,6 +221,27 @@
   document.querySelectorAll('[data-cx-goal],[data-cx-price],[data-cx-visits]').forEach(function (inp) {
     inp.addEventListener('input', function () { var d = inp.value.replace(/[^\d]/g, '').slice(0, 11); inp.value = d ? Number(d).toLocaleString('en-US') : ''; });
   });
+
+  /* ---------- How-to guides ---------- */
+  // Open on the first visit, then remember the visitor closed it. Any "How to" link opens its guide and scrolls to it.
+  var guide = $('[data-cx-guide]');
+  if (guide) {
+    var seen = null; try { seen = localStorage.getItem('tantra_plan_guide_seen'); } catch (e) {}
+    if (!seen) guide.open = true;
+    guide.addEventListener('toggle', function () { if (!guide.open) { try { localStorage.setItem('tantra_plan_guide_seen', '1'); } catch (e) {} } });
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-guide]'); if (!a) return;
+      e.preventDefault();
+      var g = document.getElementById('guide-' + a.getAttribute('data-guide'));
+      guide.open = true;
+      if (g) {
+        g.open = true;
+        g.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+        g.classList.remove('is-flash'); void g.offsetWidth; g.classList.add('is-flash');
+        var s = g.querySelector('summary'); if (s) s.focus({ preventScroll: true });
+      }
+    });
+  }
 
   chips(); render();
 })();

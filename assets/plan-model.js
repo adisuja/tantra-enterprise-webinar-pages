@@ -11,26 +11,27 @@
   'use strict';
 
   /* ---------- Sources (short labels shown under each KPI) ---------- */
+  const B = (s) => s + ' (self-reported; treat as a planning assumption)';
   const SRC = {
-    webReg: 'Webinar registration benchmarks 2025 to 2026 (AssetAcademy, BeKnownOnline)',
+    webReg: B('Webinar registration benchmarks 2025 to 2026 (AssetAcademy, BeKnownOnline)'),
     livestorm: 'Livestorm 2026 report: 47.7% show-up across 33,786 sessions',
-    replay: 'Replay benchmarks (EasyWebinar, Univid 2026)',
-    htAttend: 'High-ticket webinar purchase rates (ClickMeeting via DollarPocket 2026)',
+    replay: B('Replay watch among no-shows: practitioner estimate (Lilach Bullock)'),
+    htAttend: B('High-ticket webinar purchase rates (ClickMeeting via DollarPocket 2026)'),
     callShow: 'Call show rates (RevenueHero 6,428 meetings; CashflowCoaches 2026)',
-    htClose: 'High-ticket call close rates (LeadsNow 2026, 50,769 booked calls)',
+    htClose: B('High-ticket call close rates (LeadsNow 2026, 50,769 booked calls)'),
     b2bClose: 'B2B close rates (HubSpot; First Page Sage)',
-    vsl: 'VSL benchmarks (Focus Digital 2026: 44% average watched; VSLStats)',
-    vslApp: 'VSL application rates (Inflo Partners)',
+    vsl: B('VSL benchmarks (Focus Digital 2026: 44% average watched; VSLStats)'),
+    vslApp: B('VSL application rates (Inflo Partners)'),
     optin: 'Opt-in benchmarks (Unbounce 2024; lead magnet funnels)',
-    tripwire: 'Tripwire and upsell take rates (CartFlows; WinMassiveImpact)',
-    ascend: 'Backend ascension of low-ticket buyers (WinMassiveImpact; LTO Ads)',
+    tripwire: B('Tripwire and upsell take rates (CartFlows; WinMassiveImpact)'),
+    ascend: B('Backend ascension of low-ticket buyers (WinMassiveImpact; LTO Ads)'),
     metaAds: 'Meta B2B ads 2025 (Metadata.io; WordStream)',
-    appPage: 'Application page rates (Unbounce professional services; Inflo Partners)',
-    challenge: 'Challenge benchmarks 2026 (ScaleForImpact; Communipass)',
-    community: 'Community conversion and churn (AdvLaunch; Kourses; SkoolFiles)',
+    appPage: B('Application page rates (Unbounce professional services; Inflo Partners)'),
+    challenge: B('Challenge benchmarks 2026 (ScaleForImpact; Communipass)'),
+    community: B('Community conversion and churn (AdvLaunch; Kourses; SkoolFiles)'),
     linkedinEng: 'LinkedIn engagement 2025 (Socialinsider)',
-    dm: 'Comment to DM and DM to meeting rates (SBL; CClarity)',
-    launch: 'Launch conversion (Denise Duffield-Thomas launch review; Jeff Walker)',
+    dm: B('Comment to DM and DM to meeting rates (SBL; CClarity)'),
+    launch: B('Launch conversion (Denise Duffield-Thomas launch review; Jeff Walker)'),
     coldEmail: 'Cold email 2025 to 2026 (Instantly; Woodpecker)',
     linkedin: 'LinkedIn outreach 2026 (Expandi, 13.2M requests)',
     mailchimp: 'Email marketing benchmarks (Mailchimp)',
@@ -98,7 +99,7 @@
     K('CSR', 5, 'Call Show Rate', 'calls held ÷ calls booked', 55, 70, 84, 'nurture', SRC.callShow, 'call'),
     K('CLOSE', 5, 'Close Rate', 'customers ÷ calls held', closeLo, closeTy, closeHi, 'close', src, 'call')
   ];
-  const NEXT52 = K('YRR', 6, 'Yearly Return Rate', 'customers in the next 52 weeks ÷ people on the list who did not buy', 0.5, 1.5, 3, 'retain', SRC.equations);
+  const NEXT52 = K('NRR', 6, 'Nurture Recovery Rate', 'customers the 52 weeks of nurture add ÷ customers the funnel made the first time', 10, 20, 35, 'retain', SRC.plan);
 
   const FUNNELS = {
     webinar: {
@@ -110,7 +111,7 @@
         K('RWR', 3, 'Replay Watch Rate', 'replay viewers ÷ registrants who missed it live', 10, 20, 25, 'nurture', SRC.replay),
         K('BR', 4, 'Booking Rate', 'calls booked ÷ live attendees', 3, 8, 15, 'convert', SRC.plan, 'call'),
         K('RBR', 4, 'Replay Booking Rate', 'calls booked ÷ replay viewers', 1, 3, 5, 'convert', SRC.plan, 'call'),
-        K('PUR', 4, 'Purchase Rate', 'buyers ÷ live attendees', 1, 3, 8, 'convert', SRC.htAttend, 'checkout'),
+        K('PUR', 4, 'Purchase Rate', 'buyers ÷ live attendees', 0.5, 2, 5, 'convert', SRC.htAttend, 'checkout'),
         K('RPUR', 4, 'Replay Purchase Rate', 'buyers ÷ replay viewers', 0.5, 1.5, 3, 'convert', SRC.htAttend, 'checkout'),
         ...PIPE(), NEXT52
       ],
@@ -124,21 +125,21 @@
     },
     rsp: {
       name: 'Reverse Squeeze Page', tag: 'Video first, opt-in second, then calls or checkout', cadence: { label: 'month', per: 'month', perYear: 12 }, entry: 'video page visits', priority: 12,
-      blurb: 'An evergreen video page that teaches before it asks. Viewers who watch past halfway unlock part two with their email and book a call.',
+      blurb: 'An evergreen video page that teaches before it asks. Viewers who watch past halfway give their email to unlock part two, reminders bring them back to watch it, and part two ends with the offer.',
       kpis: [
-        K('HWR', 2, 'Half-Watch Rate', 'people who watch past halfway on their first visit ÷ page visits', 15, 25, 40, 'landing', SRC.vsl),
-        K('OIR', 2, 'Opt-In Rate', 'people who give their email to unlock part two ÷ page visits', 10, 20, 35, 'landing', SRC.optin),
-        K('NHWR', 3, 'Nurtured Half-Watch Rate', 'opt-ins brought past halfway by reminders ÷ opt-ins who had not watched half', 10, 20, 35, 'nurture', SRC.plan),
-        K('BR', 4, 'Booking Rate', 'calls booked ÷ half-watchers', 2, 5, 10, 'convert', SRC.vslApp + ' (applications); booking rate is a planning figure', 'call'),
-        K('PUR', 4, 'Purchase Rate', 'buyers ÷ half-watchers', 1, 3, 6, 'convert', SRC.vsl, 'checkout'),
+        K('HWR', 2, 'Half-Watch Rate', 'people who watch past halfway on their first visit ÷ page visits', 15, 25, 40, 'landing', SRC.plan),
+        K('OIR', 2, 'Opt-In Rate', 'half-watchers who give their email to unlock part two ÷ half-watchers', 25, 40, 55, 'landing', SRC.optin + '; for half-watchers this is a planning figure'),
+        K('P2R', 3, 'Part Two Watch Rate', 'opt-ins who watch part two, with reminders ÷ opt-ins', 30, 45, 60, 'nurture', SRC.plan),
+        K('BR', 4, 'Booking Rate', 'calls booked ÷ part two viewers', 8, 15, 30, 'convert', SRC.vslApp, 'call'),
+        K('PUR', 4, 'Purchase Rate', 'buyers ÷ part two viewers', 2, 5, 10, 'convert', SRC.vsl, 'checkout'),
         ...PIPE(), NEXT52
       ],
       refPrice: 997,
       run(v, call) {
-        const HW1 = v.HWR, OI = v.OIR, HW = HW1 + OI * (1 - v.HWR) * v.NHWR;
-        const rows = [['Watched past halfway', HW1, 2], ['Opt-ins', OI, 2], ['All half-watchers, after reminders', HW, 3]];
-        if (call) { const CB = HW * v.BR, CH = CB * v.CSR; rows.push(['Calls booked', CB, 4], ['Calls held', CH, 5], ['Customers', CH * v.CLOSE, 5]); return { rows, cust: CH * v.CLOSE, list: OI }; }
-        const B = HW * v.PUR; rows.push(['Customers', B, 4]); return { rows, cust: B, list: OI };
+        const HW = v.HWR, OI = HW * v.OIR, P2 = OI * v.P2R;
+        const rows = [['Watched past halfway', HW, 2], ['Opt-ins', OI, 2], ['Watched part two', P2, 3]];
+        if (call) { const CB = P2 * v.BR, CH = CB * v.CSR; rows.push(['Calls booked', CB, 4], ['Calls held', CH, 5], ['Customers', CH * v.CLOSE, 5]); return { rows, cust: CH * v.CLOSE, list: OI }; }
+        const Bx = P2 * v.PUR; rows.push(['Customers', Bx, 4]); return { rows, cust: Bx, list: OI };
       }
     },
     workshop: {
@@ -210,10 +211,10 @@
       blurb: 'A free challenge with one task a day and a group to report wins in. Momentum sells the next step on the last day.',
       kpis: [
         K('RR', 2, 'Registration Rate', 'registrants ÷ page visits', 25, 35, 50, 'landing', SRC.challenge),
-        K('D1R', 3, 'Day 1 Attendance', 'day 1 attendees ÷ registrants', 35, 50, 70, 'nurture', SRC.challenge + '; ' + SRC.fmChallenge),
+        K('D1R', 3, 'Day 1 Attendance', 'day 1 attendees ÷ registrants', 35, 45, 50, 'nurture', SRC.challenge + '; ' + SRC.fmChallenge),
         K('COMP', 3, 'Completion Rate', 'people who finish ÷ day 1 attendees', 35, 50, 65, 'nurture', SRC.challenge + '; ' + SRC.fmChallenge),
-        K('BR', 4, 'Booking Rate', 'calls booked ÷ people who finish', 10, 15, 25, 'convert', SRC.challenge, 'call'),
-        K('PUR', 4, 'Purchase Rate', 'buyers ÷ people who finish', 4, 10, 20, 'convert', SRC.challenge + '; ' + SRC.fmChallenge, 'checkout'),
+        K('BR', 4, 'Booking Rate', 'calls booked ÷ people who finish', 10, 15, 20, 'convert', SRC.challenge, 'call'),
+        K('PUR', 4, 'Purchase Rate', 'buyers ÷ people who finish', 2, 5, 15, 'convert', SRC.challenge + '; ' + SRC.fmChallenge, 'checkout'),
         ...PIPE(20, 28, 40, SRC.challenge), NEXT52
       ],
       refPrice: 297,
@@ -233,7 +234,7 @@
         K('BKR', 4, 'Booking Rate', 'calls booked ÷ active members', 1, 3, 6, 'convert', SRC.plan, 'call'),
         ...PIPE(), NEXT52
       ],
-      refPrice: 47,
+      refPrice: 47, refMonthly: true,
       run(v, call) {
         const J = v.JOIN, A = J * v.ACT; const rows = [['New members', J, 2], ['Active members', A, 3]];
         if (call) { const CB = A * v.BKR, CH = CB * v.CSR; rows.push(['Calls booked', CB, 4], ['Calls held', CH, 5], ['Customers', CH * v.CLOSE, 5]); return { rows, cust: CH * v.CLOSE, list: J }; }
@@ -245,10 +246,10 @@
       blurb: 'Daily value posts build trust. One offer post in ten asks people to comment, the comments become DM conversations, and the DMs become calls.',
       kpis: [
         K('CMT', 2, 'Comment Rate', 'people who comment on an offer post ÷ people who see it', 1, 3, 5, 'landing', SRC.linkedinEng + '; ' + SRC.fmSocial),
-        K('DMR', 3, 'Conversation Rate', 'DM conversations ÷ commenters', 40, 60, 90, 'nurture', SRC.dm),
+        K('DMR', 3, 'Conversation Rate', 'DM conversations ÷ commenters', 40, 50, 60, 'nurture', SRC.dm),
         K('BKR', 4, 'Booking Rate', 'calls booked ÷ DM conversations', 20, 35, 50, 'convert', SRC.dm + '; ' + SRC.fmSocial),
         K('CSR', 5, 'Call Show Rate', 'calls held ÷ calls booked', 60, 75, 87, 'nurture', SRC.callShow),
-        K('CLOSE', 5, 'Close Rate', 'customers ÷ calls held', 15, 28, 45, 'close', SRC.b2bClose + '; ' + SRC.fmSocial),
+        K('CLOSE', 5, 'Close Rate', 'customers ÷ calls held', 12, 20, 30, 'close', SRC.b2bClose),
         NEXT52
       ],
       run(v) {
@@ -263,7 +264,7 @@
         K('OPT', 2, 'Opt-In Rate', 'launch registrants ÷ page visits', 25, 40, 55, 'landing', SRC.fmLaunch),
         K('V1R', 3, 'Video 1 View Rate', 'video 1 viewers ÷ registrants', 60, 80, 90, 'nurture', SRC.fmLaunch + '; no public benchmark'),
         K('V3R', 3, 'Video 3 Retention', 'video 3 viewers ÷ video 1 viewers', 50, 65, 80, 'nurture', SRC.fmLaunch + '; no public benchmark'),
-        K('BUY', 4, 'Cart Conversion', 'buyers ÷ video 3 viewers (final 24 hours included)', 2, 6, 12, 'convert', SRC.launch, 'checkout'),
+        K('BUY', 4, 'Cart Conversion', 'buyers ÷ video 3 viewers (final 24 hours included)', 2, 4, 9, 'convert', SRC.launch, 'checkout'),
         K('BR', 4, 'Booking Rate', 'calls booked ÷ video 3 viewers', 3, 8, 15, 'convert', SRC.plan, 'call'),
         ...PIPE(), NEXT52
       ],
@@ -302,9 +303,10 @@
     };
   }
 
-  /* Monthly revenue now, and a 12-month goal when the survey left it blank (double today's run rate, at least $120,000). */
+  /* Monthly revenue now, and a 12-month goal when the survey left it blank: new revenue equal to today's yearly run rate
+     (revenue doubles), at least $120,000. */
   const runRate = (a) => REV_NOW_MID[a.revenue_now];
-  const goalOf = (a) => a.goal > 0 ? a.goal : Math.max(120000, Math.round(runRate(a) * 12 * 2 / 10000) * 10000);
+  const goalOf = (a) => a.goal > 0 ? a.goal : Math.max(120000, Math.round(runRate(a) * 12 / 10000) * 10000); // adds today's yearly run rate: revenue doubles
 
   /* ---------- Profile: five scores from 0 to 1 ---------- */
   function profile(a) {
@@ -339,7 +341,8 @@
      fall a little above $15,000 and rise a little under $2,000. */
   function priceFactor(k, f, a, call) {
     const v = value12(a);
-    if (k.flags === 'checkout' && FUNNELS[f].refPrice) return clamp(Math.pow(FUNNELS[f].refPrice / Math.max(1, v), 0.3), 0.4, 1.6);
+    const cmp = FUNNELS[f].refMonthly && a.price_model === 'monthly' ? a.price : v;
+    if (k.flags === 'checkout' && FUNNELS[f].refPrice) return clamp(Math.pow(FUNNELS[f].refPrice / Math.max(1, cmp), 0.3), 0.4, 1.6);
     if (k.id === 'CLOSE' && call) return v > 15000 ? 0.85 : v < 2000 ? 1.15 : 1;
     return 1;
   }
@@ -412,7 +415,7 @@
           if (a.hours === 0) add(-12, 'Five to seven live days need more time than you have now');
           break;
         case 'community':
-          if (a.price_model === 'monthly' && price <= 300) add(18, 'A monthly membership is what a community sells');
+          if (a.price_model === 'monthly' && price <= 300 && (a.offer_type === 'coaching' || a.offer_type === 'course')) add(18, 'A monthly membership is what a community sells');
           if (a.community >= 200 || a.followers >= 5000) add(10, 'You already have people to bring into it');
           if (a.offer_type === 'coaching' || a.offer_type === 'course') add(6, 'Coaching and courses keep members engaged');
           if (a.hours >= 2) add(6, 'You have the hours to keep it active');
@@ -424,6 +427,7 @@
           if (a.offer_type === 'coaching' || a.offer_type === 'service' || a.offer_type === 'consulting') add(8, 'Personal brands sell services in DMs');
           if (price >= 1000) add(6, 'Your price justifies a call from a DM');
           if (a.followers < 1000 && !has('content')) add(-18, 'It needs an active social audience');
+          if (a.motion === 'checkout' && price < 500) add(-16, 'It ends in a sales call, which is too much effort for this price');
           break;
         case 'launch':
           if (list >= 5000) add(18, 'Your list is large enough for a launch');
@@ -464,7 +468,7 @@
     const over = opts.over || {};
     const kpis = f.kpis.filter((k) => !(k.flags === 'call' && !call) && !(k.flags === 'checkout' && call)).map((k) => {
       const pos = position(k, prof); const factor = priceFactor(k, fid, a, call);
-      const planned = clamp(inRange(k, pos) * factor, Math.min(k.lo * 0.5, k.lo), Math.max(k.hi, k.hi * factor));
+      const planned = clamp(inRange(k, pos) * factor, k.lo, k.hi); // never outside the range
       const val = over[k.id] != null ? over[k.id] : planned;
       return Object.assign({}, k, { planned, value: val, over: over[k.id] != null, pos });
     });
@@ -486,8 +490,7 @@
     const rev12 = revCycle * cycles;
     // The next 52 weeks: people who did not buy, worked for a year; on average half a year falls inside the window.
     const listLeft = Math.max(0, scale(r.list) - customers);
-    const yrr = v.YRR || 0;
-    const later = listLeft * cycles * yrr; // customers over the following 52 weeks from one year of lists
+    const later = customers * cycles * (v.NRR || 0); // customers the following 52 weeks add, tied to the funnel's own conversion
     const laterRev = later * val12;
 
     // Traffic: visits per month the funnel needs, then where they come from.
@@ -505,7 +508,7 @@
       // Front-end return on ad spend: only for the funnels whose low-ticket sales are meant to pay for the ads.
       roas: traffic.adSpend > 0 && (fid === 'slo' || fid === 'ooo') ? ((r.extra || 0) * visits * cycles / 12) * (traffic.lines.find((l) => l.id === 'ads').visits / Math.max(1, perMonth)) / traffic.adSpend : 0,
       churn: a.price_model === 'monthly' ? churnOf(a) : null,
-      gap: traffic.gap
+      gap: traffic.gap, unreachable: !(revPerVisit > 0) && !(opts.visits > 0), budgetShort: traffic.budgetShort || 0
     };
   }
 
@@ -517,7 +520,7 @@
     const useOwned = f.adsOnly || f.organic ? 0 : Math.min(need, ownedTotal);
     owned.forEach((o) => { o.used = ownedTotal ? o.visits / ownedTotal * useOwned : 0; });
     let rest = need - useOwned; const lines = [];
-    let adSpend = 0;
+    let adSpend = 0, budgetShort = 0;
     const picked = f.organic ? ['content'] : f.adsOnly ? ['ads'] : a.channels.slice();
     if (f.organic) {
       // Social Following: the entry is people who see an offer post. About 1 post in 10 is an offer post (Funnel Master).
@@ -529,8 +532,10 @@
     if (picked.includes('ads') && rest > 0) {
       // Ads alone (or an SLO): ads carry everything. Ads with other channels: the budget the survey gave, or an even share.
       const C = a.market === 'b2c' ? CHANNELS.ads_b2c : CHANNELS.ads;
-      const fromAds = !others.length ? rest : a.ad_budget > 0 ? Math.min(rest, a.ad_budget / C.cpv) : rest / picked.length;
+      // The ad budget is a ceiling (except an SLO, which is built to buy all its traffic); the rest stays a gap.
+      const fromAds = f.adsOnly || !(a.ad_budget > 0) ? (others.length ? rest / picked.length : rest) : Math.min(rest, a.ad_budget / C.cpv);
       adSpend = fromAds * C.cpv; rest -= fromAds;
+      if (a.ad_budget > 0 && adSpend > a.ad_budget * 1.01) budgetShort = adSpend - a.ad_budget;
       lines.push({ id: 'ads', name: C.name, visits: fromAds, reach: adSpend, unit: 'a month in ad spend', money: true, how: C.how, src: C.src });
     }
     others.forEach((c) => {
@@ -538,7 +543,7 @@
       lines.push({ id: c, name: C.name, visits: share, reach: share / C.vr, unit: C.unit + ' a month', how: C.how, src: C.src, seats: C.cap ? Math.ceil(share / C.vr / C.cap) : 0, seatUnit: C.capUnit || '', seatSrc: C.capSrc || '' });
     });
     if (others.length) rest = 0;
-    return { need, owned, ownedUsed: useOwned, lines, adSpend, gap: Math.max(0, rest) };
+    return { need, owned: owned.filter((o) => o.used > 0), ownedUsed: useOwned, lines, adSpend, budgetShort, gap: Math.max(0, rest) };
   }
 
   const api = { SRC, OPTIONS, CHANNELS, OWNED, FUNNELS, ORDER, STAGES, normalise, profile, recommend, leadScore, plan, goalOf, value12, monthsPaid12 };
