@@ -1,247 +1,172 @@
-// The Revenue Plan page: renders TantraPlan.plan() for the funnel picked, with every KPI editable.
-// State: answers (from #p=... or this browser), the funnel, edits (typed-over KPIs), goal, price, path and mode.
-// Edits are saved in this browser and carried in the plan link (#p=...&e=...). Never name or email in the link.
+// The Revenue Plan page (round 2): funnel tabs, a calculator of editable KPIs grouped by stage, and the plan on the
+// right (the goal, then what each stage needs a month). Typing updates the plan live; the left side redraws only when
+// the funnel or the offer changes, so focus never jumps. State is saved in this browser and carried in the plan link
+// (#p=answers&e=edits). Never a name or email in the link.
 (function () {
   var T = window.TantraPlan; if (!T) return;
   var $ = function (s) { return document.querySelector(s); };
-  var KEY = 'tantra_plan_state_v1';
-  var SAMPLE = { offer_type: 'consulting', market: 'b2b', price: 9999, price_model: 'one_time', motion: 'call', cycle: 'weeks', revenue_now: 2, goal: 500000, revenue_built: 3, team_led: 1, years: 3, clients: 2, case_studies: 2, brands: 1, funnel_exp: 1, revops: 1, email_list: 2000, followers: 3000, channels: ['cold_email', 'linkedin', 'ads'], ad_budget: 2000, hours: 1, team_help: 1, funnel: 'webinar' };
+  var KEY = 'tantra_plan_state_v2';
+  var SAMPLE = { offer_type: 'consulting', market: 'b2b', price: 9999, price_model: 'one_time', motion: 'call', revenue_now: 2, goal: 500000, revenue_built: 3, years: 3, clients: 2, case_studies: 2, brands: 1, funnel_exp: 1, revops: 1, email_list: 2000, followers: 3000, channels: ['calendar', 'linkedin', 'ads'], ad_budget: 2000, hours: 1, team_help: 1, funnel: 'webinar' };
 
   function unb64(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return JSON.parse(decodeURIComponent(escape(atob(s)))); }
   function b64(o) { return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
-  function readHash() { var h = new URLSearchParams(location.hash.slice(1)), o = {}; try { if (h.get('p')) o.a = unb64(h.get('p')); if (h.get('e')) o.e = unb64(h.get('e')); } catch (e) {} return o; }
+  var hash = new URLSearchParams(location.hash.slice(1)), fromHash = {};
+  try { if (hash.get('p')) fromHash.a = unb64(hash.get('p')); if (hash.get('e')) fromHash.e = unb64(hash.get('e')); } catch (e) {}
+  var stored = null, saved = null;
+  try { stored = JSON.parse(localStorage.getItem('tantra_plan_answers') || 'null'); saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+  var answers = fromHash.a || stored, sample = !answers;
+  var A = T.normalise(answers || SAMPLE);
+  var sig = b64(A).slice(0, 48);
+  var S = fromHash.e || (saved && saved.sig === sig ? saved.s : null) || {};
+  S.funnel = S.funnel && T.FUNNELS[S.funnel] ? S.funnel : (A.funnel || T.recommend(A)[0].id);
+  S.over = S.over || {}; S.mix = S.mix || {};
 
-  var fromHash = readHash(), saved = null;
-  try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
-  var stored = null; try { stored = JSON.parse(localStorage.getItem('tantra_plan_answers') || 'null'); } catch (e) {}
-  var answers = fromHash.a || stored || null;
-  var sample = !answers;
-  if (sample) answers = SAMPLE;
-  var A = T.normalise(answers);
-  var sig = b64(A).slice(0, 40);
-  var S = (fromHash.e) || (saved && saved.sig === sig ? saved.s : null) || {};
-  S.funnel = S.funnel || A.funnel || T.recommend(A)[0].id;
-  S.over = S.over || {};
-  S.mode = S.mode || 'goal';
-
-  var fmtN = function (x) { x = +x || 0; return Math.abs(x) >= 100 ? Math.round(x).toLocaleString('en-US') : Math.abs(x) >= 10 ? (Math.round(x * 10) / 10).toLocaleString('en-US') : (Math.round(x * 100) / 100).toLocaleString('en-US'); };
+  var fmtN = function (x) { x = +x || 0; var a = Math.abs(x); if (a >= 1e6) return (Math.round(x / 1e5) / 10).toLocaleString('en-US') + 'M'; return a >= 100 ? Math.round(x).toLocaleString('en-US') : a >= 10 ? (Math.round(x * 10) / 10).toLocaleString('en-US') : (Math.round(x * 100) / 100).toLocaleString('en-US'); };
   var fmtU = function (x) { return '$' + Math.round(+x || 0).toLocaleString('en-US'); };
-  var fmtP = function (x) { return (x >= 1 ? (Math.round(x * 10) / 10) : (Math.round(x * 100) / 100)) + '%'; };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var numIn = function (el) { return Number(String(el.value).replace(/[^\d.]/g, '')) || 0; };
+  var digits = function (v) { return Number(String(v).replace(/[^\d.]/g, '')) || 0; };
+  var round = function (x) { return x >= 1 ? Math.round(x * 10) / 10 : Math.round(x * 100) / 100; };
 
-  function answersNow() { var a = Object.assign({}, A); if (S.price) a.price = S.price; if (S.model) a.price_model = S.model; return a; }
-  function opts() { return { over: S.over[S.funnel] || {}, goal: S.goal || 0, call: S.path ? S.path === 'call' : null, visits: S.mode === 'traffic' ? S.visits || 0 : 0 }; }
+  function opts() { return { over: S.over[S.funnel] || {}, mix: S.mix[S.funnel] || null, goal: S.goal || 0, call: S.path ? S.path === 'call' : null, price: S.price || 0, price_model: S.model || null }; }
+  function plan() { return T.plan(S.funnel, A, opts()); }
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify({ sig: sig, s: S })); } catch (e) {}
-    if (!sample) history.replaceState(null, '', '#p=' + b64(A) + (Object.keys(S).length ? '&e=' + b64(S) : ''));
+    if (!sample) history.replaceState(null, '', '#p=' + b64(A) + '&e=' + b64(S));
   }
 
-  /* ---------- Header chips ---------- */
-  function chips() {
-    var O = T.OPTIONS, lab = function (k, v) { var o = O[k].find(function (x) { return x[0] === v; }); return o ? o[1] : v; };
-    var c = [lab('offer_type', A.offer_type), lab('market', A.market), fmtU(A.price) + (A.price_model === 'monthly' ? ' a month' : A.price_model === 'annual' ? ' a year' : ''), 'Revenue now: ' + O.revenue_now[A.revenue_now] + ' a month', 'Case studies: ' + O.case_studies[A.case_studies], A.channels.length ? 'Channels: ' + A.channels.map(function (x) { return T.CHANNELS[x].name; }).join(', ') : 'No outreach channels picked'];
-    $('[data-cx-chips]').innerHTML = c.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
-    if (sample) { $('[data-cx-sample]').hidden = false; $('[data-cx-eyebrow]').textContent = 'Worked example'; $('[data-cx-lede]').textContent = 'A worked example. Every number below is editable: change a rate and the whole plan recalculates.'; }
-  }
-
-  /* ---------- Funnel tabs, ranked for this business ---------- */
+  /* ---------- Tabs ---------- */
   function tabs() {
-    var rec = T.recommend(answersNow());
-    $('[data-cx-tabs]').innerHTML = rec.map(function (r) {
-      return '<button type="button" role="tab" class="cx-tab' + (r.recommended ? ' is-rec' : '') + '" aria-selected="' + (r.id === S.funnel) + '" data-f="' + r.id + '"><b>' + esc(r.name) + '</b><span>' + r.fit + '% fit' + (r.rank === 1 ? ' · best' : '') + '</span></button>';
+    $('[data-cx-tabs]').innerHTML = T.recommend(A).map(function (r) {
+      return '<button type="button" role="tab" class="cx-tab' + (r.recommended ? ' is-rec' : '') + '" aria-selected="' + (r.id === S.funnel) + '" data-f="' + r.id + '"><b>' + esc(r.name) + '</b><span>' + r.fit + '% fit</span></button>';
     }).join('');
   }
 
-  /* ---------- Stages ---------- */
-  function rangeBar(k) {
-    var lo = Math.min(k.lo, k.hi), hi = Math.max(k.lo, k.hi), span = hi - lo || 1;
-    var pos = function (x) { return Math.max(0, Math.min(100, (x - lo) / span * 100)); };
-    return '<span class="cx-range" aria-hidden="true"><i class="cx-range__band" style="left:' + pos(Math.min(k.ty, k.hi)) + '%;right:' + (100 - pos(Math.max(k.ty, k.hi))) + '%"></i><i class="cx-range__dot" style="left:' + pos(k.value) + '%"></i></span>' +
-      '<span class="cx-range__l"><span>Low ' + fmtP(k.lo) + '</span><span>Typical ' + fmtP(k.ty) + '</span><span>Strong ' + fmtP(k.hi) + '</span></span>';
+  /* ---------- Left: the calculator ---------- */
+  function field(attr, val, unit, label, cls) {
+    var pre = unit === '$' ? '<i class="pre">$</i>' : '';
+    var post = unit === '%' ? '<i class="post">%</i>' : '';
+    return '<span class="cx-f' + (unit === '$' ? ' cx-f--usd' : '') + (cls || '') + '">' + pre + '<input type="text" inputmode="decimal" autocomplete="off" aria-label="' + esc(label) + '" ' + attr + ' value="' + val + '">' + post + '</span>';
   }
-  function trafficBlock(p) {
-    var t = p.traffic, per = p.cadence.per, h = '';
-    h += '<div class="cx-kpi cx-kpi--calc"><span class="cx-code">PV</span><div class="cx-kl"><b>' + (p.funnel === 'social' ? 'People who see an offer post' : 'Page visits') + '</b><span>' + esc(p.entry) + ' a month' + (p.cycles !== 12 ? ' (' + fmtN(p.visits) + ' per ' + per + ', ' + p.cycles + ' ' + per + 's a year)' : '') + '</span></div><span class="cx-val">' + fmtN(p.perMonth) + '</span></div>';
-    if (t.owned.length) {
-      h += '<h4>From the audience you own</h4>';
-      t.owned.forEach(function (o) { h += '<div class="cx-kpi cx-kpi--calc"><span class="cx-code"></span><div class="cx-kl"><b>' + esc(o.name) + ': ' + fmtN(o.size) + '</b><span>' + esc(o.how) + '</span><small>' + esc(o.src) + '</small></div><span class="cx-val">' + fmtN(o.used) + '<em>visits</em></span></div>'; });
-    }
-    if (t.lines.length) {
-      h += '<h4>' + (p.funnel === 'social' ? 'From your posts' : p.funnel === 'slo' ? 'From paid ads (an SLO runs on ads)' : 'From your outreach and ads') + '</h4>';
-      t.lines.forEach(function (l) {
-        var reach = p.funnel === 'social' && l.id === 'content' ? '' : (l.money ? fmtU(l.reach) : fmtN(l.reach));
-        h += '<div class="cx-kpi cx-kpi--calc"><span class="cx-code"></span><div class="cx-kl"><b>' + esc(l.name) + (reach ? ': ' + reach + ' ' + esc(l.unit) : '') + '</b><span>' + esc(l.how) + '</span>' + (l.seats ? '<span class="cx-seat">That is about <b>' + fmtN(l.seats) + '</b> ' + esc(l.seatUnit) + '.</span>' : '') + '<small>' + esc(l.src) + (l.seatSrc ? '; ' + esc(l.seatSrc) : '') + '</small></div><span class="cx-val">' + fmtN(l.visits) + '<em>visits</em></span></div>';
-      });
-    }
-    if (p.funnel === 'social' && t.followerReach < p.perMonth * 10) h += '<p class="cx-warn">Your following reaches about ' + fmtN(t.followerReach) + ' people a month. The plan needs ' + fmtN(p.perMonth * 10) + ': grow the following, post more, or add a second funnel.</p>';
-    if (t.gap > 0) h += '<p class="cx-warn">' + fmtN(t.gap) + ' visits a month have no channel yet. Pick a channel in the survey or plan from your traffic instead.</p>';
-    return h;
+  var undo = function (attr, on) { return '<button type="button" class="cx-undo" ' + attr + ' aria-label="Back to the value from your answers" title="Back to the value from your answers"' + (on ? '' : ' hidden') + '>&#8634;</button>'; };
+  function row(k) {
+    var unit = k.fmt === 'usd' ? '$' : '%';
+    var val = k.fmt === 'usd' ? Math.round(k.value).toLocaleString('en-US') : round(k.value);
+    return '<div class="cx-r' + (k.over ? ' is-over' : '') + '"><span class="cx-r__n">' + esc(k.name) + '</span>' + field('data-k="' + k.id + '"', val, unit, k.name) + undo('data-undo="' + k.id + '"', k.over) + '</div>';
   }
-  function stages(p) {
-    var host = $('[data-cx-stages]'), html = '';
+  function left() {
+    var p = plan(), f = T.FUNNELS[S.funnel], a = p.a, h = '';
+    h += '<section class="cx-st"><h2 class="cx-st__h"><span class="cx-st__n">$</span>Your offer</h2>' +
+      '<div class="cx-r' + (S.price ? ' is-over' : '') + '"><span class="cx-r__n">Price of your main offer</span>' + field('data-o="price"', Math.round(a.price).toLocaleString('en-US'), '$', 'Price of your main offer') + undo('data-undo-o="price"', !!S.price) + '</div>' +
+      '<div class="cx-r"><span class="cx-r__n">How it is paid</span><span class="cx-f cx-f--sel"><select data-o="model" aria-label="How it is paid"><option value="one_time">One-time</option><option value="monthly">Monthly</option><option value="annual">Annual</option></select></span></div>' +
+      (f.callOnly ? '' : '<div class="cx-r"><span class="cx-r__n">Clients buy</span><span class="cx-f cx-f--sel"><select data-o="path" aria-label="Clients buy"><option value="call">After a sales call</option><option value="checkout">Online, no call</option></select></span></div>') +
+      '</section>';
     for (var st = 1; st <= 6; st++) {
       var ks = p.kpis.filter(function (k) { return k.stage === st; });
-      var rows = p.rows.filter(function (r) { return r.stage === st; });
-      if (st !== 1 && !ks.length && !rows.length) continue;
-      var main = st === 5 ? rows[rows.length - 1] : rows[0];
-      var head = st === 1 ? fmtN(p.perMonth) + ' visits a month' : main ? fmtN(main.n) + ' ' + main.label.toLowerCase() + ' per ' + p.cadence.per : '';
-      if (st === 6) head = '+' + fmtN(p.later) + ' customers in the following 52 weeks';
-      html += '<details class="cx-st" ' + (st <= 4 ? 'open' : '') + '><summary><span class="cx-st__n">' + st + '</span><span class="cx-st__t">' + T.STAGES[st] + '</span><span class="cx-st__m">' + head + '</span></summary><div class="cx-st__b">';
-      if (st === 1) html += trafficBlock(p);
-      ks.forEach(function (k) {
-        html += '<div class="cx-kpi' + (k.over ? ' is-over' : '') + '"><span class="cx-code">' + k.id + '</span><div class="cx-kl"><b>' + esc(k.name) + '</b><span>' + esc(k.def) + '</span>' + rangeBar(k) + '<small>' + esc(k.src) + '</small></div>' +
-          '<span class="cx-field"><input type="number" step="0.1" min="0" max="100" inputmode="decimal" aria-label="' + esc(k.name) + ' in percent" data-k="' + k.id + '" value="' + (Math.round(k.value * 10) / 10) + '"><i>%</i></span>' +
-          (k.over ? '<button type="button" class="cx-auto" data-auto="' + k.id + '" title="Back to the value from your answers (' + fmtP(k.planned) + ')">Auto</button>' : '') + '</div>';
-      });
-      if (rows.length) html += '<ol class="cx-rows">' + rows.map(function (r) { return '<li><span>' + esc(r.label) + '</span><b>' + fmtN(r.n) + '</b></li>'; }).join('') + '</ol>';
-      if (st === 5) {
-        html += '<ol class="cx-rows cx-rows--rev"><li><span>Revenue per customer inside these 12 months' + (p.churn ? ' (customers join through the year and ' + fmtP(p.churn * 100) + ' leave each month)' : '') + '</span><b>' + fmtU(p.value12) + '</b></li>' +
-          (p.extraLabel ? '<li><span>Plus ' + esc(p.extraLabel) + ', a year</span><b>' + fmtU(p.extra12) + '</b></li>' : '') +
-          '<li><span>Revenue per ' + p.cadence.per + '</span><b>' + fmtU(p.revCycle) + '</b></li><li><span>Revenue in 12 months</span><b>' + fmtU(p.rev12) + '</b></li></ol>';
-      }
-      if (st === 6) html += '<p class="cx-note">' + fmtN(p.listLeft) + ' people a year join your list and do not buy at first. A year of weekly email, WhatsApp and check-in calls turns some of them into customers: about ' + fmtN(p.later) + ' more in the following 52 weeks. A planning figure, never counted in your goal.</p>';
-      html += '</div></details>';
+      if (st === 1 && f.organic) { h += '<section class="cx-st"><h2 class="cx-st__h"><span class="cx-st__n">1</span>' + T.STAGES[1] + '</h2><p class="cx-st__note">Your own posts. About 1 post in 10 is an offer post.</p></section>'; continue; }
+      if (st === 1 && !ks.length) { h += '<section class="cx-st"><h2 class="cx-st__h"><span class="cx-st__n">1</span>' + T.STAGES[1] + '</h2><p class="cx-st__note">No outreach channel picked in the survey.</p></section>'; continue; }
+      if (!ks.length) continue;
+      h += '<section class="cx-st"><h2 class="cx-st__h"><span class="cx-st__n">' + st + '</span>' + T.STAGES[st] + '</h2>';
+      if (st === 1) {
+        if (!f.adsOnly) h += '<div class="cx-r cx-r--ch cx-r--head" aria-hidden="true"><span></span><span>Rate</span><span>Share</span><span></span></div>';
+        ks.forEach(function (k) {
+          var line = p.lines.find(function (l) { return l.id === k.channel; }) || {};
+          var share = (S.mix[S.funnel] || {})[k.channel];
+          var val = k.fmt === 'usd' ? round(k.value) : round(k.value);
+          h += '<div class="cx-r cx-r--ch' + (k.over ? ' is-over' : '') + '"><span class="cx-r__n">' + esc(T.CH[k.channel].name) + '<small>' + esc(k.name) + '</small></span>' +
+            field('data-k="' + k.id + '"', val, k.fmt === 'usd' ? '$' : '%', k.name) +
+            (f.adsOnly ? '' : field('data-mix="' + k.channel + '"', share != null ? share : (line.share > 0 && line.share < 1 ? Math.round(line.share * 10) / 10 : Math.round(line.share || 0)), '%', T.CH[k.channel].name + ' share of sign-ups', share != null ? ' is-share is-set' : ' is-share')) +
+            undo('data-undo="' + k.id + '"', k.over) + '</div>';
+        });
+      } else ks.forEach(function (k) { h += row(k); });
+      h += '</section>';
     }
-    host.innerHTML = html;
+    h += '<div class="cx-foot"><button type="button" class="cx-link" data-copy>Copy plan link</button><button type="button" class="cx-link cx-link--mute" data-reset>Reset my changes</button></div>';
+    $('[data-cx-form]').innerHTML = h;
+    var m = $('[data-o="model"]'); if (m) m.value = a.price_model;
+    var pa = $('[data-o="path"]'); if (pa) pa.value = p.call ? 'call' : 'checkout';
   }
 
-  /* ---------- Right side: the consolidated plan ---------- */
-  function summary(p) {
-    var t = p.traffic, cust = p.customers * p.cycles;
-    var h = '<p class="cx-k">Your plan at a glance: ' + esc(p.name) + (p.call ? ', call offer' : ', buy online') + '</p>' +
-      '<div class="cx-big"><b>' + fmtU(p.rev12) + '</b><span>revenue in the next 12 months' + (S.mode === 'goal' ? ' (your goal)' : ' from this traffic') + '</span></div>' +
-      '<dl class="cx-dl">' +
-      '<div><dt>Traffic needed</dt><dd>' + fmtN(p.perMonth) + ' <small>' + (p.funnel === 'social' ? 'offer post viewers' : 'page visits') + ' a month</small></dd></div>' +
-      '<div><dt>New customers</dt><dd>' + fmtN(cust) + ' <small>a year, ' + fmtN(cust / 12) + ' a month</small></dd></div>' +
-      (p.call && callsHeld(p) > 0 ? '<div><dt>Calls to hold</dt><dd>' + fmtN(callsHeld(p) * p.cycles / 12) + ' <small>a month</small></dd></div>' : '') +
-      (t.adSpend > 0 ? '<div><dt>Ad spend</dt><dd>' + fmtU(t.adSpend) + ' <small>a month' + (p.roas ? ', ' + p.roas.toFixed(2) + 'x front-end return' : '') + '</small></dd></div>' : '') +
-      '</dl>';
-    var reach = t.lines.filter(function (l) { return !l.money && l.reach > 0; });
-    if (reach.length || t.owned.length) h += '<p class="cx-k cx-k--sub">Where the traffic comes from, a month</p><ul class="cx-list">' +
-      t.owned.map(function (o) { return '<li><span>' + esc(o.name) + '</span><b>' + fmtN(o.used) + ' visits</b></li>'; }).join('') +
-      t.lines.map(function (l) { return '<li><span>' + esc(l.name) + (l.money ? ' (' + fmtU(l.reach) + ')' : ' (' + fmtN(l.reach) + ' ' + esc(l.unit.replace(' a month', '')) + (l.seats ? ', ' + fmtN(l.seats) + ' ' + esc(l.seatUnit.split(' at ')[0]) : '') + ')') + '</span><b>' + fmtN(l.visits) + (p.funnel === 'social' ? ' viewers' : ' visits') + '</b></li>'; }).join('') + '</ul>';
-    if (p.unreachable) h += '<p class="cx-warn">With these rates the funnel makes no customers, so no amount of traffic reaches the goal. Put back a KPI you set to 0 (click Auto).</p>';
-    if (t.gap > 0) h += '<p class="cx-warn">' + fmtN(t.gap) + ' visits a month still need a channel. Raise the ad budget in your answers, add a channel, or plan from your traffic.</p>';
-    if (t.budgetShort > 0) h += '<p class="cx-warn">The SLO needs ' + fmtU(t.adSpend) + ' a month of ads, ' + fmtU(t.budgetShort) + ' more than your budget.</p>';
-    if (p.roas && p.roas < 1) h += '<p class="cx-warn">The front-end sales cover ' + Math.round(p.roas * 100) + '% of the ad spend. To self-liquidate, lift the offer conversion or the bump and backend take rates, or raise the entry price.</p>';
-    h += '<p class="cx-k cx-k--sub">The funnel, per ' + p.cadence.per + '</p><ol class="cx-funnel">' +
-      [{ label: p.funnel === 'social' ? 'Offer post viewers' : 'Page visits', n: p.visits }].concat(p.rows).map(function (r, i, all) {
-        var w = all[0].n > 0 ? Math.max(3, Math.log10(r.n + 1) / Math.log10(all[0].n + 1) * 100) : 3;
-        return '<li><span>' + esc(r.label) + '</span><b>' + fmtN(r.n) + '</b><i style="width:' + w.toFixed(1) + '%"></i></li>';
-      }).join('') + '</ol>';
-    $('[data-cx-summary]').innerHTML = h;
-  }
-  function callsHeld(p) { var r = p.rows.find(function (x) { return /held/i.test(x.label); }); return r ? r.n : 0; }
-
-  function targets(p) {
-    var h = '<p class="cx-k">The KPI to hit at each stage</p><table class="cx-tbl"><thead><tr><th>Stage and KPI</th><th>Plan</th><th>Target</th></tr></thead><tbody>';
-    p.kpis.filter(function (k) { return k.stage < 6; }).forEach(function (k) {
-      h += '<tr><td><span class="cx-tbl__s">' + k.stage + '</span>' + esc(k.name) + '</td><td>' + fmtP(k.value) + '</td><td>' + fmtP(k.ty) + ' to ' + fmtP(k.hi) + '</td></tr>';
+  /* ---------- Right: the goal and what each stage needs a month ---------- */
+  function right() {
+    var p = plan(), f = T.FUNNELS[S.funnel];
+    var stage = function (n, title, items) { return items.length ? '<li class="cx-s"><span class="cx-s__n">' + n + '</span><div class="cx-s__b"><p class="cx-s__t">' + title + '</p>' + items.join('') + '</div></li>' : ''; };
+    var it = function (label, val, key) { return '<p class="cx-s__i' + (key ? ' is-key' : '') + '"><span>' + esc(label) + '</span><b>' + val + '</b></p>'; };
+    var s1 = p.lines.map(function (l) {
+      if (l.id === 'owned') return it('Sign-ups from your own audience', fmtN(l.signups));
+      if (l.money) return it('Ad spend', fmtU(l.reach), true);
+      if (l.id === 'content' && f.organic) return it('People your posts reach', fmtN(l.reach), true);
+      return it(l.unit.charAt(0).toUpperCase() + l.unit.slice(1), fmtN(l.reach), true);
     });
-    h += '</tbody></table><p class="cx-foot">Plan: the rate your plan assumes. Target: typical to strong for this funnel. Hit the target band and the same traffic makes more than your goal.</p>';
-    $('[data-cx-targets]').innerHTML = h;
+    var by = function (st) { return p.rows.filter(function (r) { return r.stage === st; }).map(function (r) { return it(r.label, fmtN(r.n), r.label === 'Customers' || r.label === 'Calls booked' || r.label === 'Main-offer customers' || r.label === 'Paid members'); }); };
+    var s2 = [it(p.signup, fmtN(p.signupsMonth), true)];
+    if (p.coldVisits > 0) s2.unshift(it(f.organic ? 'Offer post viewers' : 'Page visits', fmtN(p.coldVisits)));
+    var warn = '';
+    if (p.unreachable) warn += '<p class="cx-warn">With these rates the funnel makes no customers. Put back a rate you set to 0 with its arrow.</p>';
+    if (p.gap > 0) warn += '<p class="cx-warn">' + fmtN(p.gap) + ' sign-ups a month have no channel. Raise a share in Traffic.</p>';
+    if (p.budgetShort > 0) warn += '<p class="cx-warn">The ads need ' + fmtU(p.adSpend) + ' a month, ' + fmtU(p.budgetShort) + ' more than your budget.</p>';
+    var fname = f.name.replace(' Funnel', '');
+    $('[data-cx-side]').innerHTML = '<div class="cx-plan">' +
+      '<label class="cx-goal"><span>Your 12-month revenue goal</span><span class="cx-goal__f"><i>$</i><input type="text" inputmode="numeric" data-goal value="' + Math.round(p.goal).toLocaleString('en-US') + '" aria-label="Your 12-month revenue goal"></span></label>' +
+      '<p class="cx-plan__k">What it takes each month: ' + esc(fname) + '</p>' + warn +
+      '<ol class="cx-stages">' + stage(1, 'Traffic', s1) + stage(2, 'Sign-ups', s2) + stage(3, 'Nurture', by(3)) + stage(4, 'Conversion', by(4)) +
+      stage(5, 'Revenue', by(5).concat([it('Revenue a month', fmtU(p.revMonth), true)])) + '</ol>' +
+      '<p class="cx-plan__later">Plus about ' + fmtN(p.later) + ' customers in the following 52 weeks from people who did not buy at first.</p></div>';
   }
-
-  // The three things that move this plan most: the KPIs sitting lowest inside their range, with the lever behind them.
-  var LEVER_TIP = {
-    landing: 'Add proof above the form: a named result, a logo strip and one specific testimonial. Proof lifts page conversion 5% to 35% (A/B tests in the benchmark report).',
-    nurture: 'Remind on more than one channel: email, WhatsApp and a call the day before. Multi-channel reminders and a personal agenda raise show-up.',
-    convert: 'Make one clear offer with a reason to act now, and show a case study right before it.',
-    close: 'Qualify before the call (budget, authority, need, timeline) and follow up on day 3, 7 and 12 after the proposal.',
-    retain: 'Keep every non-buyer on a weekly email and a monthly WhatsApp note for 52 weeks.'
-  };
-  function levers(p) {
-    // Test every KPI at its strong value, keep the biggest win per lever, show the top three.
-    var base = p, best = {};
-    p.kpis.filter(function (k) { return k.stage < 6 && k.hi > k.value + 0.05; }).forEach(function (k) {
-      var o = Object.assign({}, opts().over); o[k.id] = k.hi;
-      var test = T.plan(S.funnel, answersNow(), Object.assign(opts(), { over: o }));
-      var gain = S.mode === 'goal' ? (base.perMonth - test.perMonth) / Math.max(1, base.perMonth) * 100 : (test.rev12 - base.rev12) / Math.max(1, base.rev12) * 100;
-      if (!best[k.lever] || gain > best[k.lever].gain) best[k.lever] = { k: k, gain: gain };
-    });
-    var pick = Object.keys(best).map(function (l) { return best[l]; }).sort(function (a, b) { return b.gain - a.gain; }).slice(0, 3);
-    var h = '<p class="cx-k">What moves your numbers most</p><ol class="cx-levers">';
-    pick.forEach(function (x) {
-      h += '<li><b>' + esc(x.k.name) + ' from ' + fmtP(x.k.value) + ' to ' + fmtP(x.k.hi) + '</b><span>' + (S.mode === 'goal' ? 'Cuts the traffic you need by ' + Math.round(x.gain) + '%.' : 'Adds ' + Math.round(x.gain) + '% to your revenue.') + ' ' + LEVER_TIP[x.k.lever] + '</span></li>';
-    });
-    $('[data-cx-levers]').innerHTML = h + (pick.length ? '' : '<li>Every KPI is already at its strong value.</li>') + '</ol>';
+  function rightKeep() {
+    var a = document.activeElement, isGoal = a && a.hasAttribute && a.hasAttribute('data-goal'), pos = isGoal ? a.selectionStart : 0, v = isGoal ? a.value : null;
+    right();
+    if (isGoal) { var g = $('[data-goal]'); g.value = v; g.focus(); try { g.setSelectionRange(pos, pos); } catch (e) {} }
   }
-
-  function compare(p) {
-    var rec = T.recommend(answersNow()).slice(0, 4), a = answersNow();
-    var h = '<p class="cx-k">Your top funnels, side by side</p><table class="cx-tbl"><thead><tr><th>Funnel</th><th>Visits a month for your goal</th><th>Revenue from ' + fmtN(p.perMonth) + ' visits a month</th></tr></thead><tbody>';
-    rec.forEach(function (r) {
-      var g = T.plan(r.id, a, { goal: S.goal || 0 });
-      var f = T.FUNNELS[r.id];
-      var same = T.plan(r.id, a, { visits: p.perMonth * 12 / f.cadence.perYear });
-      h += '<tr' + (r.id === S.funnel ? ' class="is-on"' : '') + '><td><button type="button" class="cx-link" data-f="' + r.id + '">' + esc(r.name) + '</button></td><td>' + fmtN(g.perMonth) + '</td><td>' + fmtU(same.rev12) + '</td></tr>';
-    });
-    $('[data-cx-compare]').innerHTML = h + '</tbody></table><p class="cx-foot">Same answers, each funnel with its own KPIs. Visits for the social funnel are people who see an offer post.</p>';
-  }
-  /* ---------- Render ---------- */
-  function render() {
-    var f = T.FUNNELS[S.funnel], p = T.plan(S.funnel, answersNow(), opts());
-    $('[data-cx-blurb]').innerHTML = '<b>' + esc(f.name) + ':</b> ' + esc(f.blurb);
-    $('[data-cx-pathwrap]').hidden = !!f.callOnly;
-    $('[data-cx-path]').value = p.call ? 'call' : 'checkout';
-    if (document.activeElement !== $('[data-cx-goal]')) $('[data-cx-goal]').value = Math.round(p.goal).toLocaleString('en-US');
-    if (document.activeElement !== $('[data-cx-price]')) $('[data-cx-price]').value = Math.round(answersNow().price).toLocaleString('en-US');
-    $('[data-cx-model]').value = answersNow().price_model;
-    $('[data-cx-mode]').value = S.mode;
-    $('[data-cx-visitswrap]').hidden = S.mode !== 'traffic';
-    $('[data-cx-visitslabel]').textContent = (S.funnel === 'social' ? 'Offer post viewers' : 'Page visits') + ' per ' + p.cadence.per;
-    if (S.mode === 'traffic' && document.activeElement !== $('[data-cx-visits]')) $('[data-cx-visits]').value = Math.round(p.visits).toLocaleString('en-US');
-    tabs(); stages(p); summary(p); targets(p); levers(p); compare(p);
-  }
+  function render() { tabs(); left(); right(); $('[data-cx-sample]').hidden = !sample; }
 
   /* ---------- Events ---------- */
-  document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-f]'); if (t) { S.funnel = t.getAttribute('data-f'); save(); render(); return; }
-    var au = e.target.closest('[data-auto]'); if (au) { delete (S.over[S.funnel] || {})[au.getAttribute('data-auto')]; save(); render(); return; }
-    if (e.target.closest('[data-cx-reset]')) { S = { funnel: S.funnel, over: {}, mode: 'goal' }; save(); render(); return; }
-    if (e.target.closest('[data-cx-print]')) { document.querySelectorAll('details.cx-st').forEach(function (d) { d.open = true; }); window.print(); return; }
-    var cp = e.target.closest('[data-cx-copy]');
-    if (cp) {
-      var url = location.origin + location.pathname + '#p=' + b64(A) + '&e=' + b64(S);
-      (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { cp.textContent = 'Link copied'; }, function () { window.prompt('Copy your plan link', url); });
-      setTimeout(function () { cp.textContent = 'Copy my plan link'; }, 1800);
+  document.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.hasAttribute('data-goal')) { var d = t.value.replace(/[^\d]/g, '').slice(0, 11); t.value = d ? Number(d).toLocaleString('en-US') : ''; S.goal = Number(d) || 0; save(); rightKeep(); return; }
+    var k = t.getAttribute('data-k');
+    if (k) {
+      var raw = t.value.replace(/[^\d.]/g, ''); S.over[S.funnel] = S.over[S.funnel] || {};
+      if (raw === '' || !isFinite(+raw)) delete S.over[S.funnel][k]; else S.over[S.funnel][k] = +raw;
+      var r = t.closest('.cx-r'); r.classList.toggle('is-over', raw !== ''); r.querySelector('.cx-undo').hidden = raw === '';
+      save(); right(); return;
     }
+    var mx = t.getAttribute('data-mix');
+    if (mx) {
+      var p = plan(); S.mix[S.funnel] = S.mix[S.funnel] || {};
+      p.lines.forEach(function (l) { if (l.id !== 'owned' && S.mix[S.funnel][l.id] == null) S.mix[S.funnel][l.id] = Math.round(l.share || 0); });
+      S.mix[S.funnel][mx] = Math.min(100, digits(t.value)); t.parentNode.classList.add('is-set');
+      save(); right(); return;
+    }
+    if (t.getAttribute('data-o') === 'price') { var dp = t.value.replace(/[^\d]/g, '').slice(0, 9); t.value = dp ? Number(dp).toLocaleString('en-US') : ''; S.price = Number(dp) || 0; t.closest('.cx-r').classList.toggle('is-over', !!S.price); save(); right(); }
   });
   document.addEventListener('change', function (e) {
-    var k = e.target.getAttribute('data-k');
-    if (k) { var v = parseFloat(e.target.value); S.over[S.funnel] = S.over[S.funnel] || {}; if (isFinite(v) && v >= 0) S.over[S.funnel][k] = Math.min(100, v); else delete S.over[S.funnel][k]; save(); render(); return; }
-    if (e.target.matches('[data-cx-goal]')) { S.goal = numIn(e.target); save(); render(); }
-    if (e.target.matches('[data-cx-price]')) { S.price = numIn(e.target) || null; save(); render(); }
-    if (e.target.matches('[data-cx-model]')) { S.model = e.target.value; save(); render(); }
-    if (e.target.matches('[data-cx-path]')) { S.path = e.target.value; save(); render(); }
-    if (e.target.matches('[data-cx-mode]')) { S.mode = e.target.value; if (S.mode === 'traffic') S.visits = T.plan(S.funnel, answersNow(), Object.assign(opts(), { visits: 0 })).visits; save(); render(); }
-    if (e.target.matches('[data-cx-visits]')) { S.visits = numIn(e.target); save(); render(); }
+    var o = e.target.getAttribute('data-o');
+    if (o === 'model') { S.model = e.target.value; save(); left(); right(); return; }
+    if (o === 'path') { S.path = e.target.value; save(); left(); right(); return; }
+    if (o === 'price') { left(); right(); } // the close rate follows the price band once typing ends
   });
-  document.querySelectorAll('[data-cx-goal],[data-cx-price],[data-cx-visits]').forEach(function (inp) {
-    inp.addEventListener('input', function () { var d = inp.value.replace(/[^\d]/g, '').slice(0, 11); inp.value = d ? Number(d).toLocaleString('en-US') : ''; });
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-f]'); if (t) { S.funnel = t.getAttribute('data-f'); save(); render(); return; }
+    var u = e.target.closest('[data-undo]'); if (u) { delete (S.over[S.funnel] || {})[u.getAttribute('data-undo')]; save(); left(); right(); return; }
+    if (e.target.closest('[data-undo-o]')) { S.price = 0; save(); left(); right(); return; }
+    if (e.target.closest('[data-reset]')) { S = { funnel: S.funnel, over: {}, mix: {} }; save(); left(); right(); return; }
+    var c = e.target.closest('[data-copy]');
+    if (c) {
+      var url = location.origin + location.pathname + '#p=' + b64(A) + '&e=' + b64(S);
+      (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { c.textContent = 'Link copied'; }, function () { window.prompt('Copy your plan link', url); });
+      setTimeout(function () { c.textContent = 'Copy plan link'; }, 1800);
+    }
   });
 
-  /* ---------- How-to guides ---------- */
-  // Open on the first visit, then remember the visitor closed it. Any "How to" link opens its guide and scrolls to it.
-  var guide = $('[data-cx-guide]');
-  if (guide) {
-    var seen = null; try { seen = localStorage.getItem('tantra_plan_guide_seen'); } catch (e) {}
-    if (!seen) guide.open = true;
-    guide.addEventListener('toggle', function () { if (!guide.open) { try { localStorage.setItem('tantra_plan_guide_seen', '1'); } catch (e) {} } });
+  /* ---------- Guide drawer ---------- */
+  var dlg = $('[data-guide]');
+  if (dlg) {
     document.addEventListener('click', function (e) {
-      var a = e.target.closest('[data-guide]'); if (!a) return;
-      e.preventDefault();
-      var g = document.getElementById('guide-' + a.getAttribute('data-guide'));
-      guide.open = true;
-      if (g) {
-        g.open = true;
-        g.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-        g.classList.remove('is-flash'); void g.offsetWidth; g.classList.add('is-flash');
-        var s = g.querySelector('summary'); if (s) s.focus({ preventScroll: true });
-      }
+      if (e.target.closest('[data-guide-open]')) { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); }
+      if (e.target.closest('[data-guide-close]') || e.target === dlg) dlg.close();
     });
+    try { if (!localStorage.getItem('tantra_plan_guide_seen')) { $('[data-guide-open]').classList.add('is-new'); localStorage.setItem('tantra_plan_guide_seen', '1'); } } catch (e) {}
   }
 
-  chips(); render();
+  render();
 })();
