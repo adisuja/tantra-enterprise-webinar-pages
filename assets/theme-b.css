@@ -214,3 +214,13 @@ html:has(body.theme-b) { background: var(--mid, #02070a); scrollbar-color: #9fb0
   .theme-b .reg { border-radius: 21px; background: var(--e1); }
   .theme-b .reg__foot { background: transparent; }
 }
+
+/* ---------- Live workshop bonuses ---------- */
+body.theme-b .bundle { --acc: var(--blue); --acc-2: var(--blue-hi); --spine: #06202e; }
+.theme-b .bundle__cards i:nth-child(2) { --acc: var(--orange); }
+.theme-b .bundle__icons--r { --acc: var(--orange); }
+.theme-b .bundle__icons li { box-shadow: 0 10px 24px -14px rgba(2, 7, 10, .35), 0 0 0 1px var(--rule); }
+.theme-b .wbcards li { border-color: var(--rule); box-shadow: var(--b-sh-1); }
+.theme-b .wbcards__no { color: var(--blue-ink); }
+.theme-b .wbcards h3 { color: var(--b-ink); }
+.theme-b .wbcards li > p:last-child { color: var(--b-text); }

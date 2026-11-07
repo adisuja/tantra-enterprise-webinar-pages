@@ -309,3 +309,10 @@
   window.addEventListener('resize', function () { place(false); });
   mark(); restart();
 })();
+
+// Bonus book bundle (registration): hover opens it with a mouse; on touch screens it opens while it is in view.
+(function () {
+  var b = document.querySelector('[data-bundle]');
+  if (!b || !('IntersectionObserver' in window) || !window.matchMedia('(hover: none)').matches) return;
+  new IntersectionObserver(function (es) { es.forEach(function (e) { b.classList.toggle('is-open', e.isIntersecting); }); }, { threshold: 0.6 }).observe(b);
+})();
