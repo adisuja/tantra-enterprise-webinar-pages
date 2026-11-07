@@ -273,14 +273,44 @@ html:not(.review) .fill, html:not(.review) .rv, html:not(.review) .rv-i { displa
 .logos--dark .lmark__t { color: #e3e6ec; }
 @media (min-width: 768px) { .banner { padding: var(--s6) var(--s4); } .logos { gap: 28px 48px; } }
 
-/* ---------- Hosted by (Adi alone, single centred card) ---------- */
-.hosts { display: grid; justify-content: center; margin-top: var(--s5); }
-.hostc { max-width: 560px; padding: var(--s5) var(--s3) var(--s4); background: var(--white); color: var(--text); border-radius: var(--r-lg); text-align: center; box-shadow: 0 40px 80px -32px rgba(0, 0, 0, .7); }
-.hostc h3 { margin: var(--s3) 0 4px; font-size: var(--fs-h3); font-weight: 800; letter-spacing: -.03em; line-height: 1.2; color: var(--ink); }
-.hostc__role { margin: 0 0 var(--s2); font-size: 15px; font-weight: 600; color: var(--volt-deep); }
-.hostc p:last-child { margin: 0; font-size: 16.5px; }
-.hosts__claim { max-width: 560px; margin: var(--s4) auto 0; font-size: var(--fs-lead); color: var(--text-d); }
-@media (min-width: 768px) { .hostc { padding: var(--s6) var(--s6) var(--s5); } }
+/* ---------- Your Workshop Host (Adi 2026-11-08): bio left, his full-figure cutout right, facing into the copy ---------- */
+.band--host { overflow: hidden; }
+.host { display: grid; justify-items: center; }
+.host__copy { display: contents; }
+.host .caps { order: 0; margin: 0 auto; }
+.host__fig { order: 1; }
+.host__name, .host__bio, .host__claim, .host .cta-wrap { order: 2; }
+.host__name { margin: var(--s3) 0 0; font-size: clamp(1.625rem, 1.2rem + 1.3vw, 2.375rem); font-weight: 800; line-height: 1.1; letter-spacing: -.035em; text-align: center; }
+.host__name::after { content: ''; display: block; width: 56px; height: 3px; margin: 18px auto 0; border-radius: 2px; background: linear-gradient(90deg, var(--volt), var(--iris)); }
+.host__bio, .host__claim { text-wrap: pretty; }
+.host__bio { max-width: 34em; margin: 18px 0 0; font-size: var(--fs-lead); line-height: 1.55; color: var(--text-d); text-align: center; }
+.host__claim { position: relative; max-width: 34em; margin: var(--s4) 0 0; padding: 18px 20px 18px 24px; font-size: 16.5px; line-height: 1.6; color: #c9cdd8;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .025)); border-radius: 14px; box-shadow: inset 0 0 0 1px var(--line-d); overflow: hidden; }
+.host__claim::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--iris), var(--volt)); }
+.host .cta-wrap { width: 100%; max-width: 34em; }
+.host__fig { position: relative; isolation: isolate; width: min(100%, 330px); margin: var(--s4) 0 0; }
+.host__fig::before { content: ''; position: absolute; z-index: -1; left: 6%; right: 6%; bottom: 9%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 50% 42%, rgba(167, 139, 250, .5) 0%, rgba(109, 74, 255, .26) 42%, rgba(109, 74, 255, 0) 70%); }
+.host__fig::after { content: ''; position: absolute; z-index: -1; left: 0; right: 0; bottom: 3%; aspect-ratio: 1; border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(167, 139, 250, .26), 0 0 0 28px rgba(167, 139, 250, .035); }
+/* The glow sits on a wrapper so the fade mask on the image does not clip it to a box. */
+.host__cut { display: block; filter: drop-shadow(0 0 1px rgba(201, 188, 252, .55)) drop-shadow(0 0 32px rgba(109, 74, 255, .4)); }
+.host__fig img { display: block; width: 100%; height: auto;
+  -webkit-mask-image: linear-gradient(180deg, #000 76%, transparent 99%); mask-image: linear-gradient(180deg, #000 76%, transparent 99%); }
+@media (min-width: 960px) {
+  .host { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); column-gap: var(--s8); align-items: end; justify-items: stretch; }
+  .host__copy { display: block; align-self: center; padding: 0 0 var(--s10); }
+  .host .caps { margin: 0; max-width: none; text-align: left; }
+  .host__name, .host__bio { text-align: left; }
+  .host__name { margin-top: var(--s5); }
+  .host__name::after { margin-left: 0; }
+  .host .cta-wrap { text-align: left; }
+  .host .btn--cta { width: auto; padding: 12px 36px; }
+  .host__fig { width: 100%; max-width: 520px; margin: 0 0 0 auto; }
+  .band--host .slant--bottom { margin-top: 0; }
+  .band--host .slant--top { margin-bottom: var(--s6); }
+}
+
 .face { display: inline-grid; place-items: center; flex: none; overflow: hidden; border-radius: 50%; }
 .face img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .face--ring { width: 144px; height: 144px; border: 4px solid var(--white); box-shadow: 0 0 0 3px var(--iris), 0 16px 32px -12px rgba(75, 47, 214, .5); }

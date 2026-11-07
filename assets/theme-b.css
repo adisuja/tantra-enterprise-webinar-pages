@@ -145,13 +145,15 @@ html:has(body.theme-b) { background: var(--mid, #02070a); scrollbar-color: #9fb0
 .theme-b .banner { background: var(--grain), radial-gradient(70% 140% at 50% 0%, rgba(2, 151, 222, .26), transparent 70%), var(--mid); box-shadow: inset 0 0 0 1px rgba(2, 151, 222, .18), var(--b-sh-2); }
 .theme-b .logos--light .lmark__t { color: #52616a; }
 
-/* ---------- Hosted by: a dark card with a blue ring ---------- */
-.theme-b .hostc { background: linear-gradient(180deg, var(--e3) 0%, var(--e1) 100%); color: var(--d-text); box-shadow: 0 0 0 1px var(--edge-2), var(--b-sh-dark); }
-.theme-b .hostc h3 { color: #fff; }
-.theme-b .hostc__role { color: var(--blue); }
-.theme-b .hostc p:last-child { color: var(--d-text); }
-.theme-b .face--ring { border-color: var(--e3); box-shadow: 0 0 0 2px var(--blue), 0 0 40px -6px rgba(2, 151, 222, .55); }
-.theme-b .hosts__claim { color: var(--d-text); }
+/* ---------- Your Workshop Host: blue light behind the figure ---------- */
+.theme-b .host__name::after { background: linear-gradient(90deg, var(--blue), var(--blue-hi)); }
+.theme-b .host__bio { color: var(--d-text); }
+.theme-b .host__claim { color: #b9c6cd; background: linear-gradient(180deg, var(--e3), var(--e1)); box-shadow: inset 0 0 0 1px var(--edge-2), var(--b-sh-dark); }
+.theme-b .host__claim::before { background: linear-gradient(180deg, var(--blue-hi), var(--blue)); }
+.theme-b .host__fig::before { background: radial-gradient(circle at 50% 42%, rgba(51, 173, 232, .42) 0%, rgba(2, 151, 222, .2) 42%, rgba(2, 151, 222, 0) 70%); }
+.theme-b .host__fig::after { box-shadow: inset 0 0 0 1px rgba(2, 151, 222, .3), 0 0 0 28px rgba(2, 151, 222, .03); }
+.theme-b .host__name { color: #fff; }
+.theme-b .host__cut { filter: drop-shadow(0 0 1px rgba(124, 200, 238, .5)) drop-shadow(0 0 32px rgba(2, 151, 222, .35)); }
 
 /* ---------- Bonus block ---------- */
 .theme-b .bonus__lead { color: var(--b-ink); }
