@@ -255,7 +255,7 @@ body.page-reg .tq-carousel.is-on .tq-dots, body.page-reg .tq-carousel.is-on .tq-
 
 /* ---------- Live workshop bonuses (Adi 2026-11-08): a two-book bundle with icons on both sides ---------- */
 body.page-reg .bundle { --bk: 128px; --dp: 16px; --acc: var(--volt); --acc-2: var(--iris); --spine: #3b2496;
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; max-width: 780px; margin: var(--s4) auto 0; }
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; max-width: 780px; margin: var(--s6) auto 0; }
 .bundle__stage { position: relative; height: calc(var(--bk) * 1.5 + 70px); perspective: 900px; }
 .bundle__glow { position: absolute; left: 50%; top: 52%; width: 90%; aspect-ratio: 1.6; transform: translate(-50%, -50%); border-radius: 50%;
   background: radial-gradient(closest-side, color-mix(in srgb, var(--acc-2) 55%, transparent), transparent); opacity: .55; filter: blur(6px);
@@ -312,7 +312,7 @@ body.page-reg .bundle { --bk: 128px; --dp: 16px; --acc: var(--volt); --acc-2: va
 .bundle__icons li:nth-child(2) { transition-delay: .06s; }
 .bundle__icons li:nth-child(3) { transition-delay: .12s; }
 @media (min-width: 768px) {
-  body.page-reg .bundle { --bk: 236px; --dp: 30px; gap: var(--s3); margin-top: var(--s4); }
+  body.page-reg .bundle { --bk: 236px; --dp: 30px; gap: var(--s3); margin-top: var(--s8); }
   .bundle__icons { gap: 22px; }
   .bundle__icons li { width: 60px; height: 60px; border-radius: 16px; }
   .bundle__icons--l li:nth-child(2) { margin-left: -28px; }
