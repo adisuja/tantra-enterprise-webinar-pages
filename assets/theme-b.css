@@ -216,11 +216,12 @@ html:has(body.theme-b) { background: var(--mid, #02070a); scrollbar-color: #9fb0
 }
 
 /* ---------- Live workshop bonuses ---------- */
-body.theme-b .bundle { --acc: var(--blue); --acc-2: var(--blue-hi); --spine: #06202e; }
+body.theme-b :is(.bundle, .wb) { --acc: var(--blue); --acc-2: var(--blue-hi); }
+body.theme-b .bundle__icons--r, body.theme-b .wb__card:nth-child(2) { --acc: var(--orange); --acc-2: #fd9a7d; }
+.theme-b .book--1 { --spine: #06202e; }
+.theme-b .book--2 { --spine: #0b161d; }
+.theme-b .book--3 { --spine: #dbe7ee; }
 .theme-b .bundle__cards i:nth-child(2) { --acc: var(--orange); }
-.theme-b .bundle__icons--r { --acc: var(--orange); }
-.theme-b .bundle__icons li { box-shadow: 0 10px 24px -14px rgba(2, 7, 10, .35), 0 0 0 1px var(--rule); }
-.theme-b .wbcards li { border-color: var(--rule); box-shadow: var(--b-sh-1); }
-.theme-b .wbcards__no { color: var(--blue-ink); }
-.theme-b .wbcards h3 { color: var(--b-ink); }
-.theme-b .wbcards li > p:last-child { color: var(--b-text); }
+.theme-b .wb__card--light .wb__art { background: var(--mist); }
+.theme-b .wb__body h3 { color: var(--b-ink); }
+.theme-b .wb__body p { color: var(--b-text); }
