@@ -1,18 +1,20 @@
 // Case explorer (src/cases.mjs): stage and industry filters, the case dialogs, deep links (#cs-<id>) and
 // previous / next inside a dialog, which steps through the tiles the visitor is currently looking at.
-// Stage pie (src/cases.mjs): hover, tap or arrow keys pick a stage segment and show its cases; industry chips filter
+// Stage pie (src/cases.mjs): a click, a tap or the arrow keys pick a stage segment and show its cases. Hover only
+// highlights a segment: selecting on hover switched stages while the pointer travelled to the cards (Adi 2026-11-08); industry chips filter
 // the cards; the case dialogs open from a card, with deep links (#cs-<id>) and previous / next through the cards in view.
 (() => {
   const pies = [...document.querySelectorAll('[data-pie]')];
   let seq = [];
-  const hover = window.matchMedia('(hover: hover) and (pointer: fine)');
 
   pies.forEach((pie) => {
     const segs = [...pie.querySelectorAll('.pie__seg')];
     const panels = [...pie.querySelectorAll('[data-panel]')];
     let ind = 'all';
     let cur = pie.dataset.first;
-    const show = (stage, focus) => {
+    const main = pie.querySelector('.pie__main');
+    const show = (stage, reveal) => {
+      const changed = stage !== cur;
       cur = stage;
       segs.forEach((g) => {
         const on = g.dataset.stage === stage;
@@ -22,7 +24,12 @@
         const on = p.dataset.panel === stage;
         if (on && p.hidden) { p.hidden = false; p.classList.remove('is-in'); void p.offsetWidth; p.classList.add('is-in'); } else if (!on) p.hidden = true;
       });
-      if (focus) { const vis = segs.find((g) => g.dataset.stage === stage && g.getClientRects().length && g.closest('svg').getBoundingClientRect().width); if (vis) vis.focus({ preventScroll: true }); }
+      // A picked stage whose cards start above the screen (a shorter panel after scrolling) scrolls them back into view.
+      if (reveal && changed && main) {
+        const top = main.getBoundingClientRect().top;
+        const nav = document.body.classList.contains('page-dd') ? 88 : 16;
+        if (top < nav) window.scrollBy({ top: top - nav - 8, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
     };
     const filter = () => {
       panels.forEach((p) => {
@@ -34,8 +41,7 @@
       pie.querySelectorAll('[data-f-ind]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.fInd === ind)));
     };
     segs.forEach((g) => {
-      g.addEventListener('click', () => show(g.dataset.stage));
-      g.addEventListener('mouseenter', () => { if (hover.matches) show(g.dataset.stage); });
+      g.addEventListener('click', () => show(g.dataset.stage, true));
       g.addEventListener('keydown', (e) => {
         const order = segs.filter((x) => x.closest('svg') === g.closest('svg'));
         const i = order.indexOf(g);
@@ -43,8 +49,8 @@
         if (e.key === 'ArrowDown' || e.key === 'ArrowRight') to = order[(i + 1) % order.length];
         else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') to = order[(i - 1 + order.length) % order.length];
         else if (e.key === 'Home') to = order[0]; else if (e.key === 'End') to = order[order.length - 1];
-        else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(g.dataset.stage); return; }
-        if (to) { e.preventDefault(); show(to.dataset.stage); to.focus({ preventScroll: true }); }
+        else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(g.dataset.stage, true); return; }
+        if (to) { e.preventDefault(); show(to.dataset.stage, true); to.focus({ preventScroll: true }); }
       });
     });
     pie.addEventListener('click', (e) => {
