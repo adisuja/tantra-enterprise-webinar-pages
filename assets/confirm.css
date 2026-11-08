@@ -93,6 +93,7 @@
 @media (prefers-reduced-motion: reduce) { .room__live i { animation: none; } }
 .room__h { margin: 0; font-size: clamp(1.25rem, 1.05rem + .9vw, 1.75rem); font-weight: 800; line-height: 1.2; letter-spacing: -.03em; color: var(--white); }
 .room__t { margin: 0; max-width: 560px; font-size: 16px; line-height: 1.55; color: rgba(255, 255, 255, .82); }
+[data-wa-dm][hidden] { display: none; }
 .room__btn .ico { transition: transform .2s var(--ease); }
 .room__btn:hover .ico { transform: translateX(3px); }
 .room[data-state="waiting"] .room__btn, .room[data-state="unavailable"] .room__btn, .room[data-state="preparing"] .room__btn { background: rgba(255, 255, 255, .08); color: rgba(255, 255, 255, .72); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .22); cursor: default; transform: none; }

@@ -32,6 +32,14 @@
     } else { box.dataset.state = 'waiting'; off(); }
   }
 
+  // ---------- WhatsApp 1-to-1 (board card 37): swap the personal link for a short ref; the button opens WhatsApp with
+  // "Send my link #<ref>" ready, and the reply carries the link. Shown only when the Worker has a live sender number.
+  const dm = document.querySelector('[data-wa-dm]');
+  if (dm && personal && window.fetch) {
+    fetch(`${dm.dataset.waWorker}/wa/ref`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ join: link, name: '' }) })
+      .then((r) => r.json()).then((j) => { if (j && j.wa && /^https:\/\/wa\.me\//.test(j.wa)) { dm.href = j.wa; dm.hidden = false; } }).catch(() => {});
+  }
+
   // ---------- Calendar buttons: Google and Outlook links, and an .ics for Apple, with the room link when known ----------
   const cal = document.querySelector('[data-cal]');
   if (cal) {
