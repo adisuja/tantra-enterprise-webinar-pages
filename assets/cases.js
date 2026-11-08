@@ -13,7 +13,26 @@
     let ind = 'all';
     let cur = pie.dataset.first;
     const main = pie.querySelector('.pie__main');
+    // Which industries each stage has a case for (from the cards themselves).
+    const has = {};
+    panels.forEach((p) => { has[p.dataset.panel] = new Set([...p.querySelectorAll('.pc')].flatMap((c) => c.dataset.ind.split(' '))); });
+    const open = (stage) => (ind === 'all' ? has[stage].size > 0 : has[stage].has(ind));
+    // Adi 2026-11-08: no empty state ever shows. A stage with no case for the chosen industry is greyed out and cannot
+    // be picked; an industry with no case at the chosen stage is not shown. Works in both directions.
+    const filter = () => {
+      panels.forEach((p) => {
+        p.querySelectorAll('.pc').forEach((c) => { c.hidden = !(ind === 'all' || c.dataset.ind.split(' ').includes(ind)); });
+        const e = p.querySelector('[data-empty]'); if (e) e.hidden = true;
+      });
+      segs.forEach((g) => { const off = !open(g.dataset.stage); g.classList.toggle('is-off', off); g.setAttribute('aria-disabled', String(off)); });
+      pie.querySelectorAll('[data-f-ind]').forEach((b) => {
+        b.setAttribute('aria-pressed', String(b.dataset.fInd === ind));
+        if (b.dataset.fInd !== 'all') b.hidden = !has[cur].has(b.dataset.fInd);
+      });
+    };
     const show = (stage, reveal) => {
+      if (!open(stage)) return;
+      if (reveal) pie.classList.add('is-used');
       const changed = stage !== cur;
       cur = stage;
       segs.forEach((g) => {
@@ -24,6 +43,7 @@
         const on = p.dataset.panel === stage;
         if (on && p.hidden) { p.hidden = false; p.classList.remove('is-in'); void p.offsetWidth; p.classList.add('is-in'); } else if (!on) p.hidden = true;
       });
+      filter();
       // A picked stage whose cards start above the screen (a shorter panel after scrolling) scrolls them back into view.
       if (reveal && changed && main) {
         const top = main.getBoundingClientRect().top;
@@ -31,19 +51,10 @@
         if (top < nav) window.scrollBy({ top: top - nav - 8, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       }
     };
-    const filter = () => {
-      panels.forEach((p) => {
-        const cards = [...p.querySelectorAll('.pc')];
-        let n = 0;
-        cards.forEach((c) => { const ok = ind === 'all' || c.dataset.ind.split(' ').includes(ind); c.hidden = !ok; if (ok) n += 1; });
-        const e = p.querySelector('[data-empty]'); if (e) e.hidden = n > 0;
-      });
-      pie.querySelectorAll('[data-f-ind]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.fInd === ind)));
-    };
     segs.forEach((g) => {
       g.addEventListener('click', () => show(g.dataset.stage, true));
       g.addEventListener('keydown', (e) => {
-        const order = segs.filter((x) => x.closest('svg') === g.closest('svg'));
+        const order = segs.filter((x) => x.closest('svg') === g.closest('svg') && !x.classList.contains('is-off'));
         const i = order.indexOf(g);
         let to = null;
         if (e.key === 'ArrowDown' || e.key === 'ArrowRight') to = order[(i + 1) % order.length];
@@ -57,6 +68,7 @@
       const b = e.target.closest('[data-f-ind]');
       if (!b) return;
       ind = b.dataset.fInd === ind && ind !== 'all' ? 'all' : b.dataset.fInd;
+      pie.classList.add('is-used');
       filter();
       if (b.classList.contains('pie__chip')) b.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
     });

@@ -35,7 +35,6 @@
 .pie__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .pie__svg--side { display: none; }
 .pie__svg--dome { max-width: 560px; margin: 0 auto; }
-.pie__hint { margin: 10px 0 0; text-align: center; font-size: 13px; font-weight: 600; color: var(--muted); }
 .pie__seg { cursor: pointer; outline: none; transform-box: view-box; transition: transform .45s var(--ease), opacity .5s var(--ease); }
 .pie__svg--side .pie__seg { transform-origin: 0 500px; }
 .pie__svg--dome .pie__seg { transform-origin: 520px 520px; }
@@ -50,7 +49,32 @@
 .pie__seg.is-on .pie__t, .pie__seg.is-on .pie__b { fill: var(--white); }
 .pie__seg:focus-visible path { stroke: var(--ink); stroke-width: 5; }
 .pie__hub { fill: var(--ink); }
-.pie__h { font-family: var(--sans); font-weight: 700; fill: var(--white); letter-spacing: .01em; }
+/* Hub (Adi 2026-11-08): label, cue and chevrons; ripple rings and a segment wave say "pick one" until the visitor does. */
+.pie__hubline { fill: none; stroke: var(--volt); stroke-width: 3; filter: drop-shadow(0 0 10px rgba(109, 74, 255, .85)); pointer-events: none; }
+.pie__h { font-family: var(--sans); font-weight: 800; fill: var(--white); letter-spacing: .14em; pointer-events: none; }
+.pie__rule { fill: var(--volt); pointer-events: none; }
+.pie__cue { font-family: var(--sans); font-weight: 700; fill: #c4b5fd; letter-spacing: -.005em; pointer-events: none; }
+.pie__chev { fill: none; stroke: #a78bfa; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; opacity: .25; animation: pie-chev 1.6s var(--ease) infinite; animation-delay: calc(var(--k) * .18s); }
+@keyframes pie-chev { 0%, 100% { opacity: .2; } 35% { opacity: 1; stroke: #fff; } }
+.pie__ring { fill: none; stroke: var(--volt); stroke-width: 2.5; pointer-events: none; transform-box: fill-box; transform-origin: center; opacity: 0; animation: pie-ring 3.6s cubic-bezier(.2, .7, .3, 1) infinite; animation-delay: calc(var(--k) * 1.2s); }
+.pie__svg--side .pie__ring { transform-origin: 0 500px; transform-box: view-box; }
+.pie__svg--dome .pie__ring { transform-origin: 520px 520px; transform-box: view-box; }
+@keyframes pie-ring { 0% { opacity: .55; transform: scale(1); stroke-width: 3; } 100% { opacity: 0; transform: scale(2.85); stroke-width: .5; } }
+/* The wave: each open segment nudges outward in turn, so the pie reads as something to press. */
+.pie:not(.is-used) .pie__seg:not(.is-on):not(.is-off) > path { animation: pie-wave 4.8s var(--ease) infinite; animation-delay: calc(1.2s + var(--i) * .22s); transform-box: view-box; transform-origin: inherit; }
+.pie__svg--side .pie__seg > path { transform-origin: 0 500px; }
+.pie__svg--dome .pie__seg > path { transform-origin: 520px 520px; }
+@keyframes pie-wave { 0%, 14%, 100% { transform: none; } 6% { transform: scale(1.035); fill: #b9a8fd; } }
+/* Calmer once a stage has been picked: one ring, slower. */
+.pie.is-used .pie__ring { animation-duration: 6s; }
+.pie.is-used .pie__ring:not(:first-of-type) { display: none; }
+/* No case for the chosen industry at this stage: greyed out, not selectable. */
+.pie__seg.is-off { cursor: not-allowed; }
+.pie__seg.is-off path { fill: #eceef3 !important; filter: none !important; }
+.pie__seg.is-off .pie__t, .pie__seg.is-off .pie__b { fill: #b3b8c4 !important; }
+.pie__seg.is-off:hover path { fill: #eceef3; }
+.pie__chip[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .pie__ring, .pie__chev, .pie__seg > path { animation: none !important; } .pie__ring { display: none; } .pie__chev { opacity: .9; } }
 /* First view: the segments sweep in one after another. */
 .pie.is-armed:not(.is-seen) .pie__seg { opacity: 0; transform: rotate(-28deg) scale(.86); }
 .pie.is-seen .pie__seg { transition-delay: calc(var(--i) * 90ms); }
@@ -62,7 +86,6 @@
   .pie__svg--side { display: block; width: auto; max-width: 100%; max-height: calc(100vh - 80px); max-height: calc(100dvh - 80px); }
   .page-dd .pie__svg--side { max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); }
   .pie__svg--dome { display: none; }
-  .pie__hint { text-align: left; padding-left: 16px; }
 }
 
 /* Industry chips (no counts, Adi 2026-11-08). Phones: one swipeable row. */
