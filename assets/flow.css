@@ -185,3 +185,17 @@
 .laststep__btns { display: flex; flex-wrap: wrap; gap: 10px; }
 .sv-opts--row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .sv-opts--row .sv-opt { padding: 10px; gap: 8px; font-size: 14px; }
+
+/* VIP page, Tantra RevOps OS offer (2026-11-08): anchor line, six stages, the equation. */
+.ticket__was { display: block; margin-bottom: 2px; font-size: 13px; color: var(--muted-d); }
+.vip-stages { list-style: none; display: grid; gap: 14px; max-width: 1000px; margin: 0 auto; padding: 0; counter-reset: none; }
+@media (min-width: 720px) { .vip-stages { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .vip-stages { grid-template-columns: repeat(3, 1fr); } }
+.vip-stages li { position: relative; padding: 22px 22px 20px; border-radius: 16px; border: 1px solid var(--line-d); background: #0d0d16; }
+.vip-stages__n { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--volt); color: var(--white); font-weight: 800; font-size: 15px; }
+.vip-stages h3 { margin: 12px 0 6px; font-size: 18px; color: var(--white); letter-spacing: -.01em; }
+.vip-stages p { margin: 0; font-size: 14.5px; color: var(--muted-d); }
+.vip-eq { max-width: 760px; margin: 28px auto 14px; padding: 16px 20px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, .45); background: rgba(251, 191, 36, .06); color: var(--amber); font-weight: 750; text-align: center; font-size: clamp(14px, 1.1vw + 10px, 18px); }
+.vip-note--after { margin-top: 28px; margin-bottom: 0; }
+/* The dark-section heading rule above is declared after the light one; restore ink headings on light sections. */
+.vip-sec.vip-sec--light h2, .vip-sec.vip-sec--light h3 { color: var(--ink); }

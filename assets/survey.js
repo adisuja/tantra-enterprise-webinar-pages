@@ -138,7 +138,7 @@
     var body = { event: 'webinar.survey_completed', email: email, ts: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'), source: 'thank_you_survey', data: data };
     slides[cur].hidden = true; form.querySelector('[data-done]').hidden = false; form.querySelector('.tf-foot').hidden = true;
     if (bar) bar.style.width = '100%';
-    var next = function () { location.href = flow.vip_path || '../vip/'; };
+    var next = function () { location.href = flow.vip_path || '../funnelos/'; };
     if (F.live && F.register_worker_url) {
       fetch(F.register_worker_url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(function () {}).then(next);
       setTimeout(next, 2500); return;
