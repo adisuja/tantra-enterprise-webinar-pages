@@ -236,6 +236,7 @@
       first_name: (fd.get('first_name') || '').trim(),
       phone: fd.get('phone').trim(),
       privacy_accepted: fd.get('privacy_accepted') === 'on',
+      whatsapp_opt_in: fd.get('whatsapp_opt_in') === 'on',
       timezone: fd.get('timezone') || null,
     };
     var last = (fd.get('last_name') || '').trim();
