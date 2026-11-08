@@ -52,6 +52,8 @@
     document.querySelectorAll('dialog.csd[open]').forEach((o) => { if (o !== d) o.close(); });
     if (from) seq = visibleIds(from);
     if (!seq.includes(id)) seq = visibleIds(null);
+    // Images in a closed dialog are lazy; load them now so the panel never opens blank.
+    d.querySelectorAll('img[loading="lazy"]').forEach((i) => { i.loading = 'eager'; });
     if (!d.open) d.showModal();
     // Focus the case name, so a screen reader announces it and no ring is drawn around the whole panel.
     const h = d.querySelector('.story__name'); if (h) h.focus({ preventScroll: true });
