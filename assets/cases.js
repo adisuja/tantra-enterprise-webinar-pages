@@ -32,7 +32,6 @@
     };
     const show = (stage, reveal) => {
       if (!open(stage)) return;
-      if (reveal) pie.classList.add('is-used');
       const changed = stage !== cur;
       cur = stage;
       segs.forEach((g) => {
@@ -68,7 +67,6 @@
       const b = e.target.closest('[data-f-ind]');
       if (!b) return;
       ind = b.dataset.fInd === ind && ind !== 'all' ? 'all' : b.dataset.fInd;
-      pie.classList.add('is-used');
       filter();
       if (b.classList.contains('pie__chip')) b.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
     });

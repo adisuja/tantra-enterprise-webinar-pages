@@ -60,14 +60,12 @@
 .pie__svg--side .pie__ring { transform-origin: 0 500px; transform-box: view-box; }
 .pie__svg--dome .pie__ring { transform-origin: 520px 520px; transform-box: view-box; }
 @keyframes pie-ring { 0% { opacity: .55; transform: scale(1); stroke-width: 3; } 100% { opacity: 0; transform: scale(2.85); stroke-width: .5; } }
-/* The wave: each open segment nudges outward in turn, so the pie reads as something to press. */
-.pie:not(.is-used) .pie__seg:not(.is-on):not(.is-off) > path { animation: pie-wave 4.8s var(--ease) infinite; animation-delay: calc(1.2s + var(--i) * .22s); transform-box: view-box; transform-origin: inherit; }
+/* The wave: each open segment nudges outward in turn, so the pie reads as something to press. It keeps running after
+   a pick (Adi 2026-11-08: the design must not reset when a stage is clicked). */
+.pie .pie__seg:not(.is-on):not(.is-off) > path { animation: pie-wave 4.8s var(--ease) infinite; animation-delay: calc(1.2s + var(--i) * .22s); transform-box: view-box; transform-origin: inherit; }
 .pie__svg--side .pie__seg > path { transform-origin: 0 500px; }
 .pie__svg--dome .pie__seg > path { transform-origin: 520px 520px; }
 @keyframes pie-wave { 0%, 14%, 100% { transform: none; } 6% { transform: scale(1.035); fill: #b9a8fd; } }
-/* Calmer once a stage has been picked: one ring, slower. */
-.pie.is-used .pie__ring { animation-duration: 6s; }
-.pie.is-used .pie__ring:not(:first-of-type) { display: none; }
 /* No case for the chosen industry at this stage: greyed out, not selectable. */
 .pie__seg.is-off { cursor: not-allowed; }
 .pie__seg.is-off path { fill: #eceef3 !important; filter: none !important; }
