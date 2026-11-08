@@ -154,9 +154,9 @@
           if (l.id === 'owned') { eqs += eq('Sign-ups from your own audience', 'visits from your list and followers × <span class="cx-t">warm rate <b>' + fmtP(Math.min(60, K.LP.value * 2.5)) + '</b></span> (2.5 × the page rate)', fmtN(l.signups)); return; }
           var k = p.kpis.find(function (x) { return x.channel === l.id; });
           if (f.organic) { eqs += eq('Offer post viewers', tok('{S} ÷ {LP}'), fmtN(l.visits)); eqs += eq('People your posts reach', 'offer post viewers × 10 (1 post in 10 is an offer post)', fmtN(l.reach)); return; }
-          var sg = '<span class="cx-t">' + esc(p.signup) + ' from ' + esc(T.CH[l.id].name.toLowerCase()) + ' <b>' + fmtN(l.signups) + '</b> (' + Math.round(l.share || 0) + '% share)</span>';
+          var sg = '<span class="cx-t">' + esc(p.signup) + ' from ' + esc(T.CH[l.id].name.toLowerCase().replace('linkedin', 'LinkedIn').replace('whatsapp', 'WhatsApp')) + ' <b>' + fmtN(l.signups) + '</b> (' + Math.round(l.share || 0) + '% share)</span>';
           if (p.event && T.CH[l.id].ev) { eqs += eq(l.unit.charAt(0).toUpperCase() + l.unit.slice(1), sg + ' ÷ ' + tok('{' + k.id + '}'), fmtN(l.reach)); return; }
-          eqs += eq('Page visits from ' + T.CH[l.id].name.toLowerCase(), sg + ' ÷ ' + tok('{LP}'), fmtN(l.visits));
+          eqs += eq('Page visits from ' + T.CH[l.id].name.toLowerCase().replace('linkedin', 'LinkedIn').replace('whatsapp', 'WhatsApp'), sg + ' ÷ ' + tok('{LP}'), fmtN(l.visits));
           if (l.money) eqs += eq('Ad spend', '<span class="cx-t">page visits <b>' + fmtN(l.visits) + '</b></span> × ' + tok('{CPC}') + ' ÷ 85% of clicks that load the page', fmtU(l.reach));
           else eqs += eq(l.unit.charAt(0).toUpperCase() + l.unit.slice(1), '<span class="cx-t">page visits <b>' + fmtN(l.visits) + '</b></span> ÷ ' + tok('{' + k.id + '}'), fmtN(l.reach));
         });
