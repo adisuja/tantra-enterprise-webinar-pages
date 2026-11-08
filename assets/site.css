@@ -348,17 +348,17 @@ html:not(.review) .fill, html:not(.review) .rv, html:not(.review) .rv-i { displa
 @media (min-width: 768px) { .mock { height: 290px; max-width: 560px; } .mock__doc { width: 172px; height: 232px; padding: 18px 16px; } .mock__doc--2 { height: 252px; left: 50%; margin-left: -86px; } .mock__t { font-size: 16px; } .mock__doc--1 { left: 1%; } .mock__doc--3 { right: 1%; } }
 
 /* ---------- Footer ---------- */
-.foot { background: #07080b; color: #b4bac6; text-align: left; padding: var(--s8) var(--gutter) var(--s6); font-size: 14px; border-top: 1px solid rgba(255, 255, 255, .06); }
-.foot__in { max-width: 1200px; margin: 0 auto; display: grid; gap: var(--s4); }
+.foot { background: #07080b; color: #b4bac6; text-align: center; padding: var(--s8) var(--gutter) var(--s6); font-size: 14px; border-top: 1px solid rgba(255, 255, 255, .06); }
+.foot__in { max-width: 1200px; margin: 0 auto; display: grid; gap: var(--s4); justify-items: center; }
 .foot__in p { margin: 0 0 12px; }
-/* The logo leads the footer at the side, large (Adi 2026-11-08). */
+/* Footer: logo, then the text, all centred (Adi 2026-11-08, second round). */
 .foot__logo { margin: 0 !important; }
 .foot__logo a { display: inline-flex; align-items: center; gap: 16px; }
 .foot__logo img:first-child { height: 60px; width: auto; }
 .foot__logo img:nth-child(2) { height: 31px; width: auto; }
-.foot__text { max-width: 640px; }
+.foot__text { max-width: 640px; margin: 0 auto; }
 @media (min-width: 768px) {
-  .foot__in { grid-template-columns: auto minmax(0, 640px); justify-content: space-between; align-items: start; gap: var(--s8); }
+  .foot__in { gap: var(--s4); }
   .foot__logo img:first-child { height: 76px; } .foot__logo img:nth-child(2) { height: 40px; }
 }
 .foot a { color: var(--iris); }

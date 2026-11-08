@@ -1,49 +1,73 @@
 // Case explorer (src/cases.mjs): stage and industry filters, the case dialogs, deep links (#cs-<id>) and
 // previous / next inside a dialog, which steps through the tiles the visitor is currently looking at.
+// Stage pie (src/cases.mjs): hover, tap or arrow keys pick a stage segment and show its cases; industry chips filter
+// the cards; the case dialogs open from a card, with deep links (#cs-<id>) and previous / next through the cards in view.
 (() => {
-  const explorers = [...document.querySelectorAll('[data-cx]')];
+  const pies = [...document.querySelectorAll('[data-pie]')];
   let seq = [];
+  const hover = window.matchMedia('(hover: hover) and (pointer: fine)');
 
-  explorers.forEach((cx) => {
-    const tiles = [...cx.querySelectorAll('[data-tile]')];
-    const count = cx.querySelector('[data-cx-count]');
-    const empty = cx.querySelector('[data-cx-empty]');
-    const f = { stage: 'all', ind: 'all' };
-    const match = (t, stage, ind) => (stage === 'all' || t.dataset.stage === stage) && (ind === 'all' || t.dataset.ind.split(' ').includes(ind));
-    const apply = () => {
-      let n = 0;
-      tiles.forEach((t) => { const ok = match(t, f.stage, f.ind); t.hidden = !ok; if (ok) n += 1; });
-      const all = f.stage === 'all' && f.ind === 'all';
-      count.textContent = all ? `Showing all ${tiles.length} case studies` : `Showing ${n} of ${tiles.length} case studies`;
-      empty.hidden = n > 0;
-      cx.querySelectorAll('[data-f-stage]').forEach((b) => {
-        const v = b.dataset.fStage; b.setAttribute('aria-pressed', String(v === f.stage));
-        const c = b.querySelector('[data-n]'); if (c) { const k = tiles.filter((t) => match(t, v, f.ind)).length; c.textContent = k; b.classList.toggle('is-zero', !k); }
+  pies.forEach((pie) => {
+    const segs = [...pie.querySelectorAll('.pie__seg')];
+    const panels = [...pie.querySelectorAll('[data-panel]')];
+    let ind = 'all';
+    let cur = pie.dataset.first;
+    const show = (stage, focus) => {
+      cur = stage;
+      segs.forEach((g) => {
+        const on = g.dataset.stage === stage;
+        g.classList.toggle('is-on', on); g.setAttribute('aria-selected', String(on)); g.setAttribute('tabindex', on ? '0' : '-1');
       });
-      cx.querySelectorAll('[data-f-ind]').forEach((b) => {
-        const v = b.dataset.fInd; b.setAttribute('aria-pressed', String(v === f.ind));
-        const c = b.querySelector('[data-n]'); if (c) { const k = tiles.filter((t) => match(t, f.stage, v)).length; c.textContent = k; b.classList.toggle('is-zero', !k); }
+      panels.forEach((p) => {
+        const on = p.dataset.panel === stage;
+        if (on && p.hidden) { p.hidden = false; p.classList.remove('is-in'); void p.offsetWidth; p.classList.add('is-in'); } else if (!on) p.hidden = true;
       });
+      if (focus) { const vis = segs.find((g) => g.dataset.stage === stage && g.getClientRects().length && g.closest('svg').getBoundingClientRect().width); if (vis) vis.focus({ preventScroll: true }); }
     };
-    cx.addEventListener('click', (e) => {
-      const s = e.target.closest('[data-f-stage]');
-      const i = e.target.closest('[data-f-ind]');
-      if (s) f.stage = s.dataset.fStage === f.stage && s.dataset.fStage !== 'all' ? 'all' : s.dataset.fStage;
-      else if (i) f.ind = i.dataset.fInd === f.ind && i.dataset.fInd !== 'all' ? 'all' : i.dataset.fInd;
-      else if (e.target.closest('[data-cx-reset]')) { f.stage = 'all'; f.ind = 'all'; } else return;
-      apply();
-      // Keep the pressed chip in view in the swipeable row on phones.
-      if (i && i.classList.contains('cx-chip')) i.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    const filter = () => {
+      panels.forEach((p) => {
+        const cards = [...p.querySelectorAll('.pc')];
+        let n = 0;
+        cards.forEach((c) => { const ok = ind === 'all' || c.dataset.ind.split(' ').includes(ind); c.hidden = !ok; if (ok) n += 1; });
+        const e = p.querySelector('[data-empty]'); if (e) e.hidden = n > 0;
+      });
+      pie.querySelectorAll('[data-f-ind]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.fInd === ind)));
+    };
+    segs.forEach((g) => {
+      g.addEventListener('click', () => show(g.dataset.stage));
+      g.addEventListener('mouseenter', () => { if (hover.matches) show(g.dataset.stage); });
+      g.addEventListener('keydown', (e) => {
+        const order = segs.filter((x) => x.closest('svg') === g.closest('svg'));
+        const i = order.indexOf(g);
+        let to = null;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') to = order[(i + 1) % order.length];
+        else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') to = order[(i - 1 + order.length) % order.length];
+        else if (e.key === 'Home') to = order[0]; else if (e.key === 'End') to = order[order.length - 1];
+        else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(g.dataset.stage); return; }
+        if (to) { e.preventDefault(); show(to.dataset.stage); to.focus({ preventScroll: true }); }
+      });
     });
-    apply();
+    pie.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-f-ind]');
+      if (!b) return;
+      ind = b.dataset.fInd === ind && ind !== 'all' ? 'all' : b.dataset.fInd;
+      filter();
+      if (b.classList.contains('pie__chip')) b.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    });
+    show(cur);
+    // The segments sweep in the first time the pie scrolls into view.
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((es) => { es.forEach((en) => { if (en.isIntersecting) { pie.classList.add('is-seen'); io.disconnect(); } }); }, { threshold: 0.25 });
+      pie.classList.add('is-armed'); io.observe(pie);
+    }
   });
 
   // ---------- Dialogs ----------
   const dlg = (id) => document.getElementById(`cs-${id}`);
   const visibleIds = (from) => {
-    const cx = from && from.closest('[data-cx]');
-    const scope = cx ? [...cx.querySelectorAll('[data-tile]:not([hidden]) [data-case]')] : [...document.querySelectorAll('[data-case]')];
-    return scope.map((a) => a.dataset.case);
+    const panel = from && from.closest('[data-panel]');
+    const scope = panel ? [...panel.querySelectorAll('.pc:not([hidden]) [data-case]')] : [...document.querySelectorAll('[data-case]')];
+    return [...new Set(scope.map((a) => a.dataset.case))];
   };
   const clean = () => { if (/^#cs-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search); };
   function open(id, from) {
@@ -82,7 +106,6 @@
     clean();
     const opener = document.querySelector(`[data-case="${d.id.slice(3)}"]`);
     if (opener && opener.offsetParent) opener.focus({ preventScroll: true });
-    else if (opener) { const c = opener.closest('[data-cx]'); const n = c && c.querySelector('[data-cx-count]'); if (n) { n.tabIndex = -1; n.focus({ preventScroll: true }); } }
   }));
   document.addEventListener('keydown', (e) => {
     const d = document.querySelector('dialog.csd[open]');
