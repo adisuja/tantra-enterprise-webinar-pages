@@ -108,8 +108,8 @@
     $('[data-cx-side]').innerHTML = '<div class="cx-plan">' +
       '<label class="cx-goal"><span>Your 12-month revenue goal</span><span class="cx-goal__f"><i>$</i><input type="text" inputmode="numeric" data-goal value="' + Math.round(p.goal).toLocaleString('en-US') + '" aria-label="Your 12-month revenue goal"></span></label>' +
       '<p class="cx-plan__k">What it takes each month: ' + esc(fname) + '</p>' + warn +
-      '<ol class="cx-stages">' + stage(1, 'Traffic', s1) + stage(2, 'Sign-ups', s2) + stage(3, 'Nurture', by(3)) + stage(4, 'Conversion', by(4)) +
-      stage(5, 'Revenue', by(5).concat([it('Revenue a month', fmtU(p.revMonth), true)])) + '</ol>' +
+      '<ol class="cx-stages">' + stage(1, 'Traffic generation engine', s1) + stage(2, 'Landing and registration', s2) + stage(3, 'Multi-channel nurture', by(3)) + stage(4, 'Conversion mechanism', by(4)) +
+      stage(5, 'Revenue engine', by(5).concat([it('Revenue a month', fmtU(p.revMonth), true)])) + '</ol>' +
       '<p class="cx-plan__later">Plus about ' + fmtN(p.later) + ' customers in the following 52 weeks from people who did not buy at first.</p></div>';
   }
   function rightKeep() {
@@ -164,7 +164,7 @@
       if (st === 2) eqs += eq(p.signup + ' a month', 'the sum of the channels in stage 1', fmtN(p.signupsMonth));
       rs.forEach(function (r) { if (r.formula) eqs += eq(r.label, tok(r.formula), fmtN(r.n)); });
       if (st === 5) eqs += eq('Revenue a month', '<span class="cx-t">' + (rowBy['Customers'] ? 'Customers' : (rowBy['Main-offer customers'] ? 'Main-offer customers' : 'Paid members')) + ' <b>' + fmtN(p.custMonth) + '</b></span> × ' + fmtU(p.value12) + (p.extraF ? ' + ' + tok(p.extraF) : ''), fmtU(p.revMonth));
-      if (st === 6) eqs += eq('Customers from the next 52 weeks', '<span class="cx-t">customers a year <b>' + fmtN(p.cust12) + '</b></span> × ' + tok('{NRR}'), fmtN(p.later));
+      if (st === 6) eqs += eq('Customers from the long-term nurture engine', '<span class="cx-t">customers a year <b>' + fmtN(p.cust12) + '</b></span> × ' + tok('{NRR}'), fmtN(p.later));
       if (!ks.length && !eqs) continue;
       h += '<article class="cx-card"><h3 class="cx-card__h"><span class="cx-st__n">' + st + '</span>' + T.STAGES[st] + '</h3>';
       if (ks.length) h += '<div class="cx-tblwrap"><table class="cx-bt"><thead><tr><th scope="col">KPI</th><th scope="col">Low</th><th scope="col">Typical</th><th scope="col">Strong</th><th scope="col">Used</th><th scope="col">Source</th></tr></thead><tbody>' + ks.map(bench).join('') + '</tbody></table></div>';

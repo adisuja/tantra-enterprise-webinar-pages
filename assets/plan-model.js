@@ -240,7 +240,7 @@
     }
   };
   const ORDER = ['webinar', 'rsp', 'workshop', 'ooo', 'slo', 'book', 'challenge', 'community', 'social', 'launch'];
-  const STAGES = { 1: 'Traffic', 2: 'Landing and sign-up', 3: 'Nurture', 4: 'Conversion', 5: 'Revenue and pipeline', 6: 'The next 52 weeks' };
+  const STAGES = { 1: 'Traffic Generation Engine', 2: 'Landing and Registration', 3: 'Multi-Channel Nurture', 4: 'Conversion Mechanism', 5: 'Revenue Engine', 6: 'Long-Term Nurture Engine' };
 
   const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
   const num = (x, d = 0) => { const n = Number(x); return isFinite(n) && n >= 0 ? n : d; };
