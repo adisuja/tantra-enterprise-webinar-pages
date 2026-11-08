@@ -4,10 +4,10 @@ PRODID:-//Tantra//Enterprise Webinar//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-UID:tantra-enterprise-webinar-20261112T100000Z@usetantra.com
-DTSTAMP:20261105T100000Z
-DTSTART:20261112T100000Z
-DTEND:20261112T110000Z
+UID:tantra-enterprise-webinar-20261112T110000Z@usetantra.com
+DTSTAMP:20261105T110000Z
+DTSTART:20261112T110000Z
+DTEND:20261112T120000Z
 SUMMARY:How 400+ Brands Use AI Funnels to Generate $100K to $300K Monthly
 DESCRIPTION:Live training with Adithya Murali\, Founder\, Tantra. Your personal join link is in your registration email from WebinarJam.
 LOCATION:Online (WebinarJam)

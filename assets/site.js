@@ -266,7 +266,7 @@
     if (bad.length) { bad[0].focus(); return; }
     var body = payload();
     btn.disabled = true; btn.textContent = 'Saving your seat...';
-    // LIVE: POST to integrations.register_worker_url (the register Worker, item 17), which checks Turnstile, registers the
+    // LIVE: POST to integrations.register_worker_url (the site Worker, card 46), which checks Turnstile, saves the registration, registers the
     // person in WebinarJam for a personal join_url, then posts webinar.registered to the CRM. Never to the CRM directly.
     if (F.live && F.register_worker_url) {
       var fail = function () { if (window.turnstile) window.turnstile.reset(); btn.disabled = false; btn.textContent = 'Let Me In'; serverErr.hidden = false; };
@@ -279,7 +279,7 @@
         .then(function (r) { return r.json(); })
         .then(function (j) {
           if (!j.ok) throw new Error(j.error || 'failed');
-          try { sessionStorage.setItem('tantra_first_name', body.data.first_name); sessionStorage.setItem('tantra_email', body.email); } catch (e) {}
+          try { sessionStorage.setItem('tantra_first_name', body.data.first_name); sessionStorage.setItem('tantra_email', body.email); if (j.join_url) sessionStorage.setItem('tantra_join_url', j.join_url); } catch (e) {}
           location.href = j.redirect || F.thank_you_path;
         })
         .catch(fail);
