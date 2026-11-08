@@ -139,3 +139,41 @@
 .mk--btns { display: flex; flex-wrap: wrap; gap: 6px; }
 .mk--btns span { padding: 6px 10px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--white); font-weight: 700; color: var(--volt-deep); }
 .mk--btns span.g { color: var(--muted); }
+
+/* How the plan is calculated (Adi 2026-11-08): revenue maths, editable benchmarks, every conversion with its numbers */
+.cx-calc { padding: 8px 0 88px; }
+.cx-calc__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; padding: 32px 0 20px; border-top: 1px solid var(--line); }
+.cx-eyebrow--dark { color: var(--volt-deep); }
+.cx-calc__h { margin: 0; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem); font-weight: 800; letter-spacing: -.035em; color: var(--ink); }
+.cx-calc__lede { max-width: 64ch; margin: 8px 0 0; color: var(--muted); font-size: 15.5px; }
+[data-cx-calc] { display: grid; gap: 14px; }
+.cx-card { padding: 18px 20px 20px; border-radius: 16px; background: var(--white); border: 1px solid var(--line); box-shadow: var(--sh-1); min-width: 0; }
+.cx-card__h { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; font-size: 16px; font-weight: 750; color: var(--ink); }
+.cx-tblwrap { overflow-x: auto; margin: 0 -4px; padding: 0 4px; }
+.cx-bt { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 14px; }
+.cx-bt th, .cx-bt td { padding: 10px 8px; border-top: 1px solid var(--line-2); text-align: left; vertical-align: middle; }
+.cx-bt thead th { border-top: 0; padding-top: 0; font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.cx-bt tbody th { font-weight: 400; width: 30%; }
+.cx-bt tbody th b { display: block; font-size: 14.5px; font-weight: 650; color: var(--ink); }
+.cx-bt small { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+.cx-bt .cx-f { width: 88px; height: 38px; border-radius: 9px; }
+.cx-bt .cx-f--usd { width: 96px; }
+.cx-bt .cx-f input { font-size: 14px; }
+.cx-used b { font-size: 15px; color: var(--volt-deep); font-variant-numeric: tabular-nums; }
+.cx-used.is-over b { color: #b45309; }
+.cx-src2 { max-width: 240px; font-size: 12.5px; color: var(--muted); }
+.cx-eqs__k { margin: 18px 0 6px; font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.cx-eqs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.cx-eq { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px 16px; padding: 10px 0; border-top: 1px solid var(--line-2); font-size: 14px; }
+.cx-eqs > .cx-eq:first-child { border-top: 0; }
+@media (min-width: 900px) { .cx-eq { grid-template-columns: 220px minmax(0, 1fr) auto; align-items: baseline; } }
+.cx-eq__l { font-weight: 650; color: var(--ink); }
+.cx-eq__f { color: var(--muted); line-height: 1.6; }
+.cx-eq__r { font-size: 15.5px; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cx-eq__r small { font-size: 12px; font-weight: 500; color: var(--muted); }
+.cx-t { display: inline; padding: 1px 6px; border-radius: 6px; background: var(--paper); color: var(--text); white-space: nowrap; }
+.cx-t b { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.cx-t--k { background: var(--lilac); }
+.cx-t--k b { color: var(--volt-deep); }
+@media (max-width: 599px) { .cx-t { white-space: normal; } .cx-card { padding: 16px 14px; } }
+@media print { .cx-calc { break-before: page; } }

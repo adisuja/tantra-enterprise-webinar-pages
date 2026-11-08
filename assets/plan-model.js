@@ -71,7 +71,8 @@
   const CLOSE = (m = 1) => K('CLOSE', 5, 'Close Rate', 'customers ÷ calls held', +(7 * m).toFixed(1), +(11 * m).toFixed(1), +(17 * m).toFixed(1), 'close', SRC.own, 'call');
   const NEXT52 = K('NRR', 6, 'Nurture Recovery Rate', 'extra customers from 52 weeks of nurture ÷ customers the funnel made', 5, 10, 20, 'retain', SRC.plan);
   const pipe = (m) => [Object.assign({}, CSR, { flags: 'call' }), CLOSE(m)];
-  const callRows = (rows, CB, v) => { const CH_ = CB * v.CSR; rows.push(['Calls booked', CB, 4], ['Calls held', CH_, 5], ['Customers', CH_ * v.CLOSE, 5]); return CH_ * v.CLOSE; };
+  // Each row: [label, count per sign-up, stage, formula]. In formulas {S} is the sign-ups, {ID} a KPI, {r:Label} an earlier row.
+  const callRows = (rows, CB, v, f) => { const CH_ = CB * v.CSR; rows.push(['Calls booked', CB, 4, f], ['Calls held', CH_, 5, '{r:Calls booked} × {CSR}'], ['Customers', CH_ * v.CLOSE, 5, '{r:Calls held} × {CLOSE}']); return CH_ * v.CLOSE; };
 
   const FUNNELS = {
     webinar: {
@@ -88,9 +89,9 @@
       ],
       refPrice: 997,
       run(v, call) {
-        const A = v.SUR, RV = (1 - v.SUR) * v.RWR; const rows = [['Live attendees', A, 3], ['Replay viewers', RV, 3]];
-        if (call) return { rows, cust: callRows(rows, A * v.BR + RV * v.RBR, v) };
-        const B = A * v.PUR + RV * v.PUR * 0.5; rows.push(['Customers', B, 4]); return { rows, cust: B };
+        const A = v.SUR, RV = (1 - v.SUR) * v.RWR; const rows = [['Live attendees', A, 3, '{S} × {SUR}'], ['Replay viewers', RV, 3, '({S} − {r:Live attendees}) × {RWR}']];
+        if (call) return { rows, cust: callRows(rows, A * v.BR + RV * v.RBR, v, '{r:Live attendees} × {BR} + {r:Replay viewers} × {RBR}') };
+        const B = A * v.PUR + RV * v.PUR * 0.5; rows.push(['Customers', B, 4, '{r:Live attendees} × {PUR} + {r:Replay viewers} × {PUR} × 0.5']); return { rows, cust: B };
       }
     },
     rsp: {
@@ -106,9 +107,9 @@
       ],
       refPrice: 997,
       run(v, call) {
-        const OI = v.OIR, P2 = OI * v.P2R; const rows = [['Opt-ins', OI, 3], ['Watched part two', P2, 3]];
-        if (call) return { rows, cust: callRows(rows, P2 * v.BR, v) };
-        rows.push(['Customers', P2 * v.PUR, 4]); return { rows, cust: P2 * v.PUR };
+        const OI = v.OIR, P2 = OI * v.P2R; const rows = [['Opt-ins', OI, 3, '{S} × {OIR}'], ['Watched part two', P2, 3, '{r:Opt-ins} × {P2R}']];
+        if (call) return { rows, cust: callRows(rows, P2 * v.BR, v, '{r:Watched part two} × {BR}') };
+        rows.push(['Customers', P2 * v.PUR, 4, '{r:Watched part two} × {PUR}']); return { rows, cust: P2 * v.PUR };
       }
     },
     workshop: {
@@ -123,9 +124,9 @@
       ],
       refPrice: 997,
       run(v, call) {
-        const D = v.DHR; const rows = [['Day-and-a-half attendees', D, 3]];
-        if (call) return { rows, cust: callRows(rows, D * v.BR, v) };
-        rows.push(['Customers', D * v.PUR, 4]); return { rows, cust: D * v.PUR };
+        const D = v.DHR; const rows = [['Day-and-a-half attendees', D, 3, '{S} × {DHR}']];
+        if (call) return { rows, cust: callRows(rows, D * v.BR, v, '{r:Day-and-a-half attendees} × {BR}') };
+        rows.push(['Customers', D * v.PUR, 4, '{r:Day-and-a-half attendees} × {PUR}']); return { rows, cust: D * v.PUR };
       }
     },
     ooo: {
@@ -142,7 +143,7 @@
       ],
       run(v) {
         const B = v.TW, U = B * v.UP, M = B * v.ASC;
-        return { rows: [['Low-ticket buyers', B, 4], ['Upsell buyers', U, 4], ['Main-offer customers', M, 5]], cust: M, extra: B * v.PE + U * v.PU };
+        return { rows: [['Low-ticket buyers', B, 4, '{S} × {TW}'], ['Upsell buyers', U, 4, '{r:Low-ticket buyers} × {UP}'], ['Main-offer customers', M, 5, '{r:Low-ticket buyers} × {ASC}']], cust: M, extra: B * v.PE + U * v.PU, extraF: '{r:Low-ticket buyers} × {PE} + {r:Upsell buyers} × {PU}' };
       }
     },
     slo: {
@@ -160,7 +161,7 @@
       ],
       run(v) {
         const Bu = v.BUMP, Bk = v.BACK, M = v.ASC;
-        return { rows: [['Order bumps', Bu, 4], ['Backend buyers', Bk, 4], ['Main-offer customers', M, 5]], cust: M, extra: v.PE + Bu * v.PB + Bk * v.PK };
+        return { rows: [['Order bumps', Bu, 4, '{S} × {BUMP}'], ['Backend buyers', Bk, 4, '{S} × {BACK}'], ['Main-offer customers', M, 5, '{S} × {ASC}']], cust: M, extra: v.PE + Bu * v.PB + Bk * v.PK, extraF: '{S} × {PE} + {r:Order bumps} × {PB} + {r:Backend buyers} × {PK}' };
       }
     },
     book: {
@@ -171,7 +172,7 @@
         K('QR', 3, 'Qualification Rate', 'qualified calls booked ÷ applications', 40, 55, 70, 'nurture', SRC.fm),
         ...pipe(0.8), NEXT52
       ],
-      run(v) { const rows = []; return { rows, cust: callRows(rows, v.QR, v) }; }
+      run(v) { const rows = []; return { rows, cust: callRows(rows, v.QR, v, '{S} × {QR}') }; }
     },
     challenge: {
       name: 'Challenge', tag: 'Five to seven days of daily tasks, then the offer', cadence: { per: 'challenge', perYear: 6 }, event: true, signup: 'Registrants', priority: 2,
@@ -186,9 +187,9 @@
       ],
       refPrice: 297,
       run(v, call) {
-        const D1 = v.D1R, C = D1 * v.COMP; const rows = [['Day 1 attendees', D1, 3], ['Finished the challenge', C, 3]];
-        if (call) return { rows, cust: callRows(rows, C * v.BR, v) };
-        rows.push(['Customers', C * v.PUR, 4]); return { rows, cust: C * v.PUR };
+        const D1 = v.D1R, C = D1 * v.COMP; const rows = [['Day 1 attendees', D1, 3, '{S} × {D1R}'], ['Finished the challenge', C, 3, '{r:Day 1 attendees} × {COMP}']];
+        if (call) return { rows, cust: callRows(rows, C * v.BR, v, '{r:Finished the challenge} × {BR}') };
+        rows.push(['Customers', C * v.PUR, 4, '{r:Finished the challenge} × {PUR}']); return { rows, cust: C * v.PUR };
       }
     },
     community: {
@@ -203,9 +204,9 @@
       ],
       refPrice: 47, refMonthly: true,
       run(v, call) {
-        const A = v.ACT; const rows = [['Active members', A, 3]];
-        if (call) return { rows, cust: callRows(rows, A * v.BKR, v) };
-        rows.push(['Paid members', A * v.UPG, 4]); return { rows, cust: A * v.UPG };
+        const A = v.ACT; const rows = [['Active members', A, 3, '{S} × {ACT}']];
+        if (call) return { rows, cust: callRows(rows, A * v.BKR, v, '{r:Active members} × {BKR}') };
+        rows.push(['Paid members', A * v.UPG, 4, '{r:Active members} × {UPG}']); return { rows, cust: A * v.UPG };
       }
     },
     social: {
@@ -217,7 +218,7 @@
         K('BKR', 4, 'Booking Rate', 'calls booked ÷ DM conversations', 10, 20, 30, 'convert', SRC.fm),
         ...pipe(1.2), NEXT52
       ],
-      run(v) { const D = v.DMR; const rows = [['DM conversations', D, 3]]; return { rows, cust: callRows(rows, D * v.BKR, v) }; }
+      run(v) { const D = v.DMR; const rows = [['DM conversations', D, 3, '{S} × {DMR}']]; return { rows, cust: callRows(rows, D * v.BKR, v, '{r:DM conversations} × {BKR}') }; }
     },
     launch: {
       name: 'Product Launch', tag: 'Three-video series, open cart, close', cadence: { per: 'launch', perYear: 3 }, event: true, signup: 'Launch registrants', priority: 0,
@@ -232,9 +233,9 @@
       ],
       refPrice: 997,
       run(v, call) {
-        const V1 = v.V1R, V3 = V1 * v.V3R; const rows = [['Watched video 1', V1, 3], ['Watched video 3', V3, 3]];
-        if (call) return { rows, cust: callRows(rows, V3 * v.BR, v) };
-        rows.push(['Customers', V3 * v.BUY, 4]); return { rows, cust: V3 * v.BUY };
+        const V1 = v.V1R, V3 = V1 * v.V3R; const rows = [['Watched video 1', V1, 3, '{S} × {V1R}'], ['Watched video 3', V3, 3, '{r:Watched video 1} × {V3R}']];
+        if (call) return { rows, cust: callRows(rows, V3 * v.BR, v, '{r:Watched video 3} × {BR}') };
+        rows.push(['Customers', V3 * v.BUY, 4, '{r:Watched video 3} × {BUY}']); return { rows, cust: V3 * v.BUY };
       }
     }
   };
@@ -435,6 +436,10 @@
       const s = scaleOf(k0, fid, a);
       const k = Object.assign({}, k0, { lo: +(k0.lo * s).toFixed(2), ty: +(k0.ty * s).toFixed(2), hi: +(k0.hi * s).toFixed(2) });
       if (k.id === 'PE' && a.entry_price > 0) k.lo = k.ty = k.hi = a.entry_price;
+      // Benchmarks typed over on the plan replace the range (kept in order); the KPI is then placed inside the new range.
+      k.blo = k.lo; k.bty = k.ty; k.bhi = k.hi;
+      const b = (opts.bench || {})[k.id];
+      if (b) { const xs = [b.lo, b.ty, b.hi].map((x, i) => (x != null && isFinite(x) && x >= 0 ? +x : [k.lo, k.ty, k.hi][i])).sort((p, q) => p - q); k.lo = xs[0]; k.ty = xs[1]; k.hi = xs[2]; k.benched = true; }
       const planned = k.fmt === 'usd' ? k.ty : clamp(inRange(k, position(k, prof)), k.lo, k.hi);
       const value = over[k.id] != null && isFinite(over[k.id]) ? Math.max(0, over[k.id]) : planned;
       return Object.assign(k, { planned, value, over: over[k.id] != null });
@@ -491,10 +496,11 @@
       if (f.adsOnly && a.ad_budget > 0 && adSpend > a.ad_budget * 1.01) budgetShort = adSpend - a.ad_budget;
     }
     const m = (x) => x * need;
-    const rows = r.rows.map(([label, n, stage]) => ({ label, n: m(n), stage }));
+    const rows = r.rows.map(([label, n, stage, formula]) => ({ label, n: m(n), stage, formula }));
     const custMonth = m(r.cust);
     return {
       funnel: fid, name: f.name, call, a, goal, cycles, cadence: f.cadence, signup: f.signup, kpis, lines, rows,
+      perSignup: { cust: r.cust, extra: r.extra || 0, rev: revPerSignup }, extraF: r.extraF || null, event: !!f.event, organic: !!f.organic,
       signupsMonth: need, coldVisits, perCycle, custMonth, cust12: custMonth * 12,
       revMonth: goal / 12, rev12: revPerSignup > 0 ? goal : 0, value12: val12, extra12: (r.extra || 0) * need * 12,
       adSpend, gap, budgetShort, unreachable: !(revPerSignup > 0), later: custMonth * 12 * (v.NRR || 0),

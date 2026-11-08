@@ -19,7 +19,7 @@
   var sig = b64(A).slice(0, 48);
   var S = fromHash.e || (saved && saved.sig === sig ? saved.s : null) || {};
   S.funnel = S.funnel && T.FUNNELS[S.funnel] ? S.funnel : (A.funnel || T.recommend(A)[0].id);
-  S.over = S.over || {}; S.mix = S.mix || {};
+  S.over = S.over || {}; S.mix = S.mix || {}; S.bench = S.bench || {};
 
   var fmtN = function (x) { x = +x || 0; var a = Math.abs(x); if (a >= 1e6) return (Math.round(x / 1e5) / 10).toLocaleString('en-US') + 'M'; return a >= 100 ? Math.round(x).toLocaleString('en-US') : a >= 10 ? (Math.round(x * 10) / 10).toLocaleString('en-US') : (Math.round(x * 100) / 100).toLocaleString('en-US'); };
   var fmtU = function (x) { return '$' + Math.round(+x || 0).toLocaleString('en-US'); };
@@ -27,7 +27,7 @@
   var digits = function (v) { return Number(String(v).replace(/[^\d.]/g, '')) || 0; };
   var round = function (x) { return x >= 1 ? Math.round(x * 10) / 10 : Math.round(x * 100) / 100; };
 
-  function opts() { return { over: S.over[S.funnel] || {}, mix: S.mix[S.funnel] || null, goal: S.goal || 0, call: S.path ? S.path === 'call' : null, price: S.price || 0, price_model: S.model || null }; }
+  function opts() { return { bench: S.bench[S.funnel] || {}, over: S.over[S.funnel] || {}, mix: S.mix[S.funnel] || null, goal: S.goal || 0, call: S.path ? S.path === 'call' : null, price: S.price || 0, price_model: S.model || null }; }
   function plan() { return T.plan(S.funnel, A, opts()); }
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify({ sig: sig, s: S })); } catch (e) {}
@@ -117,39 +117,116 @@
     right();
     if (isGoal) { var g = $('[data-goal]'); g.value = v; g.focus(); try { g.setSelectionRange(pos, pos); } catch (e) {} }
   }
-  function render() { tabs(); left(); right(); $('[data-cx-sample]').hidden = !sample; }
+  /* ---------- Bottom: how the plan is calculated ---------- */
+  var fmtP = function (x) { return (x >= 1 ? Math.round(x * 10) / 10 : Math.round(x * 100) / 100) + '%'; };
+  var kv = function (k) { return k.fmt === 'usd' ? '$' + (Math.round(k.value * 100) / 100).toLocaleString('en-US') : fmtP(k.value); };
+  function calc() {
+    var p = plan(), f = T.FUNNELS[S.funnel], K = {}; p.kpis.forEach(function (k) { K[k.id] = k; });
+    var rowBy = {}; p.rows.forEach(function (r) { rowBy[r.label] = r; });
+    var tok = function (s) {
+      return s.replace(/\{S\}/g, '<span class="cx-t">' + esc(p.signup) + ' <b>' + fmtN(p.signupsMonth) + '</b></span>')
+        .replace(/\{r:([^}]+)\}/g, function (_, l) { var r = rowBy[l]; return '<span class="cx-t">' + esc(l) + ' <b>' + fmtN(r ? r.n : 0) + '</b></span>'; })
+        .replace(/\{([A-Z0-9]+)\}/g, function (_, id) { var k = K[id]; return k ? '<span class="cx-t cx-t--k">' + esc(k.name) + ' <b>' + kv(k) + '</b></span>' : id; });
+    };
+    var eq = function (label, formula, result) { return '<li class="cx-eq"><span class="cx-eq__l">' + label + '</span><span class="cx-eq__f">= ' + formula + '</span><b class="cx-eq__r">= ' + result + '</b></li>'; };
+    var a = p.a, model = a.price_model, mode = { one_time: 'one-time', monthly: 'a month', annual: 'a year' }[model];
+
+    // 1. The revenue maths
+    var h = '<article class="cx-card"><h3 class="cx-card__h"><span class="cx-st__n">$</span>The revenue maths</h3><ol class="cx-eqs">';
+    h += eq('Revenue a month', '<span class="cx-t">12-month goal <b>' + fmtU(p.goal) + '</b></span> ÷ 12', fmtU(p.revMonth));
+    h += eq('Revenue per customer in 12 months', model === 'monthly' ? '<span class="cx-t">Price <b>' + fmtU(a.price) + ' a month</b></span> × <span class="cx-t">average months paid in the year <b>' + (Math.round(p.value12 / a.price * 10) / 10) + '</b></span> (customers join through the year; ' + fmtP(p.churn * 100) + ' leave each month)' : '<span class="cx-t">Price <b>' + fmtU(a.price) + ' ' + mode + '</b></span>', fmtU(p.value12));
+    h += eq('Customers per ' + p.signup.toLowerCase().replace(/s$/, ''), 'the conversions in stages 3 to 5 below, multiplied', fmtP(p.perSignup.cust * 100));
+    h += eq('Revenue per ' + p.signup.toLowerCase().replace(/s$/, ''), '<span class="cx-t">customers per sign-up <b>' + fmtP(p.perSignup.cust * 100) + '</b></span> × ' + fmtU(p.value12) + (p.perSignup.extra ? ' + <span class="cx-t">low-ticket sales per sign-up <b>$' + (Math.round(p.perSignup.extra * 100) / 100) + '</b></span>' : ''), '$' + (Math.round(p.perSignup.rev * 100) / 100).toLocaleString('en-US'));
+    h += eq(p.signup + ' needed a month', fmtU(p.revMonth) + ' ÷ $' + (Math.round(p.perSignup.rev * 100) / 100).toLocaleString('en-US'), fmtN(p.signupsMonth) + (p.cycles !== 12 ? ' <small>(' + fmtN(p.perCycle) + ' per ' + p.cadence.per + ', ' + p.cycles + ' a year)</small>' : ''));
+    h += '</ol></article>';
+
+    // 2. Stage by stage: benchmarks (editable) and conversions
+    var bench = function (k) {
+      var b = (S.bench[S.funnel] || {})[k.id] || {}, u = k.fmt === 'usd' ? '$' : '%';
+      var cell = function (w) { var v = b[w] != null ? b[w] : k['b' + w]; return '<td>' + field('data-b="' + k.id + ':' + w + '"', round(+v), u, k.name + ' ' + { lo: 'low', ty: 'typical', hi: 'strong' }[w] + ' benchmark', b[w] != null ? ' is-set' : '') + '</td>'; };
+      return '<tr><th scope="row"><b>' + esc(k.channel ? T.CH[k.channel].name + ': ' + k.name : k.name) + '</b><small>' + esc(k.def) + '</small></th>' + cell('lo') + cell('ty') + cell('hi') +
+        '<td class="cx-used' + (k.over ? ' is-over' : '') + '"><b>' + kv(k) + '</b><small>' + (k.over ? 'typed on the calculator' : 'from your answers') + '</small></td><td class="cx-src2">' + esc(k.src) + '</td></tr>';
+    };
+    for (var st = 1; st <= 6; st++) {
+      var ks = p.kpis.filter(function (k) { return k.stage === st; }), rs = p.rows.filter(function (r) { return r.stage === st; }), eqs = '';
+      if (st === 1) {
+        p.lines.forEach(function (l) {
+          if (l.id === 'owned') { eqs += eq('Sign-ups from your own audience', 'visits from your list and followers × <span class="cx-t">warm rate <b>' + fmtP(Math.min(60, K.LP.value * 2.5)) + '</b></span> (2.5 × the page rate)', fmtN(l.signups)); return; }
+          var k = p.kpis.find(function (x) { return x.channel === l.id; });
+          if (f.organic) { eqs += eq('Offer post viewers', tok('{S} ÷ {LP}'), fmtN(l.visits)); eqs += eq('People your posts reach', 'offer post viewers × 10 (1 post in 10 is an offer post)', fmtN(l.reach)); return; }
+          var sg = '<span class="cx-t">' + esc(p.signup) + ' from ' + esc(T.CH[l.id].name.toLowerCase()) + ' <b>' + fmtN(l.signups) + '</b> (' + Math.round(l.share || 0) + '% share)</span>';
+          if (p.event && T.CH[l.id].ev) { eqs += eq(l.unit.charAt(0).toUpperCase() + l.unit.slice(1), sg + ' ÷ ' + tok('{' + k.id + '}'), fmtN(l.reach)); return; }
+          eqs += eq('Page visits from ' + T.CH[l.id].name.toLowerCase(), sg + ' ÷ ' + tok('{LP}'), fmtN(l.visits));
+          if (l.money) eqs += eq('Ad spend', '<span class="cx-t">page visits <b>' + fmtN(l.visits) + '</b></span> × ' + tok('{CPC}') + ' ÷ 85% of clicks that load the page', fmtU(l.reach));
+          else eqs += eq(l.unit.charAt(0).toUpperCase() + l.unit.slice(1), '<span class="cx-t">page visits <b>' + fmtN(l.visits) + '</b></span> ÷ ' + tok('{' + k.id + '}'), fmtN(l.reach));
+        });
+      }
+      if (st === 2) eqs += eq(p.signup + ' a month', 'the sum of the channels in stage 1', fmtN(p.signupsMonth));
+      rs.forEach(function (r) { if (r.formula) eqs += eq(r.label, tok(r.formula), fmtN(r.n)); });
+      if (st === 5) eqs += eq('Revenue a month', '<span class="cx-t">' + (rowBy['Customers'] ? 'Customers' : (rowBy['Main-offer customers'] ? 'Main-offer customers' : 'Paid members')) + ' <b>' + fmtN(p.custMonth) + '</b></span> × ' + fmtU(p.value12) + (p.extraF ? ' + ' + tok(p.extraF) : ''), fmtU(p.revMonth));
+      if (st === 6) eqs += eq('Customers from the next 52 weeks', '<span class="cx-t">customers a year <b>' + fmtN(p.cust12) + '</b></span> × ' + tok('{NRR}'), fmtN(p.later));
+      if (!ks.length && !eqs) continue;
+      h += '<article class="cx-card"><h3 class="cx-card__h"><span class="cx-st__n">' + st + '</span>' + T.STAGES[st] + '</h3>';
+      if (ks.length) h += '<div class="cx-tblwrap"><table class="cx-bt"><thead><tr><th scope="col">KPI</th><th scope="col">Low</th><th scope="col">Typical</th><th scope="col">Strong</th><th scope="col">Used</th><th scope="col">Source</th></tr></thead><tbody>' + ks.map(bench).join('') + '</tbody></table></div>';
+      if (eqs) h += '<p class="cx-eqs__k">Conversions a month</p><ol class="cx-eqs">' + eqs + '</ol>';
+      h += '</article>';
+    }
+    $('[data-cx-calc]').innerHTML = h;
+  }
+
+  // Redraw while keeping the cursor where it was (typing in a benchmark redraws every part of the page).
+  function keep(fn) {
+    var ae = document.activeElement, key = ae && ae.getAttribute && (ae.getAttribute('data-b') || ae.getAttribute('data-k') || ae.getAttribute('data-mix'));
+    var attr = ae && ae.getAttribute && (ae.hasAttribute('data-b') ? 'data-b' : ae.hasAttribute('data-k') ? 'data-k' : 'data-mix');
+    var pos = key ? ae.selectionStart : 0, val = key ? ae.value : null;
+    fn();
+    if (key) { var el = document.querySelector('[' + attr + '="' + key + '"]'); if (el) { el.value = val; el.focus({ preventScroll: true }); try { el.setSelectionRange(pos, pos); } catch (e) {} } }
+  }
+
+  function render() { tabs(); left(); right(); calc(); $('[data-cx-sample]').hidden = !sample; }
 
   /* ---------- Events ---------- */
   document.addEventListener('input', function (e) {
     var t = e.target;
-    if (t.hasAttribute('data-goal')) { var d = t.value.replace(/[^\d]/g, '').slice(0, 11); t.value = d ? Number(d).toLocaleString('en-US') : ''; S.goal = Number(d) || 0; save(); rightKeep(); return; }
+    if (t.hasAttribute('data-goal')) { var d = t.value.replace(/[^\d]/g, '').slice(0, 11); t.value = d ? Number(d).toLocaleString('en-US') : ''; S.goal = Number(d) || 0; save(); rightKeep(); calc(); return; }
     var k = t.getAttribute('data-k');
     if (k) {
       var raw = t.value.replace(/[^\d.]/g, ''); S.over[S.funnel] = S.over[S.funnel] || {};
       if (raw === '' || !isFinite(+raw)) delete S.over[S.funnel][k]; else S.over[S.funnel][k] = +raw;
       var r = t.closest('.cx-r'); r.classList.toggle('is-over', raw !== ''); r.querySelector('.cx-undo').hidden = raw === '';
-      save(); right(); return;
+      save(); right(); calc(); return;
+    }
+    var bk = t.getAttribute('data-b');
+    if (bk) {
+      var parts = bk.split(':'), rawb = t.value.replace(/[^\d.]/g, '');
+      var fb = S.bench[S.funnel] = S.bench[S.funnel] || {}, e = fb[parts[0]] = fb[parts[0]] || {};
+      if (rawb === '' || !isFinite(+rawb)) delete e[parts[1]]; else e[parts[1]] = +rawb;
+      if (!Object.keys(e).length) delete fb[parts[0]];
+      t.parentNode.classList.toggle('is-set', rawb !== '');
+      save(); keep(function () { left(); right(); calc(); }); return;
     }
     var mx = t.getAttribute('data-mix');
     if (mx) {
       var p = plan(); S.mix[S.funnel] = S.mix[S.funnel] || {};
       p.lines.forEach(function (l) { if (l.id !== 'owned' && S.mix[S.funnel][l.id] == null) S.mix[S.funnel][l.id] = Math.round(l.share || 0); });
       S.mix[S.funnel][mx] = Math.min(100, digits(t.value)); t.parentNode.classList.add('is-set');
-      save(); right(); return;
+      save(); right(); calc(); return;
     }
-    if (t.getAttribute('data-o') === 'price') { var dp = t.value.replace(/[^\d]/g, '').slice(0, 9); t.value = dp ? Number(dp).toLocaleString('en-US') : ''; S.price = Number(dp) || 0; t.closest('.cx-r').classList.toggle('is-over', !!S.price); save(); right(); }
+    if (t.getAttribute('data-o') === 'price') { var dp = t.value.replace(/[^\d]/g, '').slice(0, 9); t.value = dp ? Number(dp).toLocaleString('en-US') : ''; S.price = Number(dp) || 0; t.closest('.cx-r').classList.toggle('is-over', !!S.price); save(); right(); calc(); }
   });
   document.addEventListener('change', function (e) {
     var o = e.target.getAttribute('data-o');
-    if (o === 'model') { S.model = e.target.value; save(); left(); right(); return; }
-    if (o === 'path') { S.path = e.target.value; save(); left(); right(); return; }
-    if (o === 'price') { left(); right(); } // the close rate follows the price band once typing ends
+    if (o === 'model') { S.model = e.target.value; save(); left(); right(); calc(); return; }
+    if (o === 'path') { S.path = e.target.value; save(); left(); right(); calc(); return; }
+    if (o === 'price') { left(); right(); calc(); }
+    if (e.target.hasAttribute('data-b')) { keep(function () { left(); right(); calc(); }); } // the close rate follows the price band once typing ends
   });
   document.addEventListener('click', function (e) {
     var t = e.target.closest('[data-f]'); if (t) { S.funnel = t.getAttribute('data-f'); save(); render(); return; }
-    var u = e.target.closest('[data-undo]'); if (u) { delete (S.over[S.funnel] || {})[u.getAttribute('data-undo')]; save(); left(); right(); return; }
-    if (e.target.closest('[data-undo-o]')) { S.price = 0; save(); left(); right(); return; }
-    if (e.target.closest('[data-reset]')) { S = { funnel: S.funnel, over: {}, mix: {} }; save(); left(); right(); return; }
+    var u = e.target.closest('[data-undo]'); if (u) { delete (S.over[S.funnel] || {})[u.getAttribute('data-undo')]; save(); left(); right(); calc(); return; }
+    if (e.target.closest('[data-undo-o]')) { S.price = 0; save(); left(); right(); calc(); return; }
+    if (e.target.closest('[data-reset]')) { S = { funnel: S.funnel, over: {}, mix: {}, bench: S.bench }; save(); left(); right(); calc(); return; }
+    if (e.target.closest('[data-bench-reset]')) { S.bench[S.funnel] = {}; save(); left(); right(); calc(); return; }
     var c = e.target.closest('[data-copy]');
     if (c) {
       var url = location.origin + location.pathname + '#p=' + b64(A) + '&e=' + b64(S);
