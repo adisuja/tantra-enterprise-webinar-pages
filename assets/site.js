@@ -82,6 +82,10 @@
   var pay = document.querySelector('[data-pay]');
   if (pay) {
     var pst = params.get('status'), pid = params.get('payment_id'), pem = params.get('email');
+    // Only Dodo-shaped values are shown (the URL is typeable); then the buyer's details leave the address bar.
+    if (pid && !/^pay_[A-Za-z0-9_-]{4,}$/.test(pid)) pid = null;
+    if (pem && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pem)) pem = null;
+    if (params.has('status') && history.replaceState) { try { var keep = new URLSearchParams(location.search); ['status', 'payment_id', 'email'].forEach(function (k) { keep.delete(k); }); history.replaceState(null, '', location.pathname + (keep.toString() ? '?' + keep : '') + location.hash); } catch (e) {} }
     if (state === 'paid') { pst = 'succeeded'; pid = pid || 'pay_sample_review'; pem = pem || 'you@example.com'; }
     else if (state === 'processing') pst = 'processing';
     else if (state === 'failed') pst = 'failed';
