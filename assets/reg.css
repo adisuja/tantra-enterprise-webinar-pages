@@ -387,11 +387,6 @@ body.page-reg .bundle { --bk: 100px; --dp: 13px; position: relative; max-width: 
 .wb__tag { position: absolute; z-index: 1; top: 14px; left: 14px; padding: 8px 12px 7px; border-radius: 999px; font: 600 12.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #fff;
   background: rgba(255, 255, 255, .14); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3); }
 .wb__card--light .wb__tag { color: var(--ink); background: rgba(255, 255, 255, .62); box-shadow: inset 0 0 0 1px rgba(11, 13, 18, .1); }
-/* The value of each bonus (Adi 2026-11-08): a solid accent chip opposite the Bonus tag */
-.wb__worth { position: absolute; z-index: 1; top: 12px; right: 12px; display: inline-flex; align-items: baseline; gap: 6px; padding: 7px 13px 7px 12px; border-radius: 999px;
-  font: 600 12.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #fff;
-  background: linear-gradient(140deg, var(--acc-2), var(--acc)); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--acc) 90%, transparent), inset 0 0 0 1px rgba(255, 255, 255, .25); }
-.wb__worth b { font-family: var(--disp); font-stretch: 80%; font-weight: 900; font-size: 21px; letter-spacing: 0; }
 .wb__num { position: absolute; z-index: 1; right: 14px; bottom: -14px; font-family: var(--disp); font-stretch: 75%; font-weight: 900; font-size: 118px; line-height: 1; letter-spacing: -.02em;
   color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .72); transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
 .wb__card--light .wb__num { -webkit-text-stroke-color: color-mix(in srgb, var(--acc) 70%, transparent); }
@@ -399,7 +394,12 @@ body.page-reg .bundle { --bk: 100px; --dp: 13px; position: relative; max-width: 
   background: linear-gradient(150deg, var(--acc-2), var(--acc)); box-shadow: 0 0 0 5px #fff, 0 16px 30px -12px color-mix(in srgb, var(--acc) 75%, transparent);
   transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
 .wb__icon svg { width: 30px; height: 30px; }
-.wb__body { padding: 18px 18px 20px; }
+.wb__body { flex: 1; display: flex; flex-direction: column; padding: 18px 18px 20px; }
+/* The value of each bonus (Adi 2026-11-08): bold ink figure on the card's bottom line, level across the three cards */
+.wb__body h3 + p { margin-bottom: 22px; }
+.wb__body .wb__worth { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(11, 13, 18, .1); }
+.wb__worth span { font: 600 13px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.wb__worth b { font-family: var(--disp); font-stretch: 80%; font-weight: 900; font-size: 46px; line-height: .9; letter-spacing: -.01em; color: var(--ink); }
 .wb__body h3 { margin: 0 0 10px; font-family: var(--disp); font-stretch: 80%; font-weight: 800; font-size: 25px; line-height: 1.08; letter-spacing: 0; text-transform: uppercase; color: var(--ink); text-wrap: balance; }
 .wb__body p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--text); }
 .wb__card:hover { transform: translateY(-6px); box-shadow: 0 0 0 1px rgba(11, 13, 18, .04), 0 2px 4px -2px rgba(11, 13, 18, .06), 0 44px 80px -40px color-mix(in srgb, var(--acc) 75%, rgba(11, 13, 18, .5)); }
@@ -426,9 +426,10 @@ body.page-reg .learn .caps--upper { max-width: none; }
   .bundle:hover .book--3, .bundle.is-open .book--3 { transform: translate3d(8px, -10px, -46px) rotateY(-38deg) rotateZ(3deg); }
   .bundle:hover :is(.bundle__icons--l, .bundle__icons--r) .bi__t, .bundle.is-open :is(.bundle__icons--l, .bundle__icons--r) .bi__t { transform: scale(1.06); }
 }
-/* $1MN+ is the key part of the bonus titles (Adi 2026-11-08): highlighted in the cards as on the covers */
-.wb__hl { display: inline-block; padding: 0 .16em .02em; margin-right: .05em; border-radius: .14em; font-size: 1.22em; line-height: 1; color: #fff;
-  background: linear-gradient(140deg, var(--acc-2), var(--acc)); box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--acc) 80%, transparent); }
+/* $1MN+ is the key part of the bonus titles (Adi 2026-11-08): its own line, a large accent figure with no box, the rest of the title under it */
+.wb__k { display: flex; align-items: baseline; gap: .3em; margin-bottom: 4px; }
+.wb__hl { font-size: 2.1em; font-weight: 900; line-height: .9; letter-spacing: -.015em; color: var(--acc);
+  background: linear-gradient(120deg, var(--acc) 10%, color-mix(in srgb, var(--acc) 62%, #0b0d12) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 /* The centred logo sits at the very top of the page (Adi 2026-11-08) */
 body.page-reg .hero { padding-top: 22px; }
 @media (min-width: 768px) { body.page-reg .hero { padding-top: 30px; } }
