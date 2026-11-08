@@ -387,6 +387,11 @@ body.page-reg .bundle { --bk: 100px; --dp: 13px; position: relative; max-width: 
 .wb__tag { position: absolute; z-index: 1; top: 14px; left: 14px; padding: 8px 12px 7px; border-radius: 999px; font: 600 12.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #fff;
   background: rgba(255, 255, 255, .14); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3); }
 .wb__card--light .wb__tag { color: var(--ink); background: rgba(255, 255, 255, .62); box-shadow: inset 0 0 0 1px rgba(11, 13, 18, .1); }
+/* The value of each bonus (Adi 2026-11-08): a solid accent chip opposite the Bonus tag */
+.wb__worth { position: absolute; z-index: 1; top: 12px; right: 12px; display: inline-flex; align-items: baseline; gap: 6px; padding: 7px 13px 7px 12px; border-radius: 999px;
+  font: 600 12.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #fff;
+  background: linear-gradient(140deg, var(--acc-2), var(--acc)); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--acc) 90%, transparent), inset 0 0 0 1px rgba(255, 255, 255, .25); }
+.wb__worth b { font-family: var(--disp); font-stretch: 80%; font-weight: 900; font-size: 21px; letter-spacing: 0; }
 .wb__num { position: absolute; z-index: 1; right: 14px; bottom: -14px; font-family: var(--disp); font-stretch: 75%; font-weight: 900; font-size: 118px; line-height: 1; letter-spacing: -.02em;
   color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .72); transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
 .wb__card--light .wb__num { -webkit-text-stroke-color: color-mix(in srgb, var(--acc) 70%, transparent); }
