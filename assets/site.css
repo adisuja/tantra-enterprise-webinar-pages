@@ -506,114 +506,11 @@ body.modal-open { overflow: hidden; }
 }
 @media (min-width: 900px) { .video { border-radius: var(--r-lg); } }
 
-/* ---------- Paper band heading, industry by stage matrix ---------- */
+/* ---------- Paper band heading (the case explorer lives in cases.css since 2026-11-08) ---------- */
 .sublime { max-width: 640px; margin: var(--s2) auto 0; font-size: var(--fs-lead); font-weight: 500; color: var(--volt-deep); }
 .sublime--ink { color: var(--muted); font-weight: 400; }
 .arrow { display: flex; justify-content: center; margin: var(--s3) 0 var(--s4); color: var(--volt-deep); }
 .arrow .ico { width: 32px; height: 32px; padding: 6px; border-radius: 50%; background: var(--lilac-2); }
-.mx-wrap { max-width: 1000px; margin: 0 auto; }
-.mx { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; }
-.mx thead { display: none; }
-.mx tbody { display: grid; gap: var(--s2); }
-.mx tr { display: block; overflow: hidden; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-1); }
-.mx tbody th { display: block; padding: 14px var(--s2); background: var(--lilac); font-size: 16px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); text-align: left; }
-.mx tbody th a { color: var(--ink); text-decoration: none; display: flex; align-items: center; min-height: 44px; padding: 12px 0; }
-@media (max-width: 767px) { .mx tbody th:has(a) { padding-top: 6px; padding-bottom: 6px; } }
-.mx tbody th a::after { content: ''; width: 18px; height: 18px; margin-left: auto; background: var(--chev) center / 18px no-repeat; transform: rotate(-90deg); }
-.mx__cell { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 12px var(--s2); border-top: 1px solid var(--line-2); }
-.mx__lbl { display: flex; flex-direction: column; line-height: 1.3; }
-.mx__lbl b { font-size: 14.5px; font-weight: 700; color: var(--ink); }
-.mx__lbl small { font-size: 12.5px; color: var(--muted); }
-.mx__val { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; text-align: right; }
-.mx__case { display: flex; align-items: center; gap: 10px; flex-direction: row-reverse; min-height: 44px; text-decoration: none; }
-.mx__badge { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(140deg, var(--volt), var(--night)); color: var(--white); font: 700 14px var(--sans); letter-spacing: -.01em; box-shadow: 0 0 0 3px var(--white), 0 0 0 4px var(--lilac-2), 0 8px 16px -6px rgba(75, 47, 214, .5); transition: transform .18s var(--ease); }
-.mx__case:hover .mx__badge { transform: scale(1.05); }
-.mx__badge--photo { overflow: hidden; background: var(--lilac-2); }
-.mx__badge--photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block; }
-.mx__name { font-size: 14.5px; font-weight: 650; color: var(--volt-deep); letter-spacing: -.015em; line-height: 1.3; }
-.mx__case:hover .mx__name { text-decoration: underline; text-underline-offset: .18em; }
-.mx__cell--empty .mx__val { flex-direction: row-reverse; align-items: center; gap: 10px; }
-.mx__ghost { flex: none; display: block; width: 28px; height: 28px; border-radius: 50%; border: 1.5px dashed #c9bffa; }
-.mx__name--ghost { font-size: 13.5px; font-weight: 500; color: #6b7280; }
-.mx__cell .fill { font-size: 12px; }
-.mx__dots { display: none; }
-.mx__none { display: none; }
-@media (max-width: 767px) {
-  .mx__row--none .mx__cell { display: none; }
-  .mx__row--none .mx__none { display: block; padding: 14px var(--s2); font-size: 14px; color: var(--muted); border-top: 1px solid var(--line-2); }
-}
-@media (min-width: 768px) {
-  .mx-wrap { overflow: hidden; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-2); }
-  .mx { table-layout: fixed; text-align: center; }
-  .mx thead { display: table-header-group; }
-  .mx tbody { display: table-row-group; }
-  .mx tr { display: table-row; border: 0; border-radius: 0; box-shadow: none; background: none; }
-  .mx thead th { padding: var(--s3) var(--s1) var(--s2); vertical-align: bottom; border-bottom: 1px solid var(--line); }
-  .mx thead th:first-child { width: 24%; }
-  .mx thead th b { display: block; font-size: 16px; font-weight: 800; letter-spacing: -.02em; color: var(--ink); }
-  .mx thead th small { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 400; color: var(--muted); line-height: 1.35; }
-  .mx th:nth-child(odd):not(:first-child), .mx td:nth-child(odd) { background: #fafafd; }
-  .mx tbody th { display: table-cell; padding: var(--s3) var(--s2); background: none; font-size: 15px; vertical-align: middle; border-top: 1px solid var(--line-2); }
-  .mx tbody tr:first-child > * { border-top: 0; }
-  .mx tbody th a { display: inline-block; min-height: 0; }
-  .mx tbody th a::after { display: none; }
-  .mx tbody th a:hover { color: var(--volt-deep); text-decoration: underline; }
-  .mx__cell { display: table-cell; padding: var(--s3) var(--s1); vertical-align: middle; border-top: 1px solid var(--line-2); }
-  .mx__lbl { display: none; }
-  .mx__val, .mx__cell--empty .mx__val { flex-direction: column; align-items: center; gap: 8px; text-align: center; }
-  .mx__case { flex-direction: column; gap: 10px; }
-  .mx__badge { width: 64px; height: 64px; font-size: 19px; }
-  .mx__ghost { width: 56px; height: 56px; border-width: 2px; }
-  .mx__dots { display: flex; justify-content: center; gap: 4px; }
-  .mx__dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--volt-deep); }
-}
-
-/* ---------- Case study card ---------- */
-.case { max-width: 1000px; margin: 0 auto var(--s6); overflow: hidden; background: var(--white); border: 2px solid var(--volt-deep); border-radius: var(--r-lg); box-shadow: var(--sh-3); }
-.case:last-child { margin-bottom: 0; }
-.case__head { margin: 0; padding: 18px var(--s3); background: var(--volt-deep); color: var(--white) !important; text-align: center; font-size: clamp(1.375rem, 1.1rem + 1vw, 1.875rem); font-weight: 800; letter-spacing: -.03em; }
-/* Case header bar: the client's logo on a white plate, the company name, then the client contact (real published photo). */
-.case__bar { display: flex; flex-direction: column; align-items: center; gap: var(--s2); padding: var(--s3); background: radial-gradient(120% 160% at 0% 0%, rgba(167, 139, 250, .35), transparent 60%), var(--volt-deep); color: var(--white); text-align: center; }
-.case__logo { display: inline-flex; align-items: center; justify-content: center; min-width: 120px; min-height: 64px; padding: 10px 18px; background: var(--white); border-radius: 14px; box-shadow: 0 8px 20px -10px rgba(11, 13, 18, .45); }
-.case__logo img { display: block; }
-.case__id { min-width: 0; }
-.case__name { margin: 0; color: var(--white) !important; font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
-.case__id p { margin: 4px 0 0; font-size: 15px; color: #ddd6fe; }
-.case__who { display: flex; align-items: center; gap: 12px; margin: 4px 0 0; padding: 8px 16px 8px 8px; text-align: left; background: rgba(11, 13, 18, .22); border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14); }
-.case__photo { flex: none; width: 52px; height: 52px; object-fit: cover; object-position: 50% 18%; border-radius: 50%; box-shadow: 0 0 0 2px var(--white); }
-.case__who span { display: flex; flex-direction: column; font-size: 13.5px; line-height: 1.35; color: #e9e4ff; }
-.case__who b { font-size: 16px; font-weight: 700; color: var(--white); letter-spacing: -.015em; }
-@media (min-width: 768px) {
-  .case__bar { flex-direction: row; text-align: left; gap: var(--s3); padding: var(--s3) var(--s4); }
-  .case__who { margin: 0 0 0 auto; }
-}
-.case__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s4); padding: var(--s4) var(--s3); align-items: center; text-align: center; }
-.case h4 { margin: 0 0 var(--s1); font-size: 18px; font-weight: 800; letter-spacing: -.02em; color: var(--volt-deep); }
-.case__left p { margin: 0 0 var(--s3); }
-.case__left p:last-child { margin-bottom: 0; }
-.case__left strong, .pills strong { color: var(--ink); font-weight: 700; }
-.pills { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 12px; }
-.pills li { padding: 14px 16px; font-size: 16px; line-height: 1.5; background: var(--lilac); border: 1px solid var(--lilac-2); border-radius: 14px; }
-.kpistrip { list-style: none; margin: 0; padding: var(--s2); display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; background: var(--ink-2); }
-.kpistrip li { padding: 14px 16px; text-align: center; color: var(--white); border-radius: 14px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); }
-.kpistrip span { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 500; color: var(--muted-d); }
-.kpistrip b { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.kpistrip b .ico { width: 18px; height: 18px; color: var(--iris); }
-.kpistrip__note { margin: 0; padding: 0 var(--s2) var(--s2); background: var(--ink-2); color: var(--muted-d); font-size: 13px; text-align: center; }
-.case__video { padding: var(--s4) var(--s3) var(--s1); }
-.case__video .video { max-width: 760px; margin: 0 auto; }
-.case__video h4 { text-align: center; }
-.case__src { margin: 0; padding: var(--s2) var(--s3) var(--s4); font-size: 13px; color: var(--muted); text-align: center; }
-.case--ghost { border: 2px dashed var(--haze); box-shadow: none; }
-.case--ghost .case__head { background: var(--lilac); color: var(--volt-deep) !important; }
-.case__ghostbody { max-width: 620px; margin: 0 auto; padding: var(--s4) var(--s3); text-align: center; color: var(--muted); }
-@media (min-width: 768px) {
-  .case { margin-bottom: var(--s8); }
-  .case__head { padding: 20px var(--s4); }
-  .case__cols { grid-template-columns: 1fr 1fr; gap: var(--s6); padding: var(--s5) var(--s6); }
-  .kpistrip { grid-template-columns: repeat(3, 1fr); padding: var(--s3) var(--s3) var(--s2); }
-  .case__video { padding: var(--s5) var(--s6) var(--s1); }
-}
 
 /* ---------- What clients say (dark band) ---------- */
 
