@@ -13,3 +13,17 @@
     clock.textContent = '0' + Math.floor(left / 60) + ':' + ('0' + (left % 60)).slice(-2);
   }, 1000);
 })();
+
+// Checkout pre-fill: the registration form kept the email and first name in sessionStorage; Dodo's payment link
+// accepts them as query parameters, so the buyer does not type them twice.
+(function () {
+  var email = null, first = null;
+  try { email = sessionStorage.getItem('tantra_email'); first = sessionStorage.getItem('tantra_first_name'); } catch (e) {}
+  if (!email && !first) return;
+  document.querySelectorAll('a.vip-yes[href^="https://checkout.dodopayments.com/"]').forEach(function (a) {
+    var u = new URL(a.href);
+    if (email) u.searchParams.set('email', email);
+    if (first) u.searchParams.set('firstName', first);
+    a.href = u.toString();
+  });
+})();

@@ -199,3 +199,14 @@
 .vip-note--after { margin-top: 28px; margin-bottom: 0; }
 /* The dark-section heading rule above is declared after the light one; restore ink headings on light sections. */
 .vip-sec.vip-sec--light h2, .vip-sec.vip-sec--light h3 { color: var(--ink); }
+
+/* Confirmed page: the payment state Dodo sends back (paid, processing, failed). Hidden unless a status arrived. */
+.payline { max-width: 760px; margin: 28px auto 0; }
+.payline[hidden] { display: none !important; }
+.payline__box { display: grid; gap: 10px; justify-items: start; padding: 22px 24px; border-radius: 16px; text-align: left; background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); }
+.payline__box[hidden] { display: none !important; }
+.payline__box--paid { background: linear-gradient(180deg, rgba(19, 128, 75, .28), rgba(19, 128, 75, .1)); box-shadow: inset 0 0 0 1.5px rgba(74, 222, 128, .45); }
+.payline__box--paid .plancard__k { color: #86efac; }
+.payline__box--wait, .payline__box--failed { box-shadow: inset 0 0 0 1.5px rgba(251, 191, 36, .45); }
+.payline__box--wait .plancard__k, .payline__box--failed .plancard__k { color: var(--amber); }
+.payline__box .plancard__t b { color: var(--white); font-weight: 650; }

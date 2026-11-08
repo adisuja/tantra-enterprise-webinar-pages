@@ -77,6 +77,30 @@
     counters.forEach(function (c) { co.observe(c); });
   }
 
+  // ---------- Confirmed page: the state Dodo Payments sends back after checkout (payment_id, status, email) ----------
+  // Review states: ?state=paid, ?state=processing, ?state=failed. The banner text follows the state.
+  var pay = document.querySelector('[data-pay]');
+  if (pay) {
+    var pst = params.get('status'), pid = params.get('payment_id'), pem = params.get('email');
+    if (state === 'paid') { pst = 'succeeded'; pid = pid || 'pay_sample_review'; pem = pem || 'you@example.com'; }
+    else if (state === 'processing') pst = 'processing';
+    else if (state === 'failed') pst = 'failed';
+    var warn = document.querySelector('.flow--confirmed .flow-warn');
+    var showPay = function (sel, text) { pay.hidden = false; var el = pay.querySelector(sel); if (el) el.hidden = false; if (warn && text) warn.textContent = text; };
+    if (pst === 'succeeded') {
+      showPay('[data-pay-paid]', 'Payment received. Join the WhatsApp group below.');
+      var pe = pay.querySelector('[data-pay-email]'), pi = pay.querySelector('[data-pay-id]');
+      if (pe && pem) pe.textContent = pem;
+      if (pi) pi.textContent = pid || 'sent by email';
+    } else if (pst === 'processing' || pst === 'requires_customer_action') {
+      showPay('[data-pay-processing]', 'Payment processing. Join the WhatsApp group below.');
+    } else if (pst === 'failed' || pst === 'cancelled') {
+      showPay('[data-pay-failed]', 'Payment not completed. Your free seat is still yours: join the WhatsApp group below.');
+      var retry = pay.querySelector('[data-pay-retry]');
+      if (retry && pem) { try { retry.href += (retry.href.indexOf('?') > -1 ? '&' : '?') + 'email=' + encodeURIComponent(pem); } catch (e) {} }
+    }
+  }
+
   // ---------- Join button (thank-you). Review: "link is in your email". The fallback room shows only when configured. ----------
   var join = document.querySelector('[data-join]');
   if (join) {
