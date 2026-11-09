@@ -2,7 +2,8 @@
 main{max-width:980px;margin:auto;padding:28px 20px 70px}nav{margin:0 0 18px}nav a{color:#6d4aff;font-weight:600;margin-right:18px;text-decoration:none}
 h1{font-size:28px;line-height:1.2;margin:0 0 6px}h2{font-size:21px;margin:34px 0 10px}h3{font-size:17px;margin:24px 0 8px}
 .meta{color:#5b6472;margin:0 0 22px}a{color:#4b2fd6}
-table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e8ef;margin:12px 0;font-size:15px;display:block;overflow-x:auto}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e8ef;font-size:15px}
+.tw{overflow-x:auto;margin:12px 0}
 th,td{border-bottom:1px solid #e6e8ef;padding:9px 12px;text-align:left;vertical-align:top}th{background:#f3f0ff;font-size:13px}
 pre{white-space:pre-wrap;background:#0b0d12;color:#e7e9ef;padding:18px;border-radius:10px;font:15px/1.6 Inter,system-ui,sans-serif}
 code{background:#eef0f5;padding:1px 5px;border-radius:4px;font-size:.92em}pre code{background:none;padding:0}
@@ -13,7 +14,7 @@ blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;backgrou
 .card{display:inline-block;background:#f3f0ff;color:#4b2fd6;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700;margin-left:6px}</style></head><body><main><nav><a href="../">All scripts</a><a href="https://adisuja.github.io/tantra-enterprise-webinar-board/#item-15b">Board card 15b</a></nav><p><button class="copy" id="copy">Copy the whole script</button></p><h1>Vodex AI Call Script: Pre-Webinar Reminder Calls</h1>
 <p>Two calls, one agent. The agent says it is automated in its first sentence, keeps every call under 60 seconds, never sells, never quotes a price and never asks for payment or personal details. <code>{{...}}</code> are filled per registrant from the call list; the agent setting is in agent-settings.json.</p>
 <h2>Who Gets Called (Triggers)</h2>
-<table>
+<div class="tw"><table>
 <thead>
 <tr>
 <th>Call</th>
@@ -36,7 +37,7 @@ blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;backgrou
 <td>Outside 08:00 to 20:00 local (skipped, not moved). More than one attempt</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>A registrant gets at most these two calls per webinar. Phones go to Vodex as <code>+</code> and digits. A missing first name is sent as <code>there</code>.</p>
 <h2>Script A: Day Before</h2>
 <p><strong>1. Opening (automated, says who and why)</strong></p>
@@ -120,7 +121,7 @@ Great. I'll send the join link to your WhatsApp right now so it's one tap away.<
 </blockquote>
 <h2>Outcomes and What Each One Does</h2>
 <p>The agent's working outcome (left) maps to the contract's <code>sequence.sent</code> <code>outcome</code> values (answered, voicemail, no_answer, confirmed, cant_attend).</p>
-<table>
+<div class="tw"><table>
 <thead>
 <tr>
 <th>Agent outcome</th>
@@ -173,7 +174,7 @@ Great. I'll send the join link to your WhatsApp right now so it's one tap away.<
 <td><code>sequence.sent</code>, then <code>contact.opted_out</code> with <code>channel</code> call</td>
 </tr>
 </tbody>
-</table><pre id="src" hidden># Vodex AI Call Script: Pre-Webinar Reminder Calls
+</table></div><pre id="src" hidden># Vodex AI Call Script: Pre-Webinar Reminder Calls
 
 Two calls, one agent. The agent says it is automated in its first sentence, keeps every call under 60 seconds, never sells, never quotes a price and never asks for payment or personal details. `{{...}}` are filled per registrant from the call list; the agent setting is in [agent-settings.json](agent-settings.json).
 

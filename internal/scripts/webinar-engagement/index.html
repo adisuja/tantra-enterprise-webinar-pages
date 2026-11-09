@@ -2,7 +2,8 @@
 main{max-width:980px;margin:auto;padding:28px 20px 70px}nav{margin:0 0 18px}nav a{color:#6d4aff;font-weight:600;margin-right:18px;text-decoration:none}
 h1{font-size:28px;line-height:1.2;margin:0 0 6px}h2{font-size:21px;margin:34px 0 10px}h3{font-size:17px;margin:24px 0 8px}
 .meta{color:#5b6472;margin:0 0 22px}a{color:#4b2fd6}
-table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e8ef;margin:12px 0;font-size:15px;display:block;overflow-x:auto}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e8ef;font-size:15px}
+.tw{overflow-x:auto;margin:12px 0}
 th,td{border-bottom:1px solid #e6e8ef;padding:9px 12px;text-align:left;vertical-align:top}th{background:#f3f0ff;font-size:13px}
 pre{white-space:pre-wrap;background:#0b0d12;color:#e7e9ef;padding:18px;border-radius:10px;font:15px/1.6 Inter,system-ui,sans-serif}
 code{background:#eef0f5;padding:1px 5px;border-radius:4px;font-size:.92em}pre code{background:none;padding:0}
@@ -19,7 +20,7 @@ blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;backgrou
 <p>Merge fields: <code>{{booking.round_robin_url}}</code> and the other <code>{{...}}</code> values come from <code>funnel-config.json</code>. The offer links add <code>?utm_source=webinarjam&amp;utm_medium=live_offer&amp;utm_content=&lt;cue id&gt;</code>.</p>
 <h2>Polls (4)</h2>
 <p>Each poll runs twice at once: as a WebinarJam poll (the room sees the result) and as a chat prompt (the CRM gets each person's answer, because WebinarJam keeps poll results per session, not per person). Since the 2026-11-05 slide-by-slide rebuild of the deck, no poll has a slide of its own: each runs as a WebinarJam overlay on the reference slide it fits, and that slide carries a small "Poll n of 4" badge. Launch on the slide, close after 45 seconds, read the split aloud. A chat letter counts for a poll from the minute it opens until 3 minutes later.</p>
-<table>
+<div class="tw"><table>
 <thead>
 <tr>
 <th>Poll</th>
@@ -64,13 +65,13 @@ blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;backgrou
 <td><code>poll_id</code> 4, column <code>poll_4</code></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Poll 1 runs on the qualifier slide, poll 2 on the three-step engine slide, poll 3 on the price slide (what it costs), poll 4 on the cost-of-waiting slide.</p>
 <p>Moderator posts with each poll: <code>Poll {n} is on your screen. Vote there, and type your letter in the chat too so I can see it.</code></p>
 <p>What the answers do: poll 2 tells Adi which of the three steps to slow down on (reach is steps 1 and 2; show-up, conversion and follow-up are step 3); poll 3 orders the answers that follow (time and tech on slide 70, money on slide 72, my market in Q and A); poll 4 A is a hot lead the closer sees before the call (item 18's closer alert reads the <code>poll_</code> columns); poll 4 D-voters get their questions answered first.</p>
 <h2>Chat Prompts</h2>
 <p>Every prompt is in the slide's speaker notes (the slides themselves stay as clean as the reference). The moderator posts the same line in chat the moment the slide appears, then reacts to answers by first name.</p>
-<table>
+<div class="tw"><table>
 <thead>
 <tr>
 <th>Slide</th>
@@ -171,12 +172,12 @@ blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;backgrou
 <td>Q and A is open. Type your question now; say what you sell and to whom.</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>House rules, posted once at minute 0: <code>Questions any time, answered live from minute 45. Please keep links and email addresses out of the chat. This session is recorded; the replay reaches your inbox.</code></p>
 <p>Link re-posts: from minute 20 to the end, every 5 minutes, the moderator posts <code>Book your {{booking.event_title}}: {{booking.round_robin_url}}</code> and pins it. Anyone who mentions budget, a team or a timeline gets the same link privately (item 17 chat rules).</p>
 <h2>WebinarJam offer box timings</h2>
 <p>WebinarJam has no timer for offers in a live event: the moderator launches and closes each one by hand, one at a time (item 17). Re-timed 2026-11-05 for the 74-slide deck that follows the reference recording slide by slide: the first look at the offer still opens at minute 20 and the first cue still closes at the minute-25 cutoff.</p>
-<table>
+<div class="tw"><table>
 <thead>
 <tr>
 <th>Cue (offer name)</th>
@@ -213,12 +214,12 @@ blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;backgrou
 <td>same link, <code>utm_content=cta3_main</code></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Headline on each: <code>Book Your {{booking.event_title}}</code>. Description: <code>{{booking.duration_minutes}} minutes with my team. {{offer.proposal_sla}}, then a Proposal Review call with the same person, where we decide together.</code> Scarcity, urgency and countdown stay off: no real deadline exists (<code>offer.fast_action_deadline</code> is FILL). The price is said twice, on slide 35 at minute 20 (the offer in one slide) and on slide 69 at minute 39, never in an offer box.</p>
 <p>Calls to action in the deck: the first look (slide 35 at minute 20: what Tantra Enterprise is, who it is for, the price and the next step, then the QR on slide 36 at minute 22; the cue keeps the id <code>cta1_soft</code> so past UTM data still matches), checkpoint (slide 64, the QR after the recap), main (slide 73), and the QR on the Q and A slide (74) for all of minutes 45 to 60. Anyone who leaves before minute 25 (the retargeting cutoff, item 27) has seen the first look.</p>
 <h2>From WebinarJam to the CRM Sheet</h2>
 <p>Everything posts to <code>{{integrations.crm_webhook_url}}?k=&lt;secret&gt;</code> as CRM_CONTRACT bodies. No other event names.</p>
-<table>
+<div class="tw"><table>
 <thead>
 <tr>
 <th>What</th>
@@ -259,7 +260,7 @@ blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;backgrou
 <td><code>booking.created</code></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Why not webhooks: WebinarJam's custom webhook has its own payload, no signature, and fires "missed" and "left early" only after the session (item 17). WebinarJam cannot export poll answers or offer clicks per person. So the chat log and the booking UTM are the per-person record.</p>
 <p>Poll answers in chat may be a letter ("B", "b)", "option B"), a letter with text ("D - follow-up") or the option text ("follow up"); "a great hour" is not an answer. Chat times may be offsets (00:04:40) or clock times (11:04:40, read as clock when it falls past the session length).</p>
 <p>Matching people: a chat line with an email uses it. A line with only a name is matched to the registrants export; a name shared by two registrants is skipped, never guessed, and listed in <code>unmatched.csv</code>. Presenter names in <code>columns.json</code> are ignored.</p>
