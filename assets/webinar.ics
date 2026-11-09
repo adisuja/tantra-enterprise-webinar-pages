@@ -9,8 +9,8 @@ DTSTAMP:20261105T110000Z
 DTSTART:20261112T110000Z
 DTEND:20261112T120000Z
 SUMMARY:How 400+ Brands Use AI Funnels to Generate $100K to $300K Monthly
-DESCRIPTION:Live training with Adithya Murali\, Founder\, Tantra. Your personal join link is in your registration email from WebinarJam.
-LOCATION:Online (WebinarJam)
+DESCRIPTION:Live training with Adithya Murali\, Founder\, Tantra. Your personal join link is in your registration email from WebinarJam.\nRoom link: https://event.webinarjam.com/7222k8/register/v888zgb7 (registration page\; every registrant gets a personal live-room link from WebinarJam)
+LOCATION:https://event.webinarjam.com/7222k8/register/v888zgb7 (registration page\; every registrant gets a personal live-room link from WebinarJam)
 BEGIN:VALARM
 TRIGGER:-PT15M
 ACTION:DISPLAY

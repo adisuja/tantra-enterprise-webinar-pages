@@ -1,0 +1,278 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Vodex AI reminder calls</title><style>body{font:16px/1.6 Inter,system-ui,sans-serif;color:#1d2230;background:#f7f8fb;margin:0}
+main{max-width:980px;margin:auto;padding:28px 20px 70px}nav{margin:0 0 18px}nav a{color:#6d4aff;font-weight:600;margin-right:18px;text-decoration:none}
+h1{font-size:28px;line-height:1.2;margin:0 0 6px}h2{font-size:21px;margin:34px 0 10px}h3{font-size:17px;margin:24px 0 8px}
+.meta{color:#5b6472;margin:0 0 22px}a{color:#4b2fd6}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e8ef;margin:12px 0;font-size:15px;display:block;overflow-x:auto}
+th,td{border-bottom:1px solid #e6e8ef;padding:9px 12px;text-align:left;vertical-align:top}th{background:#f3f0ff;font-size:13px}
+pre{white-space:pre-wrap;background:#0b0d12;color:#e7e9ef;padding:18px;border-radius:10px;font:15px/1.6 Inter,system-ui,sans-serif}
+code{background:#eef0f5;padding:1px 5px;border-radius:4px;font-size:.92em}pre code{background:none;padding:0}
+blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;background:#fff}
+.copy{background:#6d4aff;color:#fff;border:0;border-radius:999px;padding:9px 18px;font-weight:700;cursor:pointer;font:inherit;font-weight:700}
+.list{list-style:none;padding:0;margin:0}.list li{background:#fff;border:1px solid #e6e8ef;border-radius:12px;padding:14px 16px;margin:0 0 10px}
+.list a{font-weight:700;font-size:17px;text-decoration:none}.list p{margin:4px 0 0;color:#5b6472;font-size:14px}
+.card{display:inline-block;background:#f3f0ff;color:#4b2fd6;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700;margin-left:6px}</style></head><body><main><nav><a href="../">All scripts</a><a href="https://adisuja.github.io/tantra-enterprise-webinar-board/#item-15b">Board card 15b</a></nav><p><button class="copy" id="copy">Copy the whole script</button></p><h1>Vodex AI Call Script: Pre-Webinar Reminder Calls</h1>
+<p>Two calls, one agent. The agent says it is automated in its first sentence, keeps every call under 60 seconds, never sells, never quotes a price and never asks for payment or personal details. <code>{{...}}</code> are filled per registrant from the call list; the agent setting is in agent-settings.json.</p>
+<h2>Who Gets Called (Triggers)</h2>
+<table>
+<thead>
+<tr>
+<th>Call</th>
+<th>When</th>
+<th>Who</th>
+<th>Never</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A: Day before</strong> (15B-C1)</td>
+<td>Webinar start minus 22 hours, moved into 08:00 to 20:00 in the registrant's timezone (scheduler.py rule 7)</td>
+<td><code>call_opt_in</code> true, valid phone, has opened none of the 15b emails and has not replied on WhatsApp, track still <code>pre</code> (no CANT)</td>
+<td>Outside 08:00 to 20:00 local. More than one attempt. Anyone tagged Do Not Contact</td>
+</tr>
+<tr>
+<td><strong>B: High intent, 15 minutes before</strong> (15B-C2)</td>
+<td>Webinar start minus 15 minutes</td>
+<td><code>call_opt_in</code> true, valid phone, answered $10,000 or more to the registration question on investment in the next 12 months (<code>invest_12m</code>), track still <code>pre</code> (no CANT, no <code>cant_attend</code> outcome)</td>
+<td>Outside 08:00 to 20:00 local (skipped, not moved). More than one attempt</td>
+</tr>
+</tbody>
+</table>
+<p>A registrant gets at most these two calls per webinar. Phones go to Vodex as <code>+</code> and digits. A missing first name is sent as <code>there</code>.</p>
+<h2>Script A: Day Before</h2>
+<p><strong>1. Opening (automated, says who and why)</strong></p>
+<blockquote>
+<p>Hi, is this {{first_name}}? This is Tantra's automated assistant, calling for Adi about the live session you registered for. You can say stop at any time.</p>
+</blockquote>
+<p>If the person says it's a wrong number or they never registered: go to <strong>Wrong person</strong>.</p>
+<p><strong>2. Purpose</strong></p>
+<blockquote>
+<p>It starts tomorrow at {{webinar_time_local}}. I'm just checking you can still make it. Can you?</p>
+</blockquote>
+<p><strong>3. Confirm attendance</strong>
+- <strong>Yes:</strong></p>
+<blockquote>
+<p>Great. Your join link is in your email and on WhatsApp. Would you like me to send you a calendar link so it's blocked out?
+  - Yes: outcome <code>add_to_calendar</code> (sends 15B-X2 on WhatsApp and email).
+    &gt; Done, it's on its way. See you tomorrow.
+  - No: outcome <code>confirmed</code>.
+    &gt; No problem. See you tomorrow.
+- <strong>Not sure:</strong>
+That's fine. The link is in your email and on WhatsApp. If tomorrow stops working, reply CANT on WhatsApp and Adi will send you the recording instead. And if you'd rather not get these calls, say stop at any time, or reply STOP to any of Adi's emails.</p>
+</blockquote>
+<p>Outcome <code>unsure</code>.</p>
+<p><strong>4. Handle "can't make it"</strong></p>
+<blockquote>
+<p>No problem at all, thanks for telling me. Adi will send you the recording after the session. If you'd rather talk to his team sooner, I can send you a link to book a 30-minute call. Would that help?
+- Yes: outcome <code>cant_make_it_wants_call</code> (sends 15B-X1, which carries the booking link).
+- No: outcome <code>cant_make_it</code> (sends 15B-X1 too; the recording follows from item 22).
+Thanks, {{first_name}}. Have a good day.</p>
+</blockquote>
+<p><strong>5. Add to calendar (asked any time)</strong></p>
+<blockquote>
+<p>Sure. I'll send a calendar link to your WhatsApp and email right now. One tap adds it.</p>
+</blockquote>
+<p>Outcome <code>add_to_calendar</code>.</p>
+<p><strong>6. Questions the agent can't answer</strong> (the content, the price, the offer, anything else)</p>
+<blockquote>
+<p>Good question. Adi covers that live, and you can ask him in the Q&amp;A. If it can't wait, reply on WhatsApp and the team will get back to you.</p>
+</blockquote>
+<p><strong>7. Stop calling / not interested</strong></p>
+<blockquote>
+<p>Understood. I'll make sure you don't get any more calls. Sorry to bother you.</p>
+</blockquote>
+<p>Outcome <code>opted_out</code> (posts <code>contact.opted_out</code> with channel <code>call</code>).</p>
+<p><strong>8. Wrong person</strong></p>
+<blockquote>
+<p>Sorry about that. I'll remove this number now. Have a good day.</p>
+</blockquote>
+<p>Outcome <code>wrong_number</code> (remove the phone, post <code>contact.opted_out</code> with channel <code>call</code>).</p>
+<p><strong>Voicemail A</strong></p>
+<blockquote>
+<p>Hi {{first_name}}, this is Tantra's automated assistant calling for Adi. Just a reminder that {{webinar_title}} starts tomorrow at {{webinar_time_local}}. Your join link is in your email and on WhatsApp. To stop these calls, reply STOP to any of Adi's emails or WhatsApp messages. Thanks.</p>
+</blockquote>
+<p>Outcome <code>voicemail</code>.</p>
+<h2>Script B: 15 Minutes Before (High Intent)</h2>
+<p><strong>1. Opening</strong></p>
+<blockquote>
+<p>Hi {{first_name}}, this is Tantra's automated assistant calling for Adi. The live session starts in 15 minutes and the room is already open. You can say stop at any time.</p>
+</blockquote>
+<p><strong>2. Purpose and confirm</strong></p>
+<blockquote>
+<p>Can you make it?
+- <strong>Yes:</strong>
+Great. I'll send the join link to your WhatsApp right now so it's one tap away.</p>
+</blockquote>
+<p>Outcome <code>joining</code> (resends 15B-M15 on WhatsApp).
+- <strong>Running late:</strong></p>
+<blockquote>
+<p>No problem. Come in when you can. The link is on WhatsApp now.</p>
+</blockquote>
+<p>Outcome <code>joining_late</code> (resends 15B-M15).
+- <strong>Can't make it:</strong></p>
+<blockquote>
+<p>No problem. Adi will send you the recording. Would a 30-minute call with his team be useful instead? I can send the link.</p>
+</blockquote>
+<p>Outcome <code>cant_make_it_wants_call</code> or <code>cant_make_it</code> (sends 15B-X1).</p>
+<p>Stop calling, wrong person and questions: same lines as Script A, steps 6 to 8.</p>
+<p><strong>Voicemail B</strong></p>
+<blockquote>
+<p>Hi {{first_name}}, this is Tantra's automated assistant calling for Adi. The live session starts in 15 minutes and the room is open. Your join link is in your email and on WhatsApp. To stop these calls, reply STOP to any of Adi's emails or WhatsApp messages.</p>
+</blockquote>
+<h2>Outcomes and What Each One Does</h2>
+<p>The agent's working outcome (left) maps to the contract's <code>sequence.sent</code> <code>outcome</code> values (answered, voicemail, no_answer, confirmed, cant_attend).</p>
+<table>
+<thead>
+<tr>
+<th>Agent outcome</th>
+<th>Contract <code>outcome</code></th>
+<th>Action</th>
+<th>CRM event (CRM_CONTRACT.md)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>confirmed, joining, joining_late</td>
+<td>confirmed</td>
+<td>joining and joining_late resend 15B-M15</td>
+<td><code>sequence.sent</code> (<code>sequence</code> 15b, <code>step</code> 15B-C1 or 15B-C2, <code>channel</code> call, <code>outcome</code>)</td>
+</tr>
+<tr>
+<td>add_to_calendar</td>
+<td>confirmed</td>
+<td>send 15B-X2</td>
+<td>same</td>
+</tr>
+<tr>
+<td>unsure</td>
+<td>answered</td>
+<td>none</td>
+<td>same</td>
+</tr>
+<tr>
+<td>voicemail</td>
+<td>voicemail</td>
+<td>none</td>
+<td>same</td>
+</tr>
+<tr>
+<td>no_answer</td>
+<td>no_answer</td>
+<td>none</td>
+<td>same</td>
+</tr>
+<tr>
+<td>cant_make_it, cant_make_it_wants_call</td>
+<td>cant_attend</td>
+<td>track set to replay: stop 15B-D1 to 15B-L10 and calls, send 15B-X1</td>
+<td>same</td>
+</tr>
+<tr>
+<td>opted_out, wrong_number</td>
+<td>answered</td>
+<td>Do Not Contact</td>
+<td><code>sequence.sent</code>, then <code>contact.opted_out</code> with <code>channel</code> call</td>
+</tr>
+</tbody>
+</table><pre id="src" hidden># Vodex AI Call Script: Pre-Webinar Reminder Calls
+
+Two calls, one agent. The agent says it is automated in its first sentence, keeps every call under 60 seconds, never sells, never quotes a price and never asks for payment or personal details. `{{...}}` are filled per registrant from the call list; the agent setting is in [agent-settings.json](agent-settings.json).
+
+## Who Gets Called (Triggers)
+
+| Call | When | Who | Never |
+| --- | --- | --- | --- |
+| **A: Day before** (15B-C1) | Webinar start minus 22 hours, moved into 08:00 to 20:00 in the registrant&#x27;s timezone (scheduler.py rule 7) | `call_opt_in` true, valid phone, has opened none of the 15b emails and has not replied on WhatsApp, track still `pre` (no CANT) | Outside 08:00 to 20:00 local. More than one attempt. Anyone tagged Do Not Contact |
+| **B: High intent, 15 minutes before** (15B-C2) | Webinar start minus 15 minutes | `call_opt_in` true, valid phone, answered $10,000 or more to the registration question on investment in the next 12 months (`invest_12m`), track still `pre` (no CANT, no `cant_attend` outcome) | Outside 08:00 to 20:00 local (skipped, not moved). More than one attempt |
+
+A registrant gets at most these two calls per webinar. Phones go to Vodex as `+` and digits. A missing first name is sent as `there`.
+
+## Script A: Day Before
+
+**1. Opening (automated, says who and why)**
+&gt; Hi, is this {{first_name}}? This is Tantra&#x27;s automated assistant, calling for Adi about the live session you registered for. You can say stop at any time.
+
+If the person says it&#x27;s a wrong number or they never registered: go to **Wrong person**.
+
+**2. Purpose**
+&gt; It starts tomorrow at {{webinar_time_local}}. I&#x27;m just checking you can still make it. Can you?
+
+**3. Confirm attendance**
+- **Yes:**
+  &gt; Great. Your join link is in your email and on WhatsApp. Would you like me to send you a calendar link so it&#x27;s blocked out?
+  - Yes: outcome `add_to_calendar` (sends 15B-X2 on WhatsApp and email).
+    &gt; Done, it&#x27;s on its way. See you tomorrow.
+  - No: outcome `confirmed`.
+    &gt; No problem. See you tomorrow.
+- **Not sure:**
+  &gt; That&#x27;s fine. The link is in your email and on WhatsApp. If tomorrow stops working, reply CANT on WhatsApp and Adi will send you the recording instead. And if you&#x27;d rather not get these calls, say stop at any time, or reply STOP to any of Adi&#x27;s emails.
+
+  Outcome `unsure`.
+
+**4. Handle &quot;can&#x27;t make it&quot;**
+&gt; No problem at all, thanks for telling me. Adi will send you the recording after the session. If you&#x27;d rather talk to his team sooner, I can send you a link to book a 30-minute call. Would that help?
+- Yes: outcome `cant_make_it_wants_call` (sends 15B-X1, which carries the booking link).
+- No: outcome `cant_make_it` (sends 15B-X1 too; the recording follows from item 22).
+&gt; Thanks, {{first_name}}. Have a good day.
+
+**5. Add to calendar (asked any time)**
+&gt; Sure. I&#x27;ll send a calendar link to your WhatsApp and email right now. One tap adds it.
+
+Outcome `add_to_calendar`.
+
+**6. Questions the agent can&#x27;t answer** (the content, the price, the offer, anything else)
+&gt; Good question. Adi covers that live, and you can ask him in the Q&amp;A. If it can&#x27;t wait, reply on WhatsApp and the team will get back to you.
+
+**7. Stop calling / not interested**
+&gt; Understood. I&#x27;ll make sure you don&#x27;t get any more calls. Sorry to bother you.
+
+Outcome `opted_out` (posts `contact.opted_out` with channel `call`).
+
+**8. Wrong person**
+&gt; Sorry about that. I&#x27;ll remove this number now. Have a good day.
+
+Outcome `wrong_number` (remove the phone, post `contact.opted_out` with channel `call`).
+
+**Voicemail A**
+&gt; Hi {{first_name}}, this is Tantra&#x27;s automated assistant calling for Adi. Just a reminder that {{webinar_title}} starts tomorrow at {{webinar_time_local}}. Your join link is in your email and on WhatsApp. To stop these calls, reply STOP to any of Adi&#x27;s emails or WhatsApp messages. Thanks.
+
+Outcome `voicemail`.
+
+## Script B: 15 Minutes Before (High Intent)
+
+**1. Opening**
+&gt; Hi {{first_name}}, this is Tantra&#x27;s automated assistant calling for Adi. The live session starts in 15 minutes and the room is already open. You can say stop at any time.
+
+**2. Purpose and confirm**
+&gt; Can you make it?
+- **Yes:**
+  &gt; Great. I&#x27;ll send the join link to your WhatsApp right now so it&#x27;s one tap away.
+
+  Outcome `joining` (resends 15B-M15 on WhatsApp).
+- **Running late:**
+  &gt; No problem. Come in when you can. The link is on WhatsApp now.
+
+  Outcome `joining_late` (resends 15B-M15).
+- **Can&#x27;t make it:**
+  &gt; No problem. Adi will send you the recording. Would a 30-minute call with his team be useful instead? I can send the link.
+
+  Outcome `cant_make_it_wants_call` or `cant_make_it` (sends 15B-X1).
+
+Stop calling, wrong person and questions: same lines as Script A, steps 6 to 8.
+
+**Voicemail B**
+&gt; Hi {{first_name}}, this is Tantra&#x27;s automated assistant calling for Adi. The live session starts in 15 minutes and the room is open. Your join link is in your email and on WhatsApp. To stop these calls, reply STOP to any of Adi&#x27;s emails or WhatsApp messages.
+
+## Outcomes and What Each One Does
+
+The agent&#x27;s working outcome (left) maps to the contract&#x27;s `sequence.sent` `outcome` values (answered, voicemail, no_answer, confirmed, cant_attend).
+
+| Agent outcome | Contract `outcome` | Action | CRM event (CRM_CONTRACT.md) |
+| --- | --- | --- | --- |
+| confirmed, joining, joining_late | confirmed | joining and joining_late resend 15B-M15 | `sequence.sent` (`sequence` 15b, `step` 15B-C1 or 15B-C2, `channel` call, `outcome`) |
+| add_to_calendar | confirmed | send 15B-X2 | same |
+| unsure | answered | none | same |
+| voicemail | voicemail | none | same |
+| no_answer | no_answer | none | same |
+| cant_make_it, cant_make_it_wants_call | cant_attend | track set to replay: stop 15B-D1 to 15B-L10 and calls, send 15B-X1 | same |
+| opted_out, wrong_number | answered | Do Not Contact | `sequence.sent`, then `contact.opted_out` with `channel` call |
+</pre><script>document.getElementById('copy').onclick=async e=>{await navigator.clipboard.writeText(document.getElementById('src').textContent);e.target.textContent='Copied';setTimeout(()=>e.target.textContent='Copy the whole script',1500)}</script></main></body></html>

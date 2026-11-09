@@ -200,6 +200,15 @@
   // Preselect the WhatsApp country code from the time zone.
   var tzDial = { 'Asia/Kolkata': '+91', 'Asia/Calcutta': '+91', 'Europe/London': '+44', 'Australia/': '+61', 'Asia/Dubai': '+971', 'Asia/Singapore': '+65', 'Europe/Berlin': '+49', 'Europe/Paris': '+33', 'Europe/Amsterdam': '+31', 'Europe/Dublin': '+353', 'Europe/Zurich': '+41', 'Europe/Stockholm': '+46', 'Europe/Madrid': '+34', 'Europe/Rome': '+39', 'Asia/Jerusalem': '+972', 'Africa/Johannesburg': '+27', 'Africa/Lagos': '+234', 'Africa/Nairobi': '+254', 'Asia/Riyadh': '+966', 'Asia/Qatar': '+974', 'Asia/Kuala_Lumpur': '+60', 'Asia/Manila': '+63', 'Asia/Jakarta': '+62', 'Pacific/Auckland': '+64', 'America/Sao_Paulo': '+55', 'America/Mexico_City': '+52', 'Asia/Tokyo': '+81', 'Asia/Hong_Kong': '+852', 'America/': '+1' };
   Object.keys(tzDial).some(function (k) { if (tz.indexOf(k) === 0) { $('f-cc').value = tzDial[k]; return true; } return false; });
+  // US and Canadian carriers require a separate, optional, unticked text-message box; everyone else sees only the notice line.
+  function syncSms() {
+    var box = $('sms-consent');
+    if (!box) return;
+    var us = $('f-cc').value === '+1';
+    box.hidden = !us;
+    if (!us) $('f-sms').checked = false;
+  }
+  if ($('f-cc')) { $('f-cc').addEventListener('change', syncSms); syncSms(); }
   var btn = form.querySelector('button[type=submit]');
 
   function composePhone() {
@@ -236,7 +245,9 @@
       first_name: (fd.get('first_name') || '').trim(),
       phone: fd.get('phone').trim(),
       privacy_accepted: fd.get('privacy_accepted') === 'on',
-      whatsapp_opt_in: fd.get('whatsapp_opt_in') === 'on',
+      sms_consent: fd.get('sms_consent') === 'on',
+      consent_version: 'sms-wa-2026-11-09',
+      consent_page: location.href.split('#')[0],
       timezone: fd.get('timezone') || null,
     };
     var last = (fd.get('last_name') || '').trim();

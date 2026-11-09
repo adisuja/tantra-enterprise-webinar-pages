@@ -1,0 +1,381 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Webinar polls, chat lines and offer cues</title><style>body{font:16px/1.6 Inter,system-ui,sans-serif;color:#1d2230;background:#f7f8fb;margin:0}
+main{max-width:980px;margin:auto;padding:28px 20px 70px}nav{margin:0 0 18px}nav a{color:#6d4aff;font-weight:600;margin-right:18px;text-decoration:none}
+h1{font-size:28px;line-height:1.2;margin:0 0 6px}h2{font-size:21px;margin:34px 0 10px}h3{font-size:17px;margin:24px 0 8px}
+.meta{color:#5b6472;margin:0 0 22px}a{color:#4b2fd6}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e8ef;margin:12px 0;font-size:15px;display:block;overflow-x:auto}
+th,td{border-bottom:1px solid #e6e8ef;padding:9px 12px;text-align:left;vertical-align:top}th{background:#f3f0ff;font-size:13px}
+pre{white-space:pre-wrap;background:#0b0d12;color:#e7e9ef;padding:18px;border-radius:10px;font:15px/1.6 Inter,system-ui,sans-serif}
+code{background:#eef0f5;padding:1px 5px;border-radius:4px;font-size:.92em}pre code{background:none;padding:0}
+blockquote{border-left:4px solid #6d4aff;margin:14px 0;padding:4px 16px;background:#fff}
+.copy{background:#6d4aff;color:#fff;border:0;border-radius:999px;padding:9px 18px;font-weight:700;cursor:pointer;font:inherit;font-weight:700}
+.list{list-style:none;padding:0;margin:0}.list li{background:#fff;border:1px solid #e6e8ef;border-radius:12px;padding:14px 16px;margin:0 0 10px}
+.list a{font-weight:700;font-size:17px;text-decoration:none}.list p{margin:4px 0 0;color:#5b6472;font-size:14px}
+.card{display:inline-block;background:#f3f0ff;color:#4b2fd6;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700;margin-left:6px}</style></head><body><main><nav><a href="../">All scripts</a><a href="https://adisuja.github.io/tantra-enterprise-webinar-board/#item-21">Board card 21</a></nav><p><button class="copy" id="copy">Copy the whole script</button></p><h1>Engagement Plan: Polls, Chat Prompts, Offer Cues and the Path Into the CRM</h1>
+<p>People who type stay, and people who stay book. This is every interaction in the 60-minute session, timed to the deck (item 16, <code>deliverables/16-deck/deck/index.html</code>), and how each answer and click reaches the CRM sheet (CRM_CONTRACT.md).</p>
+<p>Timing source: <code>engagement.json</code>, generated from the deck spec by <code>node export_from_deck.mjs</code>. Change the deck, rerun it, and the test (<code>tests/test_map_engagement.py</code>) fails until this page matches.</p>
+<p>Who does what live:
+- <strong>Adi</strong> hosts alone: the only person on camera and the only voice. He asks every poll and prompt out loud and reads every question out in Q and A. There is no co-host.
+- <strong>Moderator</strong>: behind the scenes, never on camera or mic. In WebinarJam Basic they sit in the second presenter seat with the camera off, because Basic has no Moderator role (item 17). Launches polls and offers on cue, posts the lines below, answers chat, sends Adi the Q and A list in private chat.</p>
+<p>Merge fields: <code>{{booking.round_robin_url}}</code> and the other <code>{{...}}</code> values come from <code>funnel-config.json</code>. The offer links add <code>?utm_source=webinarjam&amp;utm_medium=live_offer&amp;utm_content=&lt;cue id&gt;</code>.</p>
+<h2>Polls (4)</h2>
+<p>Each poll runs twice at once: as a WebinarJam poll (the room sees the result) and as a chat prompt (the CRM gets each person's answer, because WebinarJam keeps poll results per session, not per person). Since the 2026-11-05 slide-by-slide rebuild of the deck, no poll has a slide of its own: each runs as a WebinarJam overlay on the reference slide it fits, and that slide carries a small "Poll n of 4" badge. Launch on the slide, close after 45 seconds, read the split aloud. A chat letter counts for a poll from the minute it opens until 3 minutes later.</p>
+<table>
+<thead>
+<tr>
+<th>Poll</th>
+<th>Slide</th>
+<th>Minute</th>
+<th>Question</th>
+<th>Options</th>
+<th>CRM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>14</td>
+<td>7</td>
+<td>What is your monthly revenue today?</td>
+<td>A Under $10K a month; B $10K to $25K a month; C $25K to $100K a month; D $100K to $500K a month; E Over $500K a month</td>
+<td><code>poll_id</code> 1, column <code>poll_1</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>23</td>
+<td>11</td>
+<td>Where do you lose the most buyers today?</td>
+<td>A Reach; B Show-up; C Conversion; D Follow-up</td>
+<td><code>poll_id</code> 2, column <code>poll_2</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>69</td>
+<td>39</td>
+<td>What would stop you having this engine running?</td>
+<td>A Time; B Tech; C My market; D Money</td>
+<td><code>poll_id</code> 3, column <code>poll_3</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>72</td>
+<td>43</td>
+<td>What's your next step?</td>
+<td>A Build it with us; B Run it myself; C Not yet; D I have a question first</td>
+<td><code>poll_id</code> 4, column <code>poll_4</code></td>
+</tr>
+</tbody>
+</table>
+<p>Poll 1 runs on the qualifier slide, poll 2 on the three-step engine slide, poll 3 on the price slide (what it costs), poll 4 on the cost-of-waiting slide.</p>
+<p>Moderator posts with each poll: <code>Poll {n} is on your screen. Vote there, and type your letter in the chat too so I can see it.</code></p>
+<p>What the answers do: poll 2 tells Adi which of the three steps to slow down on (reach is steps 1 and 2; show-up, conversion and follow-up are step 3); poll 3 orders the answers that follow (time and tech on slide 70, money on slide 72, my market in Q and A); poll 4 A is a hot lead the closer sees before the call (item 18's closer alert reads the <code>poll_</code> columns); poll 4 D-voters get their questions answered first.</p>
+<h2>Chat Prompts</h2>
+<p>Every prompt is in the slide's speaker notes (the slides themselves stay as clean as the reference). The moderator posts the same line in chat the moment the slide appears, then reacts to answers by first name.</p>
+<table>
+<thead>
+<tr>
+<th>Slide</th>
+<th>Minute</th>
+<th>Prompt</th>
+<th>Moderator posts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>Type your city and what you sell</td>
+<td>Welcome in. Type your city and what you sell, one line: we'll use it to pick examples.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>6</td>
+<td>Type 1 if one of these is you</td>
+<td>Type 1 if one of these four is you.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>7</td>
+<td>Vote, or type A to E</td>
+<td>(poll line above)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>8</td>
+<td>Your biggest leak: 1, 2 or 3?</td>
+<td>Which leak hurt your pipeline this quarter? Type 1, 2 or 3.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>11</td>
+<td>Vote, or type A to D</td>
+<td>(poll line above)</td>
+</tr>
+<tr>
+<td>25</td>
+<td>13</td>
+<td>Type YES or NO</td>
+<td>Is every buyer who fits in one list you can reach? Type YES or NO.</td>
+</tr>
+<tr>
+<td>40</td>
+<td>23</td>
+<td>Type CAL if a calendar invite brought you here</td>
+<td>Type CAL if a calendar invite brought you here.</td>
+</tr>
+<tr>
+<td>52</td>
+<td>28</td>
+<td>Type ROOM if you'd rather teach one room than pitch 50 calls</td>
+<td>Type ROOM if you'd rather teach one room than pitch 50 calls.</td>
+</tr>
+<tr>
+<td>56</td>
+<td>30</td>
+<td>Type 2 if no-shows are your biggest leak</td>
+<td>Type 2 if no-shows are your biggest leak.</td>
+</tr>
+<tr>
+<td>57</td>
+<td>31</td>
+<td>Type HUMAN if you'd want a person checking every line</td>
+<td>Would you let AI send to your buyers with nobody checking? Type HUMAN if you'd want a person checking every line.</td>
+</tr>
+<tr>
+<td>69</td>
+<td>39</td>
+<td>Vote, or type A to D</td>
+<td>(poll line above)</td>
+</tr>
+<tr>
+<td>70</td>
+<td>41</td>
+<td>Type 1 if you've tried building it alone</td>
+<td>Type 1 if you've tried building it alone.</td>
+</tr>
+<tr>
+<td>72</td>
+<td>43</td>
+<td>Vote, or type A to D</td>
+<td>(poll line above)</td>
+</tr>
+<tr>
+<td>73</td>
+<td>44</td>
+<td>Type BOOKED when it's in your calendar</td>
+<td>Booking link: {{booking.round_robin_url}}. Once it's in your calendar, type just the word BOOKED.</td>
+</tr>
+<tr>
+<td>74</td>
+<td>45</td>
+<td>Type your question now</td>
+<td>Q and A is open. Type your question now; say what you sell and to whom.</td>
+</tr>
+</tbody>
+</table>
+<p>House rules, posted once at minute 0: <code>Questions any time, answered live from minute 45. Please keep links and email addresses out of the chat. This session is recorded; the replay reaches your inbox.</code></p>
+<p>Link re-posts: from minute 20 to the end, every 5 minutes, the moderator posts <code>Book your {{booking.event_title}}: {{booking.round_robin_url}}</code> and pins it. Anyone who mentions budget, a team or a timeline gets the same link privately (item 17 chat rules).</p>
+<h2>WebinarJam offer box timings</h2>
+<p>WebinarJam has no timer for offers in a live event: the moderator launches and closes each one by hand, one at a time (item 17). Re-timed 2026-11-05 for the 74-slide deck that follows the reference recording slide by slide: the first look at the offer still opens at minute 20 and the first cue still closes at the minute-25 cutoff.</p>
+<table>
+<thead>
+<tr>
+<th>Cue (offer name)</th>
+<th>Slide</th>
+<th>Show at</th>
+<th>Hide at</th>
+<th>Button text</th>
+<th>Button link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cta1_soft</code></td>
+<td>35</td>
+<td>20:00</td>
+<td>25:00</td>
+<td>Book My Call</td>
+<td><code>{{booking.round_robin_url}}?utm_source=webinarjam&amp;utm_medium=live_offer&amp;utm_content=cta1_soft</code></td>
+</tr>
+<tr>
+<td><code>cta2_checkpoint</code></td>
+<td>64</td>
+<td>35:00</td>
+<td>38:00</td>
+<td>Book My Call</td>
+<td>same link, <code>utm_content=cta2_checkpoint</code></td>
+</tr>
+<tr>
+<td><code>cta3_main</code></td>
+<td>73</td>
+<td>44:00</td>
+<td>60:00</td>
+<td>Book My Call</td>
+<td>same link, <code>utm_content=cta3_main</code></td>
+</tr>
+</tbody>
+</table>
+<p>Headline on each: <code>Book Your {{booking.event_title}}</code>. Description: <code>{{booking.duration_minutes}} minutes with my team. {{offer.proposal_sla}}, then a Proposal Review call with the same person, where we decide together.</code> Scarcity, urgency and countdown stay off: no real deadline exists (<code>offer.fast_action_deadline</code> is FILL). The price is said twice, on slide 35 at minute 20 (the offer in one slide) and on slide 69 at minute 39, never in an offer box.</p>
+<p>Calls to action in the deck: the first look (slide 35 at minute 20: what Tantra Enterprise is, who it is for, the price and the next step, then the QR on slide 36 at minute 22; the cue keeps the id <code>cta1_soft</code> so past UTM data still matches), checkpoint (slide 64, the QR after the recap), main (slide 73), and the QR on the Q and A slide (74) for all of minutes 45 to 60. Anyone who leaves before minute 25 (the retargeting cutoff, item 27) has seen the first look.</p>
+<h2>From WebinarJam to the CRM Sheet</h2>
+<p>Everything posts to <code>{{integrations.crm_webhook_url}}?k=&lt;secret&gt;</code> as CRM_CONTRACT bodies. No other event names.</p>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Source</th>
+<th>Tool</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registration</td>
+<td>Registration page or calendar RSVP</td>
+<td>item 17 Worker and <code>register.mjs</code></td>
+<td><code>webinar.registered</code></td>
+</tr>
+<tr>
+<td>Attendance, minutes in room, no-shows</td>
+<td>WebinarJam registrants export ("Export all registrants")</td>
+<td>item 17 <code>integration/import_attendance.mjs</code></td>
+<td><code>webinar.attended</code>, <code>webinar.no_show</code> (the CRM sets early_leaver before minute 25, stayed_to_offer after)</td>
+</tr>
+<tr>
+<td>Poll answers, per person</td>
+<td>WebinarJam chat log: letters typed in each poll's window</td>
+<td><code>map_engagement.py</code> (this folder)</td>
+<td><code>webinar.poll_answered</code> {poll_id, answer}</td>
+</tr>
+<tr>
+<td>Offer clicks, per person</td>
+<td>Cal.com bookings carrying <code>utm_content=&lt;cue id&gt;</code>, plus a chat message that is only the word "BOOKED" after a cue ("not booked yet" never counts)</td>
+<td><code>map_engagement.py</code></td>
+<td><code>webinar.cta_clicked</code> {cta_id}</td>
+</tr>
+<tr>
+<td>Bookings</td>
+<td>Cal.com webhook (item 19)</td>
+<td>CRM web app</td>
+<td><code>booking.created</code></td>
+</tr>
+</tbody>
+</table>
+<p>Why not webhooks: WebinarJam's custom webhook has its own payload, no signature, and fires "missed" and "left early" only after the session (item 17). WebinarJam cannot export poll answers or offer clicks per person. So the chat log and the booking UTM are the per-person record.</p>
+<p>Poll answers in chat may be a letter ("B", "b)", "option B"), a letter with text ("D - follow-up") or the option text ("follow up"); "a great hour" is not an answer. Chat times may be offsets (00:04:40) or clock times (11:04:40, read as clock when it falls past the session length).</p>
+<p>Matching people: a chat line with an email uses it. A line with only a name is matched to the registrants export; a name shared by two registrants is skipped, never guessed, and listed in <code>unmatched.csv</code>. Presenter names in <code>columns.json</code> are ignored.</p>
+<h3>After every session (Ops, T plus 2 hours)</h3>
+<ol>
+<li>WebinarJam: the session's <strong>Log</strong>, download the chat; <strong>Registrants</strong>, this session, <strong>Export all registrants</strong>. Cal.com: export bookings created today (or use the CRM's booking rows) with <code>utm_content</code>. Save all three outside the repo, for example <code>~/Downloads/</code>.</li>
+<li>Attendance (item 17): <code>node deliverables/17-webinarjam/integration/import_attendance.mjs --csv ~/Downloads/&lt;registrants&gt;.csv --date &lt;YYYY-MM-DD&gt; --out /tmp/attendance.json</code>, check, then again with <code>--live</code>.</li>
+<li>Polls and clicks, dry run:
+   <code>python3 -I deliverables/21-engagement/map_engagement.py --chat ~/Downloads/&lt;chat&gt;.csv --registrants ~/Downloads/&lt;registrants&gt;.csv --bookings ~/Downloads/&lt;bookings&gt;.csv --date &lt;YYYY-MM-DD&gt; --start &lt;HH:MM&gt; --tz &lt;Area/City&gt; --out ~/tantra-private/21-engagement/&lt;YYYY-MM-DD&gt;</code>
+   Read the printed counts and <code>unmatched.csv</code>. Then the same command with <code>--send</code> (needs <code>integrations.crm_webhook_url</code> filled and the secret in <code>$CRM_SHARED_SECRET</code> or <code>~/.config/tantra/keys/crm-shared-secret</code>).</li>
+<li>Delete the three exports.</li>
+</ol>
+<h3>Verify before the first live session</h3>
+<ul>
+<li>The chat log download exists on our plan and has a time column and either an email or a name column. Put the real headers first in <code>columns.json</code>; set <code>time_is</code> to <code>offset</code> or <code>clock</code>.</li>
+<li>Cal.com keeps <code>utm_content</code> from the booking link on the booking and in its export (item 19).</li>
+<li>One test registration on example.com through the whole path: register, type a poll letter in chat, click an offer, book, run the two importers in dry run, and see the rows on the Webinar tab.</li>
+</ul><pre id="src" hidden># Engagement Plan: Polls, Chat Prompts, Offer Cues and the Path Into the CRM
+
+People who type stay, and people who stay book. This is every interaction in the 60-minute session, timed to the deck (item 16, `deliverables/16-deck/deck/index.html`), and how each answer and click reaches the CRM sheet (CRM_CONTRACT.md).
+
+Timing source: `engagement.json`, generated from the deck spec by `node export_from_deck.mjs`. Change the deck, rerun it, and the test (`tests/test_map_engagement.py`) fails until this page matches.
+
+Who does what live:
+- **Adi** hosts alone: the only person on camera and the only voice. He asks every poll and prompt out loud and reads every question out in Q and A. There is no co-host.
+- **Moderator**: behind the scenes, never on camera or mic. In WebinarJam Basic they sit in the second presenter seat with the camera off, because Basic has no Moderator role (item 17). Launches polls and offers on cue, posts the lines below, answers chat, sends Adi the Q and A list in private chat.
+
+Merge fields: `{{booking.round_robin_url}}` and the other `{{...}}` values come from `funnel-config.json`. The offer links add `?utm_source=webinarjam&amp;utm_medium=live_offer&amp;utm_content=&lt;cue id&gt;`.
+
+## Polls (4)
+
+Each poll runs twice at once: as a WebinarJam poll (the room sees the result) and as a chat prompt (the CRM gets each person&#x27;s answer, because WebinarJam keeps poll results per session, not per person). Since the 2026-11-05 slide-by-slide rebuild of the deck, no poll has a slide of its own: each runs as a WebinarJam overlay on the reference slide it fits, and that slide carries a small &quot;Poll n of 4&quot; badge. Launch on the slide, close after 45 seconds, read the split aloud. A chat letter counts for a poll from the minute it opens until 3 minutes later.
+
+| Poll | Slide | Minute | Question | Options | CRM |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 14 | 7 | What is your monthly revenue today? | A Under $10K a month; B $10K to $25K a month; C $25K to $100K a month; D $100K to $500K a month; E Over $500K a month | `poll_id` 1, column `poll_1` |
+| 2 | 23 | 11 | Where do you lose the most buyers today? | A Reach; B Show-up; C Conversion; D Follow-up | `poll_id` 2, column `poll_2` |
+| 3 | 69 | 39 | What would stop you having this engine running? | A Time; B Tech; C My market; D Money | `poll_id` 3, column `poll_3` |
+| 4 | 72 | 43 | What&#x27;s your next step? | A Build it with us; B Run it myself; C Not yet; D I have a question first | `poll_id` 4, column `poll_4` |
+
+Poll 1 runs on the qualifier slide, poll 2 on the three-step engine slide, poll 3 on the price slide (what it costs), poll 4 on the cost-of-waiting slide.
+
+Moderator posts with each poll: `Poll {n} is on your screen. Vote there, and type your letter in the chat too so I can see it.`
+
+What the answers do: poll 2 tells Adi which of the three steps to slow down on (reach is steps 1 and 2; show-up, conversion and follow-up are step 3); poll 3 orders the answers that follow (time and tech on slide 70, money on slide 72, my market in Q and A); poll 4 A is a hot lead the closer sees before the call (item 18&#x27;s closer alert reads the `poll_` columns); poll 4 D-voters get their questions answered first.
+
+## Chat Prompts
+
+Every prompt is in the slide&#x27;s speaker notes (the slides themselves stay as clean as the reference). The moderator posts the same line in chat the moment the slide appears, then reacts to answers by first name.
+
+| Slide | Minute | Prompt | Moderator posts |
+| --- | --- | --- | --- |
+| 2 | 1 | Type your city and what you sell | Welcome in. Type your city and what you sell, one line: we&#x27;ll use it to pick examples. |
+| 13 | 6 | Type 1 if one of these is you | Type 1 if one of these four is you. |
+| 14 | 7 | Vote, or type A to E | (poll line above) |
+| 15 | 8 | Your biggest leak: 1, 2 or 3? | Which leak hurt your pipeline this quarter? Type 1, 2 or 3. |
+| 23 | 11 | Vote, or type A to D | (poll line above) |
+| 25 | 13 | Type YES or NO | Is every buyer who fits in one list you can reach? Type YES or NO. |
+| 40 | 23 | Type CAL if a calendar invite brought you here | Type CAL if a calendar invite brought you here. |
+| 52 | 28 | Type ROOM if you&#x27;d rather teach one room than pitch 50 calls | Type ROOM if you&#x27;d rather teach one room than pitch 50 calls. |
+| 56 | 30 | Type 2 if no-shows are your biggest leak | Type 2 if no-shows are your biggest leak. |
+| 57 | 31 | Type HUMAN if you&#x27;d want a person checking every line | Would you let AI send to your buyers with nobody checking? Type HUMAN if you&#x27;d want a person checking every line. |
+| 69 | 39 | Vote, or type A to D | (poll line above) |
+| 70 | 41 | Type 1 if you&#x27;ve tried building it alone | Type 1 if you&#x27;ve tried building it alone. |
+| 72 | 43 | Vote, or type A to D | (poll line above) |
+| 73 | 44 | Type BOOKED when it&#x27;s in your calendar | Booking link: {{booking.round_robin_url}}. Once it&#x27;s in your calendar, type just the word BOOKED. |
+| 74 | 45 | Type your question now | Q and A is open. Type your question now; say what you sell and to whom. |
+
+House rules, posted once at minute 0: `Questions any time, answered live from minute 45. Please keep links and email addresses out of the chat. This session is recorded; the replay reaches your inbox.`
+
+Link re-posts: from minute 20 to the end, every 5 minutes, the moderator posts `Book your {{booking.event_title}}: {{booking.round_robin_url}}` and pins it. Anyone who mentions budget, a team or a timeline gets the same link privately (item 17 chat rules).
+
+## WebinarJam offer box timings
+
+WebinarJam has no timer for offers in a live event: the moderator launches and closes each one by hand, one at a time (item 17). Re-timed 2026-11-05 for the 74-slide deck that follows the reference recording slide by slide: the first look at the offer still opens at minute 20 and the first cue still closes at the minute-25 cutoff.
+
+| Cue (offer name) | Slide | Show at | Hide at | Button text | Button link |
+| --- | --- | --- | --- | --- | --- |
+| `cta1_soft` | 35 | 20:00 | 25:00 | Book My Call | `{{booking.round_robin_url}}?utm_source=webinarjam&amp;utm_medium=live_offer&amp;utm_content=cta1_soft` |
+| `cta2_checkpoint` | 64 | 35:00 | 38:00 | Book My Call | same link, `utm_content=cta2_checkpoint` |
+| `cta3_main` | 73 | 44:00 | 60:00 | Book My Call | same link, `utm_content=cta3_main` |
+
+Headline on each: `Book Your {{booking.event_title}}`. Description: `{{booking.duration_minutes}} minutes with my team. {{offer.proposal_sla}}, then a Proposal Review call with the same person, where we decide together.` Scarcity, urgency and countdown stay off: no real deadline exists (`offer.fast_action_deadline` is FILL). The price is said twice, on slide 35 at minute 20 (the offer in one slide) and on slide 69 at minute 39, never in an offer box.
+
+Calls to action in the deck: the first look (slide 35 at minute 20: what Tantra Enterprise is, who it is for, the price and the next step, then the QR on slide 36 at minute 22; the cue keeps the id `cta1_soft` so past UTM data still matches), checkpoint (slide 64, the QR after the recap), main (slide 73), and the QR on the Q and A slide (74) for all of minutes 45 to 60. Anyone who leaves before minute 25 (the retargeting cutoff, item 27) has seen the first look.
+
+## From WebinarJam to the CRM Sheet
+
+Everything posts to `{{integrations.crm_webhook_url}}?k=&lt;secret&gt;` as CRM_CONTRACT bodies. No other event names.
+
+| What | Source | Tool | Event |
+| --- | --- | --- | --- |
+| Registration | Registration page or calendar RSVP | item 17 Worker and `register.mjs` | `webinar.registered` |
+| Attendance, minutes in room, no-shows | WebinarJam registrants export (&quot;Export all registrants&quot;) | item 17 `integration/import_attendance.mjs` | `webinar.attended`, `webinar.no_show` (the CRM sets early_leaver before minute 25, stayed_to_offer after) |
+| Poll answers, per person | WebinarJam chat log: letters typed in each poll&#x27;s window | `map_engagement.py` (this folder) | `webinar.poll_answered` {poll_id, answer} |
+| Offer clicks, per person | Cal.com bookings carrying `utm_content=&lt;cue id&gt;`, plus a chat message that is only the word &quot;BOOKED&quot; after a cue (&quot;not booked yet&quot; never counts) | `map_engagement.py` | `webinar.cta_clicked` {cta_id} |
+| Bookings | Cal.com webhook (item 19) | CRM web app | `booking.created` |
+
+Why not webhooks: WebinarJam&#x27;s custom webhook has its own payload, no signature, and fires &quot;missed&quot; and &quot;left early&quot; only after the session (item 17). WebinarJam cannot export poll answers or offer clicks per person. So the chat log and the booking UTM are the per-person record.
+
+Poll answers in chat may be a letter (&quot;B&quot;, &quot;b)&quot;, &quot;option B&quot;), a letter with text (&quot;D - follow-up&quot;) or the option text (&quot;follow up&quot;); &quot;a great hour&quot; is not an answer. Chat times may be offsets (00:04:40) or clock times (11:04:40, read as clock when it falls past the session length).
+
+Matching people: a chat line with an email uses it. A line with only a name is matched to the registrants export; a name shared by two registrants is skipped, never guessed, and listed in `unmatched.csv`. Presenter names in `columns.json` are ignored.
+
+### After every session (Ops, T plus 2 hours)
+
+1. WebinarJam: the session&#x27;s **Log**, download the chat; **Registrants**, this session, **Export all registrants**. Cal.com: export bookings created today (or use the CRM&#x27;s booking rows) with `utm_content`. Save all three outside the repo, for example `~/Downloads/`.
+2. Attendance (item 17): `node deliverables/17-webinarjam/integration/import_attendance.mjs --csv ~/Downloads/&lt;registrants&gt;.csv --date &lt;YYYY-MM-DD&gt; --out /tmp/attendance.json`, check, then again with `--live`.
+3. Polls and clicks, dry run:
+   `python3 -I deliverables/21-engagement/map_engagement.py --chat ~/Downloads/&lt;chat&gt;.csv --registrants ~/Downloads/&lt;registrants&gt;.csv --bookings ~/Downloads/&lt;bookings&gt;.csv --date &lt;YYYY-MM-DD&gt; --start &lt;HH:MM&gt; --tz &lt;Area/City&gt; --out ~/tantra-private/21-engagement/&lt;YYYY-MM-DD&gt;`
+   Read the printed counts and `unmatched.csv`. Then the same command with `--send` (needs `integrations.crm_webhook_url` filled and the secret in `$CRM_SHARED_SECRET` or `~/.config/tantra/keys/crm-shared-secret`).
+4. Delete the three exports.
+
+### Verify before the first live session
+
+- The chat log download exists on our plan and has a time column and either an email or a name column. Put the real headers first in `columns.json`; set `time_is` to `offset` or `clock`.
+- Cal.com keeps `utm_content` from the booking link on the booking and in its export (item 19).
+- One test registration on example.com through the whole path: register, type a poll letter in chat, click an offer, book, run the two importers in dry run, and see the rows on the Webinar tab.
+</pre><script>document.getElementById('copy').onclick=async e=>{await navigator.clipboard.writeText(document.getElementById('src').textContent);e.target.textContent='Copied';setTimeout(()=>e.target.textContent='Copy the whole script',1500)}</script></main></body></html>
