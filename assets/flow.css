@@ -210,3 +210,29 @@
 .payline__box--wait, .payline__box--failed { box-shadow: inset 0 0 0 1.5px rgba(251, 191, 36, .45); }
 .payline__box--wait .plancard__k, .payline__box--failed .plancard__k { color: var(--amber); }
 .payline__box .plancard__t b { color: var(--white); font-weight: 650; }
+
+/* "Choose How You Build" (Adi 2026-11-09): the RevOps OS column leads. Wider, lit, with the product shot on top;
+   on phones it comes first. Free Seat steps back. */
+.vip-sec--pick { padding: 72px 0; }
+.vip-sec--pick::before { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(48% 60% at 66% 58%, rgba(109, 74, 255, .30), transparent 70%); }
+.tickets--feature { position: relative; max-width: 1080px; gap: 20px; }
+.tickets--feature .ticket--vip { order: -1; }
+@media (min-width: 820px) {
+  .tickets--feature { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: end; }
+  .tickets--feature .ticket--vip { order: 0; }
+  .tickets--feature .ticket:not(.ticket--vip) { background: rgba(13, 13, 22, .7); }
+}
+.tickets--feature .ticket--vip { padding: 0 28px 28px; overflow: hidden; border: 1.5px solid rgba(167, 139, 250, .7);
+  background: linear-gradient(180deg, #120d26 0%, #0d0d16 70%);
+  box-shadow: 0 0 0 6px rgba(109, 74, 255, .12), 0 40px 90px -30px rgba(109, 74, 255, .75); }
+.ticket__shot { position: relative; margin: 0 -28px 22px; aspect-ratio: 1600 / 893; background: #0b0d12; }
+.ticket__shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ticket__shot::after { content: ''; position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(180deg, transparent, #120d26); }
+.ticket__flag { position: absolute; top: 14px; left: 14px; z-index: 1; padding: 6px 12px; border-radius: 999px; background: var(--amber); color: var(--ink);
+  font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; box-shadow: 0 6px 18px -6px rgba(0, 0, 0, .6); }
+.tickets--feature .ticket--vip .ticket__k { color: var(--iris); }
+.tickets--feature .ticket--vip h3 { font-size: clamp(24px, 1.2vw + 18px, 30px); }
+.tickets--feature .ticket--vip .ticket__price b { font-size: 34px; }
+.vip-shot { max-width: 900px; margin: 0 auto 28px; border-radius: 16px; overflow: hidden; background: #0b0d12; aspect-ratio: 1600 / 893; box-shadow: 0 30px 70px -30px rgba(43, 26, 122, .55); }
+.vip-shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
