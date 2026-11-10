@@ -1,4 +1,5 @@
-// VIP page: the offer opens when the reveal timer ends (as on the reference page). With no video yet the offer is open
+// VIP page: the offer opens when the 1:30 reveal timer ends (as on the reference page; Adi 2026-11-10: 90 s, and the buttons,
+// the OS card with its preview image and everything below stay hidden until then). With no video yet the offer is open
 // from the start. ?state=offer opens it at once for review.
 (function () {
   var timer = document.querySelector('[data-vip-timer]');
@@ -6,7 +7,7 @@
   if (!timer || timer.hidden) return;
   var open = function () { timer.hidden = true; offers.forEach(function (o) { o.hidden = false; }); };
   if (new URLSearchParams(location.search).get('state') === 'offer') return open();
-  var left = 100, clock = timer.querySelector('[data-vip-clock]');
+  var left = 90, clock = timer.querySelector('[data-vip-clock]');
   var tick = setInterval(function () {
     left -= 1;
     if (left <= 0) { clearInterval(tick); open(); return; }

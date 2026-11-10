@@ -768,3 +768,10 @@ html:not(.review) .btn-wrap:has(.btn--wa) .btn--wa[disabled] { opacity: 1; backg
   .legal { grid-template-columns: 240px minmax(0, 1fr); gap: var(--s8); }
   .legal__toc { position: sticky; top: var(--s4); align-self: start; }
 }
+
+/* Vidalytics VSLs: no seeking (Adi 2026-11-10). The seek bar and time scrubber are hidden; video-lock.js undoes any seek. */
+.video--vidalytics .SeekBar__wrapper, .video--vidalytics .TimeDisplay__wrapper { display: none !important; }
+.vlock-unmute { position: absolute; z-index: 20; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border: 0; border-radius: 999px; font: 700 17px/1 Inter, system-ui, sans-serif; color: #fff; cursor: pointer;
+  background: rgba(109, 74, 255, .92); box-shadow: 0 12px 32px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(255, 255, 255, .25); }
+.vlock-unmute:hover { background: rgba(109, 74, 255, 1); }
