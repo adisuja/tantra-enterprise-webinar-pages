@@ -12,7 +12,7 @@ details{margin:10px 0;background:#11121b;border:1px solid #23253a;border-radius:
 nav a{margin-right:14px;font-size:14px}.pc{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}.pc>a img{border-radius:50%}.logos3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
 </style></head><body><main>
 <h1>Tantra LinkedIn rebrand v2: team pack</h1>
-<p>Updated 14 Nov 2026, 00:50. Everything for the six profiles and the Tantra page: images, every field, and every version we made.</p>
+<p>Updated 14 Nov 2026, 01:13. Everything for the six profiles and the Tantra page: images, every field, and every version we made.</p>
 <nav><a href="#guide">Team guide and prompt</a><a href="#status">Live status</a><a href="#decisions">Decisions</a><a href="#profiles">Profiles</a><a href="#featured">Featured</a><a href="#company">Company page</a><a href="#captions">Captions</a><a href="#audit">Audit</a><a href="#how">How to apply</a></nav>
 
 <h2 id="guide">Team guide and the Claude Code prompt</h2>
@@ -73,7 +73,7 @@ nav a{margin-right:14px;font-size:14px}.pc{display:grid;grid-template-columns:15
 <li><strong>About</strong>: pencil on About, replace the text with yours, then under Skills add your five top skills (pick each from the list LinkedIn shows; if one is missing, take the closest one listed), Save.</li>
 <li><strong>Current role</strong>: Experience, pencil on your current role. Title: your title from the table in the pack. Company: type Tantra and pick the page with the circuit tree logo from the dropdown (never free text). Paste your role description, add the same five skills, Save. Do not tick "End current position" on anything else.</li>
 <li><strong>Contact info</strong>: Contact info, Edit contact info. Add the two website links from the Links table in your section (workshop as Company, consultation as Other). Remove growthclub.org and old Calendly or Cal.com links. Save.</li>
-<li><strong>Featured</strong>: Featured, the + menu, Add a link. Paste the Featured 2 consultation link from the Links table in your section, wait up to a minute for the preview, set the title and description, Choose thumbnail, pick <code>featured-consultation-1200x627.png</code>, Save. Then do the same for the Featured 1 workshop link (jointantra.com) with <code>featured-workshop-1200x627.png</code> (the item added last shows first, so the workshop ends up on top). Remove old GrowthClub or Oiti items.</li>
+<li><strong>Featured</strong>: Featured, the + menu, Add a link. Paste the Featured 2 "Lands on" link from the Links table in your section, wait up to a minute for the preview, set the title and description, Choose thumbnail, pick <code>featured-consultation-1200x627.png</code>, Save. Then do the same for the Featured 1 "Lands on" link (jointantra.com) with <code>featured-workshop-1200x627.png</code> (the item added last shows first, so the workshop ends up on top). Remove old GrowthClub or Oiti items.</li>
 </ol>
 <h2>The Prompt for Claude Code</h2>
 <pre><code class="language-text">My key is: ____ (one of bhaskar, aquila, bharath, ben, nelbin)
@@ -99,7 +99,7 @@ Step 0, setup (fix anything missing yourself, ask me only for clicks only I can 
    - If doctor says several browser profiles are connected: run opencli profile list, then for each run opencli --profile &lt;id&gt; linkedin whoami, and opencli profile use &lt;id&gt; for the one that returns my name.
 3. opencli linkedin whoami must return my name. If it says signed out, ask me to sign in to LinkedIn in Chrome myself.
 4. Download my files with curl into ./assets/ (spec, helper, my cover @2x, my photo, both Featured images). chmod +x li-upload.sh.
-5. From PROFILE_SPEC.md, read the section for my name and the &quot;Shared by All Six Profiles&quot; section: headline, About, title, role description, five skills, Featured text, and my &quot;Links&quot; table. Every link I add comes from that table: organic traffic goes to jointantra.com, and each link has its own utm_content. Never change or drop the UTM parameters.
+5. From PROFILE_SPEC.md, read the section for my name and the &quot;Shared by All Six Profiles&quot; section: headline, About, title, role description, five skills, Featured text, and my &quot;Links&quot; table. Every link I add comes from that table: use the short go.usetantra.com link everywhere (About, role, websites, role media) except the two Featured items, which use their &quot;Lands on&quot; link. Never change or drop the UTM parameters.
 
 Step 1, audit (read only): opencli linkedin profile-read --profile-url &lt;my profile URL&gt; -f json &gt; backup/before.json and profile-experience the same way. Show me a short table: field, now, will become.
 
@@ -110,7 +110,7 @@ c. Cover: on the profile click [aria-label=&quot;Edit background image&quot;], t
 d. Photo: click my photo on the profile, find the change or upload photo button, run --catch, click it, upload assets/&lt;key&gt;-photo-1200.png the same way, keep it centred with no zoom, Save.
 e. Contact info: open https://www.linkedin.com/in/&lt;slug&gt;/overlay/contact-info/ and click the link &quot;Edit contact info&quot; (it opens /edit/forms/contact-info/new/). Set the two websites from my Links table (workshop as Company, consultation as Other), remove growthclub.org and old Calendly or Cal.com links, Save.
 f. Current role: open https://www.linkedin.com/in/&lt;slug&gt;/details/experience/ and use the &quot;Edit &lt;title&gt; at &lt;company&gt;&quot; link of my current role. Role title = my title from the spec. Organization: type Tantra and pick the Tantra page from the dropdown (circuit tree logo, linkedin.com/company/13588687), never free text. Description = my role description (contenteditable whose aria-label starts with &quot;Highlights&quot;). Add my five skills the same way as in b. Check that the notify checkbox and every &quot;End current position&quot; checkbox are unticked, then Save. Then open https://www.linkedin.com/in/me/edit/intro/ and make sure the Organization dropdown is Tantra, so my top card shows Tantra.
-g. Featured: open https://www.linkedin.com/in/&lt;slug&gt;/details/featured/ , click [aria-label=&quot;Featured overflow menu&quot;], &quot;Add a link&quot;, paste the Featured 2 consultation link from my Links table, click Add and wait up to 60 seconds for the Title field (the preview is slow; retry twice). Set title and description from the spec, run --catch, click [aria-label=&quot;Choose thumbnail image&quot;], upload assets/featured-consultation-1200x627.png, Save. Then add the Featured 1 workshop link from my Links table the same way (jointantra.com, thumbnail assets/featured-workshop-1200x627.png); the item added last shows first, so the workshop ends up on top. After saving, read each Featured item's real link (the href behind it) and check the UTMs are still there; if LinkedIn shows a bare domain, open https://www.linkedin.com/post-inspector/ , inspect that exact URL to refresh LinkedIn's cache, then delete and re-add the item. Then delete Featured items that point to GrowthClub, Oiti or past events (use their &quot;Delete &lt;title&gt;&quot; buttons).
+g. Featured: open https://www.linkedin.com/in/&lt;slug&gt;/details/featured/ , click [aria-label=&quot;Featured overflow menu&quot;], &quot;Add a link&quot;, paste the Featured 2 &quot;Lands on&quot; link from my Links table (Featured uses the full UTM link because LinkedIn cannot preview go.usetantra.com short links yet; everywhere else use the short link), click Add and wait up to 60 seconds for the Title field (the preview is slow; retry twice). Set title and description from the spec, run --catch, click [aria-label=&quot;Choose thumbnail image&quot;], upload assets/featured-consultation-1200x627.png, Save. Then add the Featured 1 &quot;Lands on&quot; link from my Links table the same way (jointantra.com, thumbnail assets/featured-workshop-1200x627.png); the item added last shows first, so the workshop ends up on top. After saving, read each Featured item's real link (the href behind it) and check the UTMs are still there; if LinkedIn shows a bare domain, open https://www.linkedin.com/post-inspector/ , inspect that exact URL to refresh LinkedIn's cache, then delete and re-add the item. Then delete Featured items that point to GrowthClub, Oiti or past events (use their &quot;Delete &lt;title&gt;&quot; buttons).
 
 Step 3, verify: run profile-read again into backup/after.json, compare every field with the spec, take opencli browser screenshot --session me profile-after.png of the top of my profile, and show me a table: field, done or not, and why. Tell me anything you could not do and the exact click I need to make.
 </code></pre>
@@ -288,6 +288,9 @@ Step 3, verify: run profile-read again into backup/after.json, compare every fie
 </tr>
 </tbody>
 </table>
+<h2>Short Links (14 November 2026)</h2>
+<p>51 tracked short links in the Tantra CRM: campaign "LinkedIn organic: team profiles" (cmp_f427ef8e47514047be1d), channel linkedin / organic_social (chn_c1118abc4dc74c06a10b). Codes go.usetantra.com/l/<key>-<spot>: fw, fc (Featured), ww, wc (websites), aw, ac (About), rw, rc (role); page: tantra-aw, tantra-ac, tantra-btn. Each lands with utm_source=linkedin, utm_medium=profile (company_page for the page), utm_campaign=enterprise-webinar, utm_content=<key>-<where>-<kind>, plus the CRM click id.</p>
+<p>Live on Adi's profile: About, role description, role media and websites use short links. Featured uses the full UTM links: LinkedIn could not build a preview from go.usetantra.com (handed to the CRM session). Page: Overview and Register button use short links.</p>
 
 <h2 id="decisions">Decisions (Adi, 13 Nov 2026)</h2>
 <table><tr><th>What</th><th>Decision</th></tr>
@@ -302,8 +305,8 @@ Step 3, verify: run profile-read again into backup/after.json, compare every fie
 <h2 id="profiles">Profiles: your cover and your fields</h2>
 <p>Find your name. Upload the cover, then copy each field from your section. Shared steps for everyone are in "How to apply".</p>
 <section id="adi"><h3>Adithya Murali: Leading the team @ Tantra</h3>
-<div class="pc"><a href="assets/adi-photo-1200.png?v=202611140050" target="_blank"><img src="assets/adi-photo-1200.png?v=202611140050" alt="Adithya Murali photo" loading="lazy"></a><div><a href="assets/adi-cover-1584x396.png?v=202611140050" target="_blank"><img src="assets/adi-cover-1584x396.png?v=202611140050" alt="Adithya Murali cover" loading="lazy"></a></div></div>
-<p class="dl"><a href="assets/adi-cover-1584x396@2x.png?v=202611140050" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/adi-photo-1200.png?v=202611140050" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-adi.png?v=202611140050" download>How the cover looks on LinkedIn</a></p>
+<div class="pc"><a href="assets/adi-photo-1200.png?v=202611140113" target="_blank"><img src="assets/adi-photo-1200.png?v=202611140113" alt="Adithya Murali photo" loading="lazy"></a><div><a href="assets/adi-cover-1584x396.png?v=202611140113" target="_blank"><img src="assets/adi-cover-1584x396.png?v=202611140113" alt="Adithya Murali cover" loading="lazy"></a></div></div>
+<p class="dl"><a href="assets/adi-cover-1584x396@2x.png?v=202611140113" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/adi-photo-1200.png?v=202611140113" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-adi.png?v=202611140113" download>How the cover looks on LinkedIn</a></p>
 <details><summary>Adithya Murali's fields: headline, About, experience, skills</summary><table>
 <thead>
 <tr>
@@ -341,45 +344,59 @@ Step 3, verify: run profile-read again into backup/after.json, compare every fie
 </tbody>
 </table>
 <p><strong>Links for Adithya</strong> (organic traffic goes to jointantra.com; every link carries its own utm_content):</p>
+<p>Use the short link everywhere except Featured: LinkedIn cannot build a preview from go.usetantra.com yet, so the two Featured items use their "Lands on" link.</p>
 <table>
 <thead>
 <tr>
 <th>Where</th>
-<th>URL</th>
+<th>Short link (use this)</th>
+<th>Lands on (UTMs added by the CRM)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Featured 1, workshop</td>
+<td>https://go.usetantra.com/l/adi-fw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-featured-workshop</td>
 </tr>
 <tr>
 <td>Featured 2, consultation</td>
+<td>https://go.usetantra.com/l/adi-fc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-featured-consultation</td>
 </tr>
 <tr>
 <td>Contact info website (Company)</td>
+<td>https://go.usetantra.com/l/adi-ww</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-website-workshop</td>
 </tr>
 <tr>
 <td>Contact info website (Other)</td>
+<td>https://go.usetantra.com/l/adi-wc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-website-consultation</td>
 </tr>
 <tr>
 <td>About, workshop line</td>
+<td>https://go.usetantra.com/l/adi-aw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-about-workshop</td>
 </tr>
 <tr>
 <td>About, consultation line</td>
+<td>https://go.usetantra.com/l/adi-ac</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-about-consultation</td>
 </tr>
 <tr>
-<td>Role description and role media</td>
+<td>Role description and role media, workshop</td>
+<td>https://go.usetantra.com/l/adi-rw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-role-workshop</td>
+</tr>
+<tr>
+<td>Role media, consultation</td>
+<td>https://go.usetantra.com/l/adi-rc</td>
+<td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-role-consultation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>About</strong> (1674 / 2600 characters):</p>
+<p><strong>About</strong> (1440 / 2600 characters):</p>
 <pre><code class="language-text">Referrals got you here. They won't get you to next year's number.
 
 You know the pattern. A great month, then a quiet one. A pipeline that depends on who introduced you to whom. A marketing budget that produces leads nobody in sales wants to call.
@@ -401,18 +418,18 @@ Today I run Tantra. We build that system with B2B teams, and AI now does most of
 Every Thursday at 11:00 UK time, I take it apart live, stage by stage, in 60 minutes. You'll see how the invites are written, how the reminders are timed, and how 45 minutes turns into booked calls.
 
 Two ways in:
-→ Join the live AI RevOps workshop: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-about-workshop
-→ Book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-about-consultation
+→ Join the live AI RevOps workshop: https://go.usetantra.com/l/adi-aw
+→ Book an AI revenue strategy consultation: https://go.usetantra.com/l/adi-ac
 </code></pre>
-<p><strong>Experience description</strong> (477 / 2000 characters):</p>
+<p><strong>Experience description</strong> (386 / 2000 characters):</p>
 <pre><code class="language-text">I founded Tantra and host our weekly live AI RevOps workshop.
 
 Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the live session and the pipeline, wired into one CRM with one weekly number for every stage. The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
 
-See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=adi-role-workshop
+See it live: https://go.usetantra.com/l/adi-rw
 </code></pre></details></section><section id="bhaskar"><h3>Bhaskar: Leading marketing &amp; product @ Tantra</h3>
-<div class="pc"><a href="assets/bhaskar-photo-1200.png?v=202611140050" target="_blank"><img src="assets/bhaskar-photo-1200.png?v=202611140050" alt="Bhaskar photo" loading="lazy"></a><div><a href="assets/bhaskar-cover-1584x396.png?v=202611140050" target="_blank"><img src="assets/bhaskar-cover-1584x396.png?v=202611140050" alt="Bhaskar cover" loading="lazy"></a></div></div>
-<p class="dl"><a href="assets/bhaskar-cover-1584x396@2x.png?v=202611140050" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/bhaskar-photo-1200.png?v=202611140050" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-bhaskar.png?v=202611140050" download>How the cover looks on LinkedIn</a></p>
+<div class="pc"><a href="assets/bhaskar-photo-1200.png?v=202611140113" target="_blank"><img src="assets/bhaskar-photo-1200.png?v=202611140113" alt="Bhaskar photo" loading="lazy"></a><div><a href="assets/bhaskar-cover-1584x396.png?v=202611140113" target="_blank"><img src="assets/bhaskar-cover-1584x396.png?v=202611140113" alt="Bhaskar cover" loading="lazy"></a></div></div>
+<p class="dl"><a href="assets/bhaskar-cover-1584x396@2x.png?v=202611140113" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/bhaskar-photo-1200.png?v=202611140113" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-bhaskar.png?v=202611140113" download>How the cover looks on LinkedIn</a></p>
 <details><summary>Bhaskar's fields: headline, About, experience, skills</summary><table>
 <thead>
 <tr>
@@ -450,45 +467,59 @@ See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&
 </tbody>
 </table>
 <p><strong>Links for Bhaskar</strong> (organic traffic goes to jointantra.com; every link carries its own utm_content):</p>
+<p>Use the short link everywhere except Featured: LinkedIn cannot build a preview from go.usetantra.com yet, so the two Featured items use their "Lands on" link.</p>
 <table>
 <thead>
 <tr>
 <th>Where</th>
-<th>URL</th>
+<th>Short link (use this)</th>
+<th>Lands on (UTMs added by the CRM)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Featured 1, workshop</td>
+<td>https://go.usetantra.com/l/bhaskar-fw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-featured-workshop</td>
 </tr>
 <tr>
 <td>Featured 2, consultation</td>
+<td>https://go.usetantra.com/l/bhaskar-fc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-featured-consultation</td>
 </tr>
 <tr>
 <td>Contact info website (Company)</td>
+<td>https://go.usetantra.com/l/bhaskar-ww</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-website-workshop</td>
 </tr>
 <tr>
 <td>Contact info website (Other)</td>
+<td>https://go.usetantra.com/l/bhaskar-wc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-website-consultation</td>
 </tr>
 <tr>
 <td>About, workshop line</td>
+<td>https://go.usetantra.com/l/bhaskar-aw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-about-workshop</td>
 </tr>
 <tr>
 <td>About, consultation line</td>
+<td>https://go.usetantra.com/l/bhaskar-ac</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-about-consultation</td>
 </tr>
 <tr>
-<td>Role description and role media</td>
+<td>Role description and role media, workshop</td>
+<td>https://go.usetantra.com/l/bhaskar-rw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-role-workshop</td>
+</tr>
+<tr>
+<td>Role media, consultation</td>
+<td>https://go.usetantra.com/l/bhaskar-rc</td>
+<td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-role-consultation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>About</strong> (1522 / 2600 characters):</p>
+<p><strong>About</strong> (1288 / 2600 characters):</p>
 <pre><code class="language-text">Your dashboard says 1,200 leads this quarter. Sales says they booked nine calls.
 
 If you run marketing, you've sat in that meeting. Every channel is &quot;performing&quot;, and nobody can tell you which post, invite or email put a real buyer on a call.
@@ -509,18 +540,18 @@ That's what the team builds with B2B companies at Tantra: the outreach, the page
 Every Thursday at 11:00 UK time, our founder Adi walks through the whole funnel live in 60 minutes. Bring your own numbers. You'll leave knowing which stage of yours is leaking.
 
 Two ways in:
-→ Join the live AI RevOps workshop: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-about-workshop
-→ Book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-about-consultation
+→ Join the live AI RevOps workshop: https://go.usetantra.com/l/bhaskar-aw
+→ Book an AI revenue strategy consultation: https://go.usetantra.com/l/bhaskar-ac
 </code></pre>
-<p><strong>Experience description</strong> (547 / 2000 characters):</p>
+<p><strong>Experience description</strong> (456 / 2000 characters):</p>
 <pre><code class="language-text">I lead marketing and product: the content, invites and webinars that book sales calls, and the numbers that show which ones do.
 
 Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the live session and the pipeline, wired into one CRM with one weekly number for every stage. The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
 
-See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bhaskar-role-workshop
+See it live: https://go.usetantra.com/l/bhaskar-rw
 </code></pre></details></section><section id="aquila"><h3>Aquila Eldho: Leading automations @ Tantra</h3>
-<div class="pc"><a href="assets/aquila-photo-1200.png?v=202611140050" target="_blank"><img src="assets/aquila-photo-1200.png?v=202611140050" alt="Aquila Eldho photo" loading="lazy"></a><div><a href="assets/aquila-cover-1584x396.png?v=202611140050" target="_blank"><img src="assets/aquila-cover-1584x396.png?v=202611140050" alt="Aquila Eldho cover" loading="lazy"></a></div></div>
-<p class="dl"><a href="assets/aquila-cover-1584x396@2x.png?v=202611140050" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/aquila-photo-1200.png?v=202611140050" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-aquila.png?v=202611140050" download>How the cover looks on LinkedIn</a></p>
+<div class="pc"><a href="assets/aquila-photo-1200.png?v=202611140113" target="_blank"><img src="assets/aquila-photo-1200.png?v=202611140113" alt="Aquila Eldho photo" loading="lazy"></a><div><a href="assets/aquila-cover-1584x396.png?v=202611140113" target="_blank"><img src="assets/aquila-cover-1584x396.png?v=202611140113" alt="Aquila Eldho cover" loading="lazy"></a></div></div>
+<p class="dl"><a href="assets/aquila-cover-1584x396@2x.png?v=202611140113" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/aquila-photo-1200.png?v=202611140113" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-aquila.png?v=202611140113" download>How the cover looks on LinkedIn</a></p>
 <details><summary>Aquila Eldho's fields: headline, About, experience, skills</summary><table>
 <thead>
 <tr>
@@ -558,45 +589,59 @@ See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&
 </tbody>
 </table>
 <p><strong>Links for Aquila</strong> (organic traffic goes to jointantra.com; every link carries its own utm_content):</p>
+<p>Use the short link everywhere except Featured: LinkedIn cannot build a preview from go.usetantra.com yet, so the two Featured items use their "Lands on" link.</p>
 <table>
 <thead>
 <tr>
 <th>Where</th>
-<th>URL</th>
+<th>Short link (use this)</th>
+<th>Lands on (UTMs added by the CRM)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Featured 1, workshop</td>
+<td>https://go.usetantra.com/l/aquila-fw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-featured-workshop</td>
 </tr>
 <tr>
 <td>Featured 2, consultation</td>
+<td>https://go.usetantra.com/l/aquila-fc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-featured-consultation</td>
 </tr>
 <tr>
 <td>Contact info website (Company)</td>
+<td>https://go.usetantra.com/l/aquila-ww</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-website-workshop</td>
 </tr>
 <tr>
 <td>Contact info website (Other)</td>
+<td>https://go.usetantra.com/l/aquila-wc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-website-consultation</td>
 </tr>
 <tr>
 <td>About, workshop line</td>
+<td>https://go.usetantra.com/l/aquila-aw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-about-workshop</td>
 </tr>
 <tr>
 <td>About, consultation line</td>
+<td>https://go.usetantra.com/l/aquila-ac</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-about-consultation</td>
 </tr>
 <tr>
-<td>Role description and role media</td>
+<td>Role description and role media, workshop</td>
+<td>https://go.usetantra.com/l/aquila-rw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-role-workshop</td>
+</tr>
+<tr>
+<td>Role media, consultation</td>
+<td>https://go.usetantra.com/l/aquila-rc</td>
+<td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-role-consultation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>About</strong> (1435 / 2600 characters):</p>
+<p><strong>About</strong> (1201 / 2600 characters):</p>
 <pre><code class="language-text">Someone registers for your webinar on Monday. By Thursday they've forgotten why.
 
 Nobody sent the reminder. Or it went out at 2am their time. Or it landed in an inbox they check once a week.
@@ -616,18 +661,18 @@ In one client's best webinar, 1,990 people registered and 321 came live. That ga
 Every Thursday at 11:00 UK time, our founder Adi shows the whole system live in 60 minutes, including exactly which parts AI runs and which still need you.
 
 Two ways in:
-→ Join the live AI RevOps workshop: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-about-workshop
-→ Book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-about-consultation
+→ Join the live AI RevOps workshop: https://go.usetantra.com/l/aquila-aw
+→ Book an AI revenue strategy consultation: https://go.usetantra.com/l/aquila-ac
 </code></pre>
-<p><strong>Experience description</strong> (508 / 2000 characters):</p>
+<p><strong>Experience description</strong> (417 / 2000 characters):</p>
 <pre><code class="language-text">I build the automation: the reminders, follow-ups and handoffs that run without a person.
 
 Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the live session and the pipeline, wired into one CRM with one weekly number for every stage. The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
 
-See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=aquila-role-workshop
+See it live: https://go.usetantra.com/l/aquila-rw
 </code></pre></details></section><section id="bharath"><h3>Bharath: Leading development @ Tantra</h3>
-<div class="pc"><a href="assets/bharath-photo-1200.png?v=202611140050" target="_blank"><img src="assets/bharath-photo-1200.png?v=202611140050" alt="Bharath photo" loading="lazy"></a><div><a href="assets/bharath-cover-1584x396.png?v=202611140050" target="_blank"><img src="assets/bharath-cover-1584x396.png?v=202611140050" alt="Bharath cover" loading="lazy"></a></div></div>
-<p class="dl"><a href="assets/bharath-cover-1584x396@2x.png?v=202611140050" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/bharath-photo-1200.png?v=202611140050" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-bharath.png?v=202611140050" download>How the cover looks on LinkedIn</a></p>
+<div class="pc"><a href="assets/bharath-photo-1200.png?v=202611140113" target="_blank"><img src="assets/bharath-photo-1200.png?v=202611140113" alt="Bharath photo" loading="lazy"></a><div><a href="assets/bharath-cover-1584x396.png?v=202611140113" target="_blank"><img src="assets/bharath-cover-1584x396.png?v=202611140113" alt="Bharath cover" loading="lazy"></a></div></div>
+<p class="dl"><a href="assets/bharath-cover-1584x396@2x.png?v=202611140113" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/bharath-photo-1200.png?v=202611140113" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-bharath.png?v=202611140113" download>How the cover looks on LinkedIn</a></p>
 <details><summary>Bharath's fields: headline, About, experience, skills</summary><table>
 <thead>
 <tr>
@@ -665,45 +710,59 @@ See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&
 </tbody>
 </table>
 <p><strong>Links for Bharath</strong> (organic traffic goes to jointantra.com; every link carries its own utm_content):</p>
+<p>Use the short link everywhere except Featured: LinkedIn cannot build a preview from go.usetantra.com yet, so the two Featured items use their "Lands on" link.</p>
 <table>
 <thead>
 <tr>
 <th>Where</th>
-<th>URL</th>
+<th>Short link (use this)</th>
+<th>Lands on (UTMs added by the CRM)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Featured 1, workshop</td>
+<td>https://go.usetantra.com/l/bharath-fw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-featured-workshop</td>
 </tr>
 <tr>
 <td>Featured 2, consultation</td>
+<td>https://go.usetantra.com/l/bharath-fc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-featured-consultation</td>
 </tr>
 <tr>
 <td>Contact info website (Company)</td>
+<td>https://go.usetantra.com/l/bharath-ww</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-website-workshop</td>
 </tr>
 <tr>
 <td>Contact info website (Other)</td>
+<td>https://go.usetantra.com/l/bharath-wc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-website-consultation</td>
 </tr>
 <tr>
 <td>About, workshop line</td>
+<td>https://go.usetantra.com/l/bharath-aw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-about-workshop</td>
 </tr>
 <tr>
 <td>About, consultation line</td>
+<td>https://go.usetantra.com/l/bharath-ac</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-about-consultation</td>
 </tr>
 <tr>
-<td>Role description and role media</td>
+<td>Role description and role media, workshop</td>
+<td>https://go.usetantra.com/l/bharath-rw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-role-workshop</td>
+</tr>
+<tr>
+<td>Role media, consultation</td>
+<td>https://go.usetantra.com/l/bharath-rc</td>
+<td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-role-consultation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>About</strong> (1297 / 2600 characters):</p>
+<p><strong>About</strong> (1063 / 2600 characters):</p>
 <pre><code class="language-text">Your form tool, your webinar platform, your CRM and your email tool all say they &quot;integrate&quot;. Then a lead registers and shows up in three of the four.
 
 Most B2B stacks leak at the joins. The lead isn't lost inside a tool. It's lost between two of them, and nobody notices until a sales rep asks why the CRM record is empty.
@@ -719,18 +778,18 @@ One record per person, from first invite to signed client. That's the whole idea
 Every Thursday at 11:00 UK time, our founder Adi maps the full funnel live in 60 minutes. If you own the stack, watch where each event goes and which system is the source of truth.
 
 Two ways in:
-→ Join the live AI RevOps workshop: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-about-workshop
-→ Book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-about-consultation
+→ Join the live AI RevOps workshop: https://go.usetantra.com/l/bharath-aw
+→ Book an AI revenue strategy consultation: https://go.usetantra.com/l/bharath-ac
 </code></pre>
-<p><strong>Experience description</strong> (513 / 2000 characters):</p>
+<p><strong>Experience description</strong> (422 / 2000 characters):</p>
 <pre><code class="language-text">I lead development: the stack, the integrations and the AI agents behind every Tantra funnel.
 
 Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the live session and the pipeline, wired into one CRM with one weekly number for every stage. The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
 
-See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=bharath-role-workshop
+See it live: https://go.usetantra.com/l/bharath-rw
 </code></pre></details></section><section id="ben"><h3>Ben Basil Tomy: Leading development @ Tantra</h3>
-<div class="pc"><a href="assets/ben-photo-1200.png?v=202611140050" target="_blank"><img src="assets/ben-photo-1200.png?v=202611140050" alt="Ben Basil Tomy photo" loading="lazy"></a><div><a href="assets/ben-cover-1584x396.png?v=202611140050" target="_blank"><img src="assets/ben-cover-1584x396.png?v=202611140050" alt="Ben Basil Tomy cover" loading="lazy"></a></div></div>
-<p class="dl"><a href="assets/ben-cover-1584x396@2x.png?v=202611140050" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/ben-photo-1200.png?v=202611140050" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-ben.png?v=202611140050" download>How the cover looks on LinkedIn</a></p>
+<div class="pc"><a href="assets/ben-photo-1200.png?v=202611140113" target="_blank"><img src="assets/ben-photo-1200.png?v=202611140113" alt="Ben Basil Tomy photo" loading="lazy"></a><div><a href="assets/ben-cover-1584x396.png?v=202611140113" target="_blank"><img src="assets/ben-cover-1584x396.png?v=202611140113" alt="Ben Basil Tomy cover" loading="lazy"></a></div></div>
+<p class="dl"><a href="assets/ben-cover-1584x396@2x.png?v=202611140113" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/ben-photo-1200.png?v=202611140113" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-ben.png?v=202611140113" download>How the cover looks on LinkedIn</a></p>
 <details><summary>Ben Basil Tomy's fields: headline, About, experience, skills</summary><table>
 <thead>
 <tr>
@@ -768,45 +827,59 @@ See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&
 </tbody>
 </table>
 <p><strong>Links for Ben</strong> (organic traffic goes to jointantra.com; every link carries its own utm_content):</p>
+<p>Use the short link everywhere except Featured: LinkedIn cannot build a preview from go.usetantra.com yet, so the two Featured items use their "Lands on" link.</p>
 <table>
 <thead>
 <tr>
 <th>Where</th>
-<th>URL</th>
+<th>Short link (use this)</th>
+<th>Lands on (UTMs added by the CRM)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Featured 1, workshop</td>
+<td>https://go.usetantra.com/l/ben-fw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-featured-workshop</td>
 </tr>
 <tr>
 <td>Featured 2, consultation</td>
+<td>https://go.usetantra.com/l/ben-fc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-featured-consultation</td>
 </tr>
 <tr>
 <td>Contact info website (Company)</td>
+<td>https://go.usetantra.com/l/ben-ww</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-website-workshop</td>
 </tr>
 <tr>
 <td>Contact info website (Other)</td>
+<td>https://go.usetantra.com/l/ben-wc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-website-consultation</td>
 </tr>
 <tr>
 <td>About, workshop line</td>
+<td>https://go.usetantra.com/l/ben-aw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-about-workshop</td>
 </tr>
 <tr>
 <td>About, consultation line</td>
+<td>https://go.usetantra.com/l/ben-ac</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-about-consultation</td>
 </tr>
 <tr>
-<td>Role description and role media</td>
+<td>Role description and role media, workshop</td>
+<td>https://go.usetantra.com/l/ben-rw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-role-workshop</td>
+</tr>
+<tr>
+<td>Role media, consultation</td>
+<td>https://go.usetantra.com/l/ben-rc</td>
+<td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-role-consultation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>About</strong> (1217 / 2600 characters):</p>
+<p><strong>About</strong> (983 / 2600 characters):</p>
 <pre><code class="language-text">You spent three weeks on the landing page. Nobody can tell you if it worked.
 
 No source tags on the links. A form that posts to an inbox. A thank-you page with no next step. The page &quot;launched&quot;, and that's the last anyone heard of it.
@@ -823,18 +896,18 @@ One client tested a long landing page against a short one. The long page aimed f
 Every Thursday at 11:00 UK time, our founder Adi takes the whole funnel apart live in 60 minutes, including the pages and what we measure on each one.
 
 Two ways in:
-→ Join the live AI RevOps workshop: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-about-workshop
-→ Book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-about-consultation
+→ Join the live AI RevOps workshop: https://go.usetantra.com/l/ben-aw
+→ Book an AI revenue strategy consultation: https://go.usetantra.com/l/ben-ac
 </code></pre>
-<p><strong>Experience description</strong> (511 / 2000 characters):</p>
+<p><strong>Experience description</strong> (420 / 2000 characters):</p>
 <pre><code class="language-text">I build the pages, forms and tracking for client funnels, and the tests that decide what stays.
 
 Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the live session and the pipeline, wired into one CRM with one weekly number for every stage. The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
 
-See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=ben-role-workshop
+See it live: https://go.usetantra.com/l/ben-rw
 </code></pre></details></section><section id="nelbin"><h3>Nelbin: Leading marketing ops @ Tantra</h3>
-<div class="pc"><a href="assets/nelbin-photo-1200.png?v=202611140050" target="_blank"><img src="assets/nelbin-photo-1200.png?v=202611140050" alt="Nelbin photo" loading="lazy"></a><div><a href="assets/nelbin-cover-1584x396.png?v=202611140050" target="_blank"><img src="assets/nelbin-cover-1584x396.png?v=202611140050" alt="Nelbin cover" loading="lazy"></a></div></div>
-<p class="dl"><a href="assets/nelbin-cover-1584x396@2x.png?v=202611140050" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/nelbin-photo-1200.png?v=202611140050" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-nelbin.png?v=202611140050" download>How the cover looks on LinkedIn</a></p>
+<div class="pc"><a href="assets/nelbin-photo-1200.png?v=202611140113" target="_blank"><img src="assets/nelbin-photo-1200.png?v=202611140113" alt="Nelbin photo" loading="lazy"></a><div><a href="assets/nelbin-cover-1584x396.png?v=202611140113" target="_blank"><img src="assets/nelbin-cover-1584x396.png?v=202611140113" alt="Nelbin cover" loading="lazy"></a></div></div>
+<p class="dl"><a href="assets/nelbin-cover-1584x396@2x.png?v=202611140113" download>Cover, upload this (3168 x 792)</a> &#183; <a href="assets/nelbin-photo-1200.png?v=202611140113" download>Profile photo 1200 x 1200</a> &#183; <a href="shots/mock-nelbin.png?v=202611140113" download>How the cover looks on LinkedIn</a></p>
 <details><summary>Nelbin's fields: headline, About, experience, skills</summary><table>
 <thead>
 <tr>
@@ -872,45 +945,59 @@ See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&
 </tbody>
 </table>
 <p><strong>Links for Nelbin</strong> (organic traffic goes to jointantra.com; every link carries its own utm_content):</p>
+<p>Use the short link everywhere except Featured: LinkedIn cannot build a preview from go.usetantra.com yet, so the two Featured items use their "Lands on" link.</p>
 <table>
 <thead>
 <tr>
 <th>Where</th>
-<th>URL</th>
+<th>Short link (use this)</th>
+<th>Lands on (UTMs added by the CRM)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Featured 1, workshop</td>
+<td>https://go.usetantra.com/l/nelbin-fw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-featured-workshop</td>
 </tr>
 <tr>
 <td>Featured 2, consultation</td>
+<td>https://go.usetantra.com/l/nelbin-fc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-featured-consultation</td>
 </tr>
 <tr>
 <td>Contact info website (Company)</td>
+<td>https://go.usetantra.com/l/nelbin-ww</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-website-workshop</td>
 </tr>
 <tr>
 <td>Contact info website (Other)</td>
+<td>https://go.usetantra.com/l/nelbin-wc</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-website-consultation</td>
 </tr>
 <tr>
 <td>About, workshop line</td>
+<td>https://go.usetantra.com/l/nelbin-aw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-about-workshop</td>
 </tr>
 <tr>
 <td>About, consultation line</td>
+<td>https://go.usetantra.com/l/nelbin-ac</td>
 <td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-about-consultation</td>
 </tr>
 <tr>
-<td>Role description and role media</td>
+<td>Role description and role media, workshop</td>
+<td>https://go.usetantra.com/l/nelbin-rw</td>
 <td>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-role-workshop</td>
+</tr>
+<tr>
+<td>Role media, consultation</td>
+<td>https://go.usetantra.com/l/nelbin-rc</td>
+<td>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-role-consultation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>About</strong> (1338 / 2600 characters):</p>
+<p><strong>About</strong> (1104 / 2600 characters):</p>
 <pre><code class="language-text">The launch went fine. It's week six that breaks.
 
 You've seen it. Week one gets everyone's attention. By week six the reminder didn't go out, the replay link is wrong, and nobody knows who was meant to follow up with the people who asked a question.
@@ -930,24 +1017,24 @@ If you run operations, you know the real problem: work that depends on someone r
 Every Thursday at 11:00 UK time, our founder Adi takes the whole funnel apart live in 60 minutes, including the weekly rhythm that keeps it running.
 
 Two ways in:
-→ Join the live AI RevOps workshop: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-about-workshop
-→ Book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-about-consultation
+→ Join the live AI RevOps workshop: https://go.usetantra.com/l/nelbin-aw
+→ Book an AI revenue strategy consultation: https://go.usetantra.com/l/nelbin-ac
 </code></pre>
-<p><strong>Experience description</strong> (528 / 2000 characters):</p>
+<p><strong>Experience description</strong> (437 / 2000 characters):</p>
 <pre><code class="language-text">I run marketing operations: an owner, a checklist and a weekly number for every stage of every client funnel.
 
 Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the live session and the pipeline, wired into one CRM with one weekly number for every stage. The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
 
-See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=nelbin-role-workshop
+See it live: https://go.usetantra.com/l/nelbin-rw
 </code></pre></details></section>
 
 <h2 id="featured">Featured images (same for all six)</h2>
-<div class="two"><div><a href="assets/featured-workshop-1200x627.png?v=202611140050" target="_blank"><img src="assets/featured-workshop-1200x627.png?v=202611140050" alt="" loading="lazy"></a><p class="dl"><a href="assets/featured-workshop-1200x627@2x.png?v=202611140050" download>Workshop, 2400 x 1254</a> &#183; <a href="assets/featured-workshop-1200x627.png?v=202611140050" download>1200 x 627</a></p></div>
-<div><a href="assets/featured-consultation-1200x627.png?v=202611140050" target="_blank"><img src="assets/featured-consultation-1200x627.png?v=202611140050" alt="" loading="lazy"></a><p class="dl"><a href="assets/featured-consultation-1200x627@2x.png?v=202611140050" download>Consultation, 2400 x 1254</a> &#183; <a href="assets/featured-consultation-1200x627.png?v=202611140050" download>1200 x 627</a></p></div></div>
+<div class="two"><div><a href="assets/featured-workshop-1200x627.png?v=202611140113" target="_blank"><img src="assets/featured-workshop-1200x627.png?v=202611140113" alt="" loading="lazy"></a><p class="dl"><a href="assets/featured-workshop-1200x627@2x.png?v=202611140113" download>Workshop, 2400 x 1254</a> &#183; <a href="assets/featured-workshop-1200x627.png?v=202611140113" download>1200 x 627</a></p></div>
+<div><a href="assets/featured-consultation-1200x627.png?v=202611140113" target="_blank"><img src="assets/featured-consultation-1200x627.png?v=202611140113" alt="" loading="lazy"></a><p class="dl"><a href="assets/featured-consultation-1200x627@2x.png?v=202611140113" download>Consultation, 2400 x 1254</a> &#183; <a href="assets/featured-consultation-1200x627.png?v=202611140113" download>1200 x 627</a></p></div></div>
 <ul>
 <li><strong>Cover</strong>: <code>assets/&lt;key&gt;-cover-1584x396.png</code> (LinkedIn recommends 1584 x 396, max 8 MB). Upload the <code>@2x</code> file if LinkedIn accepts it; it is sharper on retina screens.</li>
-<li><strong>Featured 1</strong> (Add a link): URL <code>https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=&lt;key&gt;-featured-workshop</code>, image <code>assets/featured-workshop-1200x627.png</code>, title "Attend Our Live AI RevOps Workshop", description "60 minutes, live with Adi. Watch a cold list turn into booked sales calls, then take the playbook, prompts and calculator home." (127 / 200 characters)</li>
-<li><strong>Featured 2</strong> (Add a link): URL <code>https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=profile&amp;utm_campaign=enterprise-webinar&amp;utm_content=&lt;key&gt;-featured-consultation</code>, image <code>assets/featured-consultation-1200x627.png</code>, title "Book an AI Revenue Strategy Consultation", description "45 minutes with a Tantra strategist. We find where your pipeline leaks and map which parts AI should run for you." (113 / 200 characters)</li>
+<li><strong>Featured 1</strong> (Add a link): URL = the "Lands on" link of Featured 1 in your Links table (LinkedIn cannot preview go.usetantra.com short links yet, so Featured uses the full UTM link), image <code>assets/featured-workshop-1200x627.png</code>, title "Attend Our Live AI RevOps Workshop", description "60 minutes, live with Adi. Watch a cold list turn into booked sales calls, then take the playbook, prompts and calculator home." (127 / 200 characters)</li>
+<li><strong>Featured 2</strong> (Add a link): URL = the "Lands on" link of Featured 2 in your Links table, image <code>assets/featured-consultation-1200x627.png</code>, title "Book an AI Revenue Strategy Consultation", description "45 minutes with a Tantra strategist. We find where your pipeline leaks and map which parts AI should run for you." (113 / 200 characters)</li>
 <li>Remove every older Featured item that points to GrowthClub or a past event.</li>
 <li><strong>Contact info, Website</strong>: add the workshop link (type: Company) and the consultation link (type: Other) from your Links table; LinkedIn no longer allows custom labels. Remove growthclub.org links and any old Cal.com link.</li>
 <li><strong>Custom button</strong> (only shows with Premium or Creator tools): "Visit my website", the workshop link with <code>utm_content=&lt;key&gt;-button</code>.</li>
@@ -956,15 +1043,15 @@ See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&
 </ul>
 
 <h2 id="company">Tantra company page</h2>
-<h4>Page logo: D is live (from the newest mark, usetantra.com tantra-mark-hub.webp). E, F and the first round A, B, C are alternates</h4><div class="logos3"><div><h4>Logo D (live)</h4><a href="assets/tantra-logo-d-1200.png?v=202611140050" target="_blank"><img src="assets/tantra-logo-d-1200.png?v=202611140050" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-d-1200.png?v=202611140050" download>1200 x 1200</a></p></div><div><h4>Logo E</h4><a href="assets/tantra-logo-e-1200.png?v=202611140050" target="_blank"><img src="assets/tantra-logo-e-1200.png?v=202611140050" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-e-1200.png?v=202611140050" download>1200 x 1200</a></p></div><div><h4>Logo F</h4><a href="assets/tantra-logo-f-1200.png?v=202611140050" target="_blank"><img src="assets/tantra-logo-f-1200.png?v=202611140050" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-f-1200.png?v=202611140050" download>1200 x 1200</a></p></div><div><h4>Logo A</h4><a href="assets/tantra-logo-a-1200.png?v=202611140050" target="_blank"><img src="assets/tantra-logo-a-1200.png?v=202611140050" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-a-1200.png?v=202611140050" download>1200 x 1200</a></p></div><div><h4>Logo B</h4><a href="assets/tantra-logo-b-1200.png?v=202611140050" target="_blank"><img src="assets/tantra-logo-b-1200.png?v=202611140050" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-b-1200.png?v=202611140050" download>1200 x 1200</a></p></div><div><h4>Logo C</h4><a href="assets/tantra-logo-c-1200.png?v=202611140050" target="_blank"><img src="assets/tantra-logo-c-1200.png?v=202611140050" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-c-1200.png?v=202611140050" download>1200 x 1200</a></p></div></div>
-<h4>Logos and photos at feed size</h4><a href="shots/logo-and-photos-preview.png?v=202611140050" target="_blank"><img src="shots/logo-and-photos-preview.png?v=202611140050" alt="" loading="lazy"></a>
-<div class="opt pick"><h4>A2: face strips, violet grade (chosen)</h4><a href="assets/tantra-company-cover-strips-violet-1200x200.png?v=202611140050" target="_blank"><img src="assets/tantra-company-cover-strips-violet-1200x200.png?v=202611140050" alt="A2: face strips, violet grade" loading="lazy"></a>
-<p class="dl"><a href="assets/tantra-company-cover-strips-violet-4200x700.png?v=202611140050" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-strips-violet-1200x200.png?v=202611140050" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-strips-violet-1330x700.png?v=202611140050" download>Collage alone</a></p></div><div class="opt"><h4>A1: face strips, natural colour</h4><a href="assets/tantra-company-cover-strips-1200x200.png?v=202611140050" target="_blank"><img src="assets/tantra-company-cover-strips-1200x200.png?v=202611140050" alt="A1: face strips, natural colour" loading="lazy"></a>
-<p class="dl"><a href="assets/tantra-company-cover-strips-4200x700.png?v=202611140050" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-strips-1200x200.png?v=202611140050" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-strips-1330x700.png?v=202611140050" download>Collage alone</a></p></div><div class="opt"><h4>B1: side profiles on violet panels</h4><a href="assets/tantra-company-cover-panels-1200x200.png?v=202611140050" target="_blank"><img src="assets/tantra-company-cover-panels-1200x200.png?v=202611140050" alt="B1: side profiles on violet panels" loading="lazy"></a>
-<p class="dl"><a href="assets/tantra-company-cover-panels-4200x700.png?v=202611140050" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-panels-1200x200.png?v=202611140050" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-panels-1330x700.png?v=202611140050" download>Collage alone</a></p></div><div class="opt"><h4>B2: side profiles on the dark background</h4><a href="assets/tantra-company-cover-glow-1200x200.png?v=202611140050" target="_blank"><img src="assets/tantra-company-cover-glow-1200x200.png?v=202611140050" alt="B2: side profiles on the dark background" loading="lazy"></a>
-<p class="dl"><a href="assets/tantra-company-cover-glow-4200x700.png?v=202611140050" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-glow-1200x200.png?v=202611140050" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-glow-1330x700.png?v=202611140050" download>Collage alone</a></p></div><div class="opt"><h4>B3: side profiles on stacked bright tiles (earlier, does not blend)</h4><a href="assets/tantra-company-cover-tiles-1200x200.png?v=202611140050" target="_blank"><img src="assets/tantra-company-cover-tiles-1200x200.png?v=202611140050" alt="B3: side profiles on stacked bright tiles (earlier, does not blend)" loading="lazy"></a>
-<p class="dl"><a href="assets/tantra-company-cover-tiles-4200x700.png?v=202611140050" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-tiles-1200x200.png?v=202611140050" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-tiles-1330x700.png?v=202611140050" download>Collage alone</a></p></div>
-<h4>On LinkedIn</h4><a href="shots/mock-company.png?v=202611140050" target="_blank"><img src="shots/mock-company.png?v=202611140050" alt="" loading="lazy"></a>
+<h4>Page logo: D is live (from the newest mark, usetantra.com tantra-mark-hub.webp). E, F and the first round A, B, C are alternates</h4><div class="logos3"><div><h4>Logo D (live)</h4><a href="assets/tantra-logo-d-1200.png?v=202611140113" target="_blank"><img src="assets/tantra-logo-d-1200.png?v=202611140113" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-d-1200.png?v=202611140113" download>1200 x 1200</a></p></div><div><h4>Logo E</h4><a href="assets/tantra-logo-e-1200.png?v=202611140113" target="_blank"><img src="assets/tantra-logo-e-1200.png?v=202611140113" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-e-1200.png?v=202611140113" download>1200 x 1200</a></p></div><div><h4>Logo F</h4><a href="assets/tantra-logo-f-1200.png?v=202611140113" target="_blank"><img src="assets/tantra-logo-f-1200.png?v=202611140113" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-f-1200.png?v=202611140113" download>1200 x 1200</a></p></div><div><h4>Logo A</h4><a href="assets/tantra-logo-a-1200.png?v=202611140113" target="_blank"><img src="assets/tantra-logo-a-1200.png?v=202611140113" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-a-1200.png?v=202611140113" download>1200 x 1200</a></p></div><div><h4>Logo B</h4><a href="assets/tantra-logo-b-1200.png?v=202611140113" target="_blank"><img src="assets/tantra-logo-b-1200.png?v=202611140113" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-b-1200.png?v=202611140113" download>1200 x 1200</a></p></div><div><h4>Logo C</h4><a href="assets/tantra-logo-c-1200.png?v=202611140113" target="_blank"><img src="assets/tantra-logo-c-1200.png?v=202611140113" alt="" loading="lazy"></a><p class="dl"><a href="assets/tantra-logo-c-1200.png?v=202611140113" download>1200 x 1200</a></p></div></div>
+<h4>Logos and photos at feed size</h4><a href="shots/logo-and-photos-preview.png?v=202611140113" target="_blank"><img src="shots/logo-and-photos-preview.png?v=202611140113" alt="" loading="lazy"></a>
+<div class="opt pick"><h4>A2: face strips, violet grade (chosen)</h4><a href="assets/tantra-company-cover-strips-violet-1200x200.png?v=202611140113" target="_blank"><img src="assets/tantra-company-cover-strips-violet-1200x200.png?v=202611140113" alt="A2: face strips, violet grade" loading="lazy"></a>
+<p class="dl"><a href="assets/tantra-company-cover-strips-violet-4200x700.png?v=202611140113" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-strips-violet-1200x200.png?v=202611140113" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-strips-violet-1330x700.png?v=202611140113" download>Collage alone</a></p></div><div class="opt"><h4>A1: face strips, natural colour</h4><a href="assets/tantra-company-cover-strips-1200x200.png?v=202611140113" target="_blank"><img src="assets/tantra-company-cover-strips-1200x200.png?v=202611140113" alt="A1: face strips, natural colour" loading="lazy"></a>
+<p class="dl"><a href="assets/tantra-company-cover-strips-4200x700.png?v=202611140113" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-strips-1200x200.png?v=202611140113" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-strips-1330x700.png?v=202611140113" download>Collage alone</a></p></div><div class="opt"><h4>B1: side profiles on violet panels</h4><a href="assets/tantra-company-cover-panels-1200x200.png?v=202611140113" target="_blank"><img src="assets/tantra-company-cover-panels-1200x200.png?v=202611140113" alt="B1: side profiles on violet panels" loading="lazy"></a>
+<p class="dl"><a href="assets/tantra-company-cover-panels-4200x700.png?v=202611140113" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-panels-1200x200.png?v=202611140113" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-panels-1330x700.png?v=202611140113" download>Collage alone</a></p></div><div class="opt"><h4>B2: side profiles on the dark background</h4><a href="assets/tantra-company-cover-glow-1200x200.png?v=202611140113" target="_blank"><img src="assets/tantra-company-cover-glow-1200x200.png?v=202611140113" alt="B2: side profiles on the dark background" loading="lazy"></a>
+<p class="dl"><a href="assets/tantra-company-cover-glow-4200x700.png?v=202611140113" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-glow-1200x200.png?v=202611140113" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-glow-1330x700.png?v=202611140113" download>Collage alone</a></p></div><div class="opt"><h4>B3: side profiles on stacked bright tiles (earlier, does not blend)</h4><a href="assets/tantra-company-cover-tiles-1200x200.png?v=202611140113" target="_blank"><img src="assets/tantra-company-cover-tiles-1200x200.png?v=202611140113" alt="B3: side profiles on stacked bright tiles (earlier, does not blend)" loading="lazy"></a>
+<p class="dl"><a href="assets/tantra-company-cover-tiles-4200x700.png?v=202611140113" download>Upload size 4200 x 700</a> &#183; <a href="assets/tantra-company-cover-tiles-1200x200.png?v=202611140113" download>1200 x 200</a> &#183; <a href="assets/tantra-collage-tiles-1330x700.png?v=202611140113" download>Collage alone</a></p></div>
+<h4>On LinkedIn</h4><a href="shots/mock-company.png?v=202611140113" target="_blank"><img src="shots/mock-company.png?v=202611140113" alt="" loading="lazy"></a>
 <details><summary>Every page field: tagline, About, specialties, button</summary><p>Card 06 (<code>deliverables/06-company-page/ADMIN_STEPS.md</code>) has the click path and LinkedIn's rename rules. v2 changes only the cover, the button and the About ending.</p>
 <table>
 <thead>
@@ -1027,8 +1114,8 @@ See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&
 </tr>
 <tr>
 <td>Custom button</td>
-<td>Register, https://jointantra.com/?utm_source=linkedin&amp;utm_medium=company_page&amp;utm_campaign=enterprise-webinar&amp;utm_content=button</td>
-<td>jointantra.com, Adi 2026-11-14</td>
+<td>Register, https://go.usetantra.com/l/tantra-btn</td>
+<td>Tracked short link to jointantra.com, Adi 2026-11-14</td>
 </tr>
 <tr>
 <td>Featured / pinned post</td>
@@ -1037,7 +1124,7 @@ See it live: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=profile&
 </tr>
 </tbody>
 </table>
-<p><strong>About</strong> (1922 / 2000 characters):</p>
+<p><strong>About</strong> (1692 / 2000 characters):</p>
 <pre><code class="language-text">Most B2B companies don't have a lead problem. They have a leak problem. Marketing counts leads, sales counts deals, and nobody owns what happens in between.
 
 Tantra builds the in between: AI revenue systems that take a stranger from first invite to signed client, with one CRM and one weekly number for every stage.
@@ -1065,14 +1152,14 @@ Two ways to work with us:
 → The Tantra platform: run outreach and nurture from your own accounts. Start at usetantra.com
 → Tantra Enterprise: we build your funnel with you, coach your team for 3 months, and you get a year on the platform
 
-Start with the live workshop: https://jointantra.com/?utm_source=linkedin&amp;utm_medium=company_page&amp;utm_campaign=enterprise-webinar&amp;utm_content=about-workshop
-Or book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&amp;utm_medium=company_page&amp;utm_campaign=enterprise-webinar&amp;utm_content=about-consultation
+Start with the live workshop: https://go.usetantra.com/l/tantra-aw
+Or book an AI revenue strategy consultation: https://go.usetantra.com/l/tantra-ac
 </code></pre></details>
 
 <h2 id="captions">Caption options</h2>
 <p>Four captions run at the same time, so each one gets real profile traffic. Every profile's Featured links carry its own <code>utm_content</code>, so registrations trace back to the caption.</p>
 <table><tr><th>Headline</th><th>Bar</th><th>On</th></tr><tr><td>Our AI Haunts Your Audience Until They Pay You.</td><td>none, one size</td><td>Adi, Nelbin</td></tr><tr><td>Your Pipeline Called. It&#x27;s Hungry.</td><td>AI feeds it booked calls every single week.</td><td>Bhaskar, Bharath, Tantra company page</td></tr><tr><td>Leads Left on Read? Not on Our Watch.</td><td>AI follows up until they reply.</td><td>Aquila</td></tr><tr><td>Cold Leads? We Bring Blankets.</td><td>AI warms them up until they book a call.</td><td>Ben</td></tr></table>
-<details><summary>Round 1 options (not used)</summary><div class="opt"><h4>Round 1, option 1: Cold List In. Booked Calls Out. / AI sends every invite, reminder and follow up.</h4><a href="shots/captions/round1/caption-1-adi.png?v=202611140050" target="_blank"><img src="shots/captions/round1/caption-1-adi.png?v=202611140050" alt="" loading="lazy"></a></div><div class="opt"><h4>Round 1, option 2: Stop Chasing Leads. Start Closing Them. / AI does the follow up. Your team takes the calls.</h4><a href="shots/captions/round1/caption-2-adi.png?v=202611140050" target="_blank"><img src="shots/captions/round1/caption-2-adi.png?v=202611140050" alt="" loading="lazy"></a></div><div class="opt"><h4>Round 1, option 3: More Sales Calls. Same Sales Team. / AI handles everything between the click and the call.</h4><a href="shots/captions/round1/caption-3-adi.png?v=202611140050" target="_blank"><img src="shots/captions/round1/caption-3-adi.png?v=202611140050" alt="" loading="lazy"></a></div><div class="opt"><h4>Round 1, option 4: Strangers on Monday. Sales Calls by Friday. / The AI revenue system behind 400+ brands.</h4><a href="shots/captions/round1/caption-4-adi.png?v=202611140050" target="_blank"><img src="shots/captions/round1/caption-4-adi.png?v=202611140050" alt="" loading="lazy"></a></div><div class="opt"><h4>Round 1, option 5: Your Leads Went Cold. AI Warms Them Up. / No lead left without a follow up. Ever.</h4><a href="shots/captions/round1/caption-5-adi.png?v=202611140050" target="_blank"><img src="shots/captions/round1/caption-5-adi.png?v=202611140050" alt="" loading="lazy"></a></div></details>
+<details><summary>Round 1 options (not used)</summary><div class="opt"><h4>Round 1, option 1: Cold List In. Booked Calls Out. / AI sends every invite, reminder and follow up.</h4><a href="shots/captions/round1/caption-1-adi.png?v=202611140113" target="_blank"><img src="shots/captions/round1/caption-1-adi.png?v=202611140113" alt="" loading="lazy"></a></div><div class="opt"><h4>Round 1, option 2: Stop Chasing Leads. Start Closing Them. / AI does the follow up. Your team takes the calls.</h4><a href="shots/captions/round1/caption-2-adi.png?v=202611140113" target="_blank"><img src="shots/captions/round1/caption-2-adi.png?v=202611140113" alt="" loading="lazy"></a></div><div class="opt"><h4>Round 1, option 3: More Sales Calls. Same Sales Team. / AI handles everything between the click and the call.</h4><a href="shots/captions/round1/caption-3-adi.png?v=202611140113" target="_blank"><img src="shots/captions/round1/caption-3-adi.png?v=202611140113" alt="" loading="lazy"></a></div><div class="opt"><h4>Round 1, option 4: Strangers on Monday. Sales Calls by Friday. / The AI revenue system behind 400+ brands.</h4><a href="shots/captions/round1/caption-4-adi.png?v=202611140113" target="_blank"><img src="shots/captions/round1/caption-4-adi.png?v=202611140113" alt="" loading="lazy"></a></div><div class="opt"><h4>Round 1, option 5: Your Leads Went Cold. AI Warms Them Up. / No lead left without a follow up. Ever.</h4><a href="shots/captions/round1/caption-5-adi.png?v=202611140113" target="_blank"><img src="shots/captions/round1/caption-5-adi.png?v=202611140113" alt="" loading="lazy"></a></div></details>
 
 <h2 id="audit">Audit: where each profile stands today</h2>
 <details open><summary>Read 13 Nov 2026</summary><p>Read only, through OpenCLI 2.0.3 in Adi's signed in Brave profile. Raw reads are in <code>_work/linkedin-audit/</code> (git ignored). "Should be" is from <code>PROFILE_SPEC.md</code>. Covers and contact links were not readable by OpenCLI; they are checked by eye in Phase 2.</p>
@@ -1514,7 +1601,10 @@ Or book an AI revenue strategy consultation: https://crm.usetantra.com/book/tant
 <td>Bigger client logos in glass chips on Adi's cover, the page cover, both Featured thumbnails and both role images (14 Nov)</td>
 </tr>
 </tbody>
-</table></details>
+</table>
+<h2>Short Links (14 November 2026)</h2>
+<p>51 tracked short links in the Tantra CRM: campaign "LinkedIn organic: team profiles" (cmp_f427ef8e47514047be1d), channel linkedin / organic_social (chn_c1118abc4dc74c06a10b). Codes go.usetantra.com/l/<key>-<spot>: fw, fc (Featured), ww, wc (websites), aw, ac (About), rw, rc (role); page: tantra-aw, tantra-ac, tantra-btn. Each lands with utm_source=linkedin, utm_medium=profile (company_page for the page), utm_campaign=enterprise-webinar, utm_content=<key>-<where>-<kind>, plus the CRM click id.</p>
+<p>Live on Adi's profile: About, role description, role media and websites use short links. Featured uses the full UTM links: LinkedIn could not build a preview from go.usetantra.com (handed to the CRM session). Page: Overview and Register button use short links.</p></details>
 
 <h2 id="how">How to apply</h2>
 <details><summary>Runbook (Adi's profile and the page are edited by Claude; the other five apply their own)</summary><p>Claude makes the edits to Adi's profile and the Tantra page itself, in Adi's signed-in Chrome, through OpenCLI. The five other profiles are owned by their people: they apply <code>PROFILE_SPEC.md</code> themselves (LinkedIn does not let anyone edit another person's profile), and Claude audits each one before and after.</p>
