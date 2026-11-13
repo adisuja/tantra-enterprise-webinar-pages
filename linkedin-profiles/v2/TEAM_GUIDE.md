@@ -32,7 +32,7 @@ Do these in order on https://www.linkedin.com/in/me/ and check each one on your 
 4. **About**: pencil on About, replace the text with yours, then under Skills add your five top skills (pick each from the list LinkedIn shows; if one is missing, take the closest one listed), Save.
 5. **Current role**: Experience, pencil on your current role. Title: your title from the table in the pack. Company: type Tantra and pick the page with the circuit tree logo from the dropdown (never free text). Paste your role description, add the same five skills, Save. Do not tick "End current position" on anything else.
 6. **Contact info**: Contact info, Edit contact info. Add `https://webinar.sellwithtantra.com/` (type Company) and `https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation` (type Other). Remove growthclub.org and old Calendly or Cal.com links. Save.
-7. **Featured**: Featured, the + menu, Add a link. Paste the consultation link from your section, wait up to a minute for the preview, set the title and description, Choose thumbnail, pick `featured-consultation-1200x627.png`, Save. Remove old GrowthClub or Oiti items. The workshop link is added later (its preview is being fixed).
+7. **Featured**: Featured, the + menu, Add a link. Paste the consultation link from your section, wait up to a minute for the preview, set the title and description, Choose thumbnail, pick `featured-consultation-1200x627.png`, Save. Then do the same for the workshop link with `featured-workshop-1200x627.png` (the item added last shows first, so the workshop ends up on top). Remove old GrowthClub or Oiti items.
 
 ## The Prompt for Claude Code
 
@@ -43,7 +43,7 @@ Rebrand my own LinkedIn profile for Tantra, end to end, in my signed-in Chrome, 
 - Team pack (my fields, images, every rule): https://adisuja.github.io/tantra-enterprise-webinar-pages/linkedin-profiles/v2/
 - Spec as markdown: https://adisuja.github.io/tantra-enterprise-webinar-pages/linkedin-profiles/v2/PROFILE_SPEC.md
 - Upload helper: https://adisuja.github.io/tantra-enterprise-webinar-pages/linkedin-profiles/v2/li-upload.sh
-- Images: https://adisuja.github.io/tantra-enterprise-webinar-pages/linkedin-profiles/v2/assets/<key>-cover-1584x396@2x.png, <key>-photo-1200.png, featured-consultation-1200x627.png
+- Images: https://adisuja.github.io/tantra-enterprise-webinar-pages/linkedin-profiles/v2/assets/<key>-cover-1584x396@2x.png, <key>-photo-1200.png, featured-consultation-1200x627.png, featured-workshop-1200x627.png
 
 Hard rules:
 - Never type, ask for or store my password, codes or cookies. If LinkedIn or Chrome asks for a password, a code or a security check, stop and tell me exactly what to do in Chrome, then wait.
@@ -58,7 +58,7 @@ Step 0, setup (fix anything missing yourself, ask me only for clicks only I can 
    - If it says the extension is not connected: opencli daemon restart, tell me to click the reload icon on the OpenCLI card in chrome://extensions, run doctor again.
    - If doctor says several browser profiles are connected: run opencli profile list, then for each run opencli --profile <id> linkedin whoami, and opencli profile use <id> for the one that returns my name.
 3. opencli linkedin whoami must return my name. If it says signed out, ask me to sign in to LinkedIn in Chrome myself.
-4. Download my files with curl into ./assets/ (spec, helper, my cover @2x, my photo, the consultation Featured image). chmod +x li-upload.sh.
+4. Download my files with curl into ./assets/ (spec, helper, my cover @2x, my photo, both Featured images). chmod +x li-upload.sh.
 5. From PROFILE_SPEC.md, read the section for my name and the "Shared by All Six Profiles" section: headline, About, title, role description, five skills, Featured text and links, website links.
 
 Step 1, audit (read only): opencli linkedin profile-read --profile-url <my profile URL> -f json > backup/before.json and profile-experience the same way. Show me a short table: field, now, will become.
@@ -70,7 +70,7 @@ c. Cover: on the profile click [aria-label="Edit background image"], then in the
 d. Photo: click my photo on the profile, find the change or upload photo button, run --catch, click it, upload assets/<key>-photo-1200.png the same way, keep it centred with no zoom, Save.
 e. Contact info: open https://www.linkedin.com/in/<slug>/overlay/contact-info/ and click the link "Edit contact info" (it opens /edit/forms/contact-info/new/). Set the websites as the spec says (workshop as Company, consultation link as Other), remove growthclub.org and old Calendly or Cal.com links, Save.
 f. Current role: open https://www.linkedin.com/in/<slug>/details/experience/ and use the "Edit <title> at <company>" link of my current role. Role title = my title from the spec. Organization: type Tantra and pick the Tantra page from the dropdown (circuit tree logo, linkedin.com/company/13588687), never free text. Description = my role description (contenteditable whose aria-label starts with "Highlights"). Add my five skills the same way as in b. Check that the notify checkbox and every "End current position" checkbox are unticked, then Save.
-g. Featured: open https://www.linkedin.com/in/<slug>/details/featured/ , click [aria-label="Featured overflow menu"], "Add a link", paste the consultation link with my utm_content, click Add and wait up to 60 seconds for the Title field (the preview is slow; retry twice). Set title and description from the spec, run --catch, click [aria-label="Choose thumbnail image"], upload assets/featured-consultation-1200x627.png, Save. Then delete Featured items that point to GrowthClub, Oiti or past events (use their "Delete <title>" buttons). Skip the workshop link for now: LinkedIn cannot preview webinar.sellwithtantra.com yet.
+g. Featured: open https://www.linkedin.com/in/<slug>/details/featured/ , click [aria-label="Featured overflow menu"], "Add a link", paste the consultation link with my utm_content, click Add and wait up to 60 seconds for the Title field (the preview is slow; retry twice). Set title and description from the spec, run --catch, click [aria-label="Choose thumbnail image"], upload assets/featured-consultation-1200x627.png, Save. Then add the workshop link the same way (my workshop URL with utm_content, thumbnail assets/featured-workshop-1200x627.png); the item added last shows first, so the workshop ends up on top. Then delete Featured items that point to GrowthClub, Oiti or past events (use their "Delete <title>" buttons).
 
 Step 3, verify: run profile-read again into backup/after.json, compare every field with the spec, take opencli browser screenshot --session me profile-after.png of the top of my profile, and show me a table: field, done or not, and why. Tell me anything you could not do and the exact click I need to make.
 ```
@@ -83,6 +83,7 @@ Step 3, verify: run profile-read again into backup/after.json, compare every fie
 | Several Chrome profiles connected | `opencli profile list`, `opencli --profile <id> linkedin whoami`, `opencli profile use <id>` |
 | `opencli browser upload` fails with "Not allowed" | Use `li-upload.sh` (catch the file field, then attach) |
 | "Edit cover image" does nothing when clicked by script | Click it by its ref from `opencli browser state` |
-| Featured link says "couldn't load a preview" | Wait up to a minute and retry; the workshop link stays blocked until the funnel site lets LinkedIn read it |
+| Featured link says "couldn't load a preview" | LinkedIn's preview is slow: wait up to a minute and click Add again, up to three times |
 | A skill name does not exist on LinkedIn | Pick the closest real one from the list |
+| Your top card shows the wrong company after editing roles | Edit intro, Organization: pick Tantra, Save |
 | LinkedIn asks for a password, code or check | Do it yourself in Chrome, then tell Claude to carry on |
