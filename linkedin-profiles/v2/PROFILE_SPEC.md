@@ -388,6 +388,128 @@ Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the 
 See it live: https://go.usetantra.com/l/ben-rw
 ```
 
+## Scott McArthur (Evangelist, your own LinkedIn profile)
+
+| Field | Value | Check |
+| --- | --- | --- |
+| Profile photo | Keep your current photo if it is a clear, front facing headshot (a branded one can be made from a photo you share) | |
+| Cover | `assets/scott-cover-1584x396.png` (the team, the caption and client logos), caption: Leads Left on Read? Not on Our Watch. / AI follows up until they reply. (caption test, Adi 2026-11-13) | Verified in desktop and phone mock (`shots/mock-scott.png`) |
+| Headline | Evangelist @ Tantra \| I help B2B founders turn cold traffic into booked sales calls with AI RevOps \| 400+ brands, 21+ countries \| Join our live AI RevOps workshop: link below 👇 | 176 / 220 characters |
+| Experience title | Evangelist | Adi 2026-11-14; company field = the Tantra page |
+| Location | Keep your own | |
+| Top skills (5) | B2B Sales, Sales Strategy, RevOps, Lead Generation, Consultative Selling | Add the same five to the Tantra role's skills |
+
+**Links for Scott** (organic traffic goes to jointantra.com; every link carries its own utm_content):
+
+Use these links as they are, in every place listed. Never shorten them or drop the utm parameters.
+
+| Where | Short link (use this) | Lands on (UTMs added by the CRM) |
+| --- | --- | --- |
+| Featured 1, workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-featured-workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-featured-workshop |
+| Featured 2, consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-featured-consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-featured-consultation |
+| Contact info website (Company) | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-website-workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-website-workshop |
+| Contact info website (Other) | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-website-consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-website-consultation |
+| About, workshop line | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-about-workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-about-workshop |
+| About, consultation line | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-about-consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-about-consultation |
+| Role description and role media, workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-role-workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-role-workshop |
+| Role media, consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-role-consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-role-consultation |
+
+**About** (1592 / 2600 characters):
+
+```text
+Most founders I speak with don't have a lead problem. They have a follow up problem.
+
+The traffic is there. People visit, download, register, even reply once. Then nobody gets back to them at the right moment, and the pipeline quietly goes cold.
+
+I'm an Evangelist at Tantra. I spend my days with B2B founders and revenue leaders, looking at how their pipeline actually runs, stage by stage, and showing them where AI can take over the repetitive work.
+
+Tantra builds AI revenue systems with B2B teams:
+→ Traffic: calendar invites, cold email and LinkedIn, sent from your own accounts
+→ Capture: registration and booking pages that feed one CRM
+→ Nurture: email and WhatsApp reminders and follow ups that run on their own
+→ Conversion: a weekly live session that ends in booked sales calls
+→ Pipeline: every booking, call and proposal tracked to the deal
+
+The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
+
+If you want to see the whole system working before you talk to anyone, join our live AI RevOps workshop. If you'd rather talk it through for your own business, book a strategy consultation and we'll map where your pipeline leaks.
+
+Two ways in:
+→ Join the live AI RevOps workshop: https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-about-workshop
+→ Book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-about-consultation
+```
+
+**Experience description** (540 / 2000 characters):
+
+```text
+I work with B2B founders and revenue leaders to map how their pipeline runs today, and which parts AI should run for them.
+
+Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the live session and the pipeline, wired into one CRM with one weekly number for every stage. The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
+
+See it live: https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=scott-role-workshop
+```
+
+## Conor Norton (Evangelist, your own LinkedIn profile)
+
+| Field | Value | Check |
+| --- | --- | --- |
+| Profile photo | Keep your current photo if it is a clear, front facing headshot (a branded one can be made from a photo you share) | |
+| Cover | `assets/conor-cover-1584x396.png` (the team, the caption and client logos), caption: Cold Leads? We Bring Blankets. / AI warms them up until they book a call. (caption test, Adi 2026-11-13) | Verified in desktop and phone mock (`shots/mock-conor.png`) |
+| Headline | Evangelist @ Tantra \| AI RevOps for B2B teams: more booked calls from the traffic you already have \| 400+ brands, 21+ countries \| Join our live AI RevOps workshop: link below 👇 | 176 / 220 characters |
+| Experience title | Evangelist | Adi 2026-11-14; company field = the Tantra page |
+| Location | Keep your own | |
+| Top skills (5) | Business Development, B2B Sales, Sales Funnel Strategy, CRM, Lead Generation | Add the same five to the Tantra role's skills |
+
+**Links for Conor** (organic traffic goes to jointantra.com; every link carries its own utm_content):
+
+Use these links as they are, in every place listed. Never shorten them or drop the utm parameters.
+
+| Where | Short link (use this) | Lands on (UTMs added by the CRM) |
+| --- | --- | --- |
+| Featured 1, workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-featured-workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-featured-workshop |
+| Featured 2, consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-featured-consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-featured-consultation |
+| Contact info website (Company) | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-website-workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-website-workshop |
+| Contact info website (Other) | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-website-consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-website-consultation |
+| About, workshop line | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-about-workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-about-workshop |
+| About, consultation line | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-about-consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-about-consultation |
+| Role description and role media, workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-role-workshop | https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-role-workshop |
+| Role media, consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-role-consultation | https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-role-consultation |
+
+**About** (1642 / 2600 characters):
+
+```text
+Every week I talk to B2B teams who are doing everything right on paper. The posts go out, the ads run, the inbox fills up. And the number that matters, booked calls with the right people, barely moves.
+
+Almost every time, the gap sits between the first click and the first conversation. Reminders that never went out. Follow ups that depend on someone remembering. Leads that went cold in a spreadsheet.
+
+I'm an Evangelist at Tantra. My job is to understand how your revenue engine works today and show you, plainly, which parts AI can run for you and which still need your team.
+
+What Tantra builds with you:
+→ Traffic: calendar invites, cold email and LinkedIn, sent from your own accounts
+→ Capture: registration and booking pages that feed one CRM
+→ Nurture: email and WhatsApp reminders and follow ups that run on their own
+→ Conversion: a weekly live session that ends in booked sales calls
+→ Pipeline: every booking, call and proposal tracked to the deal
+
+The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
+
+The easiest way to see it is our live AI RevOps workshop: we take the whole funnel apart on screen. Or book a strategy consultation and we'll look at your numbers together.
+
+Two ways in:
+→ Join the live AI RevOps workshop: https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-about-workshop
+→ Book an AI revenue strategy consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-about-consultation
+```
+
+**Experience description** (539 / 2000 characters):
+
+```text
+I help B2B teams see where their pipeline leaks between the first click and the first call, and what AI can run for them.
+
+Tantra builds AI revenue systems with B2B teams: traffic, capture, nurture, the live session and the pipeline, wired into one CRM with one weekly number for every stage. The team behind it has built funnels and outreach for 400+ brands in 47+ industries across 21+ countries.
+
+See it live: https://jointantra.com/?utm_source=linkedin&utm_medium=profile&utm_campaign=enterprise-webinar&utm_content=conor-role-workshop
+```
+
 ## Tantra Company Page (https://www.linkedin.com/company/13588687/)
 
 Card 06 (`deliverables/06-company-page/ADMIN_STEPS.md`) has the click path and LinkedIn's rename rules. v2 changes only the cover, the button and the About ending.
