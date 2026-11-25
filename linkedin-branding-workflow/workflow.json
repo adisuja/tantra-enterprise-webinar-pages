@@ -762,7 +762,7 @@
           "details": [
             "Person confirms it looks like them",
             "A pose that exists is never regenerated",
-            "Spend recorded for card 29: 11 new images (6 side profiles, 5 portraits), 252 credits, about $1.26 (list price is 18 credits per image, so this includes extra runs)"
+            "Spend recorded for card 29: 11 new images (6 side profiles, 5 portraits), 252 credits, about $1.26 (not verified: 252 equals 14 runs at 18 credits; the number of runs was not logged)"
           ]
         }
       ]
@@ -1030,7 +1030,7 @@
             "build.mjs PEOPLE: add {key: {name, show: 0.80, dx: 0}}",
             "photos.mjs: add the key to PEOPLE and its head_width to HEAD",
             "copy.json caption_by_asset: key -> one of haunt, pipeline, read, blankets",
-            "mock.mjs renders every key that has a cover in assets/",
+            "mock.mjs: add <key>: '<Full Name>' to ppl (line 12); add the key to NOPHOTO if there is no photo yet",
             "Client rebrand: swap src/brand marks, src/logos (+ ratios.json), colours in BASE (build.mjs) and ground (photos.mjs)"
           ]
         },
@@ -1314,37 +1314,20 @@
           "summary": "Public, used by teammates to apply",
           "files": [
             {
-              "path": "linkedin-profiles/v2/index.html",
-              "repo": "adisuja/tantra-enterprise-webinar-pages",
-              "commit": "main",
-              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/blob/main/linkedin-profiles/v2/index.html"
-            },
-            {
-              "path": "linkedin-profiles/v2/assets/",
-              "repo": "adisuja/tantra-enterprise-webinar-pages",
-              "commit": "main",
-              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/tree/main/linkedin-profiles/v2/assets"
-            },
-            {
-              "path": "linkedin-profiles/v2/TEAM_GUIDE.md",
-              "repo": "adisuja/tantra-enterprise-webinar-pages",
-              "commit": "main",
-              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/blob/main/linkedin-profiles/v2/TEAM_GUIDE.md"
-            },
-            {
-              "path": "linkedin-profiles/v2/li-upload.sh",
-              "repo": "adisuja/tantra-enterprise-webinar-pages",
-              "commit": "main",
-              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/blob/main/linkedin-profiles/v2/li-upload.sh"
+              "path": "deliverables/29-linkedin-profile-branding/v2/report.py",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/report.py"
             }
           ],
-          "run_in": "A clone of adisuja/tantra-enterprise-webinar-pages",
+          "run_in": "WS root, with a clone of adisuja/tantra-enterprise-webinar-pages at ~/pages",
           "commands": [
-            "rsync -a ~/tantra-branding-playbook/render/assets/ linkedin-profiles/v2/assets/",
-            "cp ~/tantra-enterprise-webinar/deliverables/29-linkedin-profile-branding/v2/{PROFILE_SPEC.md,TEAM_GUIDE.md,li-upload.sh} linkedin-profiles/v2/",
-            "git add linkedin-profiles/v2 && git commit -m \"Team pack\" && git push   # GitHub Pages serves it in about a minute"
+            "rsync -a ~/tantra-branding-playbook/render/assets/ deliverables/29-linkedin-profile-branding/v2/assets/ && rsync -a ~/tantra-branding-playbook/render/shots/ deliverables/29-linkedin-profile-branding/v2/shots/",
+            "pip install markdown && python3 deliverables/29-linkedin-profile-branding/v2/report.py ~/pages/linkedin-profiles/v2   # builds index.html (every person section) and copies the images",
+            "cd ~/pages && git add linkedin-profiles/v2 && git commit -m \"Team pack\" && git push   # GitHub Pages serves it in about a minute"
           ],
           "details": [
+            "New person: add (key, name, title) to PEOPLE in report.py (line 26) or the page leaves them out",
             "https://adisuja.github.io/tantra-enterprise-webinar-pages/linkedin-profiles/v2/",
             "Must be live before S7.3: Tantra fetches each image from this pack (PACK_URL)",
             "Teammates download their files from here in S9"
@@ -1412,16 +1395,16 @@
           "summary": "Sends renders + layout into each project",
           "files": [
             {
-              "path": "deliverables/29-linkedin-profile-branding/v2/post-assets.mjs",
-              "repo": "adisuja/tantra-enterprise-webinar-workspace",
-              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
-              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/post-assets.mjs"
+              "path": "render/post-assets.mjs",
+              "repo": "adisuja/tantra-branding-playbook",
+              "commit": "f9f7845f8af6964654a74c85a5ce8b2f69956e8f",
+              "url": "https://github.com/adisuja/tantra-branding-playbook/blob/f9f7845f8af6964654a74c85a5ce8b2f69956e8f/render/post-assets.mjs"
             }
           ],
-          "run_in": "WS v2 folder (reads assets/ there; PB copy works from render/ with the same pack)",
+          "run_in": "PB root (reads render/assets/, where S5 writes the renders and layout.json)",
           "commands": [
-            "node post-assets.mjs            # dry run: the plan",
-            "TANTRA_API_KEY=... node post-assets.mjs --send   # PACK_URL defaults to the published team pack assets"
+            "node render/post-assets.mjs            # dry run: the plan",
+            "TANTRA_API_KEY=... node render/post-assets.mjs --send   # Tantra fetches each image from PACK_URL (the published pack, S6.5)"
           ],
           "details": [
             "POST /api/branding/projects/:id/assets with layout meta",
