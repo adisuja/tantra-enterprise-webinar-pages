@@ -143,6 +143,7 @@ function cardHTML(c) {
   if (c.sb) h += `<div class="sb">${esc(c.sb)}</div>`;
   if (c.files) h += `<div class="files">${c.files.slice(0, 4).map((f) => { const x = fileInfo(f); return `<span class="f" title="${esc(x.full)}"><b>${esc(x.short || '')}</b> ${esc(x.path || f)}</span>`; }).join('')}${c.files.length > 4 ? `<span class="f">+${c.files.length - 4}</span>` : ''}</div>`;
   if (c.prompt) h += `<pre class="p">${esc(c.prompt.slice(0, 230))}…</pre>`;
+  if (c.cwd) h += `<div class="sb" style="font-family:var(--mono);font-size:11px;color:#7fd6e6">Run in: ${esc(c.cwd)}</div>`;
   if (c.cmd) h += `<pre>${esc(c.cmd.slice(0, 3).map((x) => (x.length > 120 ? x.slice(0, 120) + '…' : x)).join('\n'))}</pre>`;
   if (c.notes) h += `<ul>${c.notes.slice(0, 3).map((n) => `<li>${esc(n.length > 140 ? n.slice(0, 140) + '…' : n)}</li>`).join('')}</ul>`;
   if (c.grid) h += `<div class="grid${c.chk ? ' chk' : ''}" style="grid-template-columns:repeat(${c.cols || 2},1fr)">${c.grid.map(([s, l, on]) => `<div class="cell${on ? ' on' : ''}"><img src="${s}" alt="${esc(l)}" draggable="false"><em>${esc(l)}</em></div>`).join('')}</div>`;
@@ -299,6 +300,7 @@ function openCard(c) {
   if (f.stage) h += `<h3>Stage</h3><p><b>${esc(f.id)} ${esc(f.title)}</b>: ${esc(f.goal)}</p>`;
   if (c.files) h += `<h3>Files (pinned to the commit)</h3><div class="fl">${c.files.map((r) => { const x = fileInfo(r); return x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.full)}<small>${esc(x.repo)} @ ${esc(String(x.sha).slice(0, 8))}</small></a>` : `<span>${esc(r)}</span>`; }).join('')}</div>`;
   if (c.prompt) h += `<h3>Prompt, verbatim</h3>${pre(c.prompt, 'p')}`;
+  if (c.cwd) h += `<h3>Run in</h3><p style="font-family:var(--mono);font-size:12.5px">${esc(c.cwd)}</p>`;
   if (c.cmd) h += `<h3>Commands, in order</h3>${pre(c.cmd.join('\n'))}`;
   if (c.notes) h += `<h3>Details</h3><ul>${c.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>`;
   if (c.rows) h += `<h3>Elements</h3>${elTable(c.rows)}`;
@@ -309,11 +311,11 @@ function openCard(c) {
   db.innerHTML = h; db.scrollTop = 0; dr.classList.add('on'); history.replaceState(null, '', '#' + c.id);
 }
 function spec() {
-  const keyName = { sb: 'summary', files: 'files', prompt: 'prompt', cmd: 'commands', notes: 'details' };
+  const keyName = { sb: 'summary', files: 'files', prompt: 'prompt', cwd: 'run_in', cmd: 'commands', notes: 'details' };
   const strip = (c) => { const o = { id: c.id, type: TYPES[c.t][0], title: c.tt }; for (const kk of Object.keys(keyName)) if (c[kk]) o[keyName[kk]] = kk === 'files' ? c.files.map((r) => { const x = fileInfo(r); return x.url ? { path: x.full, repo: x.repo, commit: x.sha, url: x.url } : r; }) : c[kk]; if (c.grid || c.img) o.example_outputs = [...(c.img ? [c.img] : []), ...(c.grid || []).map((g) => g[0])]; return o; };
   return {
     name: 'Tantra LinkedIn branding workflow (personal profiles + company page)',
-    how_to_use: 'Run the stages in order. In each stage: load the context, take the inputs, run the agent or tool with the prompt and commands, produce the outputs, pass the checks. Stop at every human step and wait for the person. Never type a password, never post or message, never commit keys or raw photos. Example outputs are relative to the published map folder.',
+    how_to_use: 'Start with S0.9 (setup). Run the stages in order. In each stage: load the context, take the inputs, run the agent or tool with the prompt and commands, produce the outputs, pass the checks. Stop at every human step and wait for the person. Never type a password, never post or message, never commit keys or raw photos. Example outputs are relative to the published map folder.',
     repos: REPOS,
     stages: STAGES.map((s) => ({ id: s.id, title: s.title, goal: s.goal, steps: s.cards.map(strip) })),
     elements: Object.fromEntries(Object.entries(ELEMENTS).map(([kk, rows]) => [kk, rows.map((r) => ({ element: r[0], limit: r[1], made_by: r[2], file: r[3], goes_live_by: r[4] }))])),
