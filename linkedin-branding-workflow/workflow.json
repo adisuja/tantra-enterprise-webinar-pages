@@ -1,0 +1,1807 @@
+{
+  "name": "Tantra LinkedIn branding workflow (personal profiles + company page)",
+  "how_to_use": "Run the stages in order. In each stage: load the context, take the inputs, run the agent or tool with the prompt and commands, produce the outputs, pass the checks. Stop at every human step and wait for the person. Never type a password, never post or message, never commit keys or raw photos. Example outputs are relative to the published map folder.",
+  "repos": {
+    "WS": {
+      "repo": "adisuja/tantra-enterprise-webinar-workspace",
+      "sha": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+      "base": "deliverables/29-linkedin-profile-branding/v2/",
+      "what": "Card 29: the original rebrand run (spec, renders, runbook)"
+    },
+    "WSR": {
+      "repo": "adisuja/tantra-enterprise-webinar-workspace",
+      "sha": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+      "base": "",
+      "what": "Same repo, from the root (shared config, board)"
+    },
+    "TC": {
+      "repo": "adisuja/tantra-content",
+      "sha": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+      "base": "",
+      "what": "Avatar library and the Kie.ai client"
+    },
+    "CRM": {
+      "repo": "adisuja/tantra-crm",
+      "sha": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+      "base": "tantra-backend-v2/crm-worker/",
+      "what": "Tantra CRM: the Brand tab backend"
+    },
+    "CRMR": {
+      "repo": "adisuja/tantra-crm",
+      "sha": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+      "base": "",
+      "what": "Tantra CRM from the root (PRD)"
+    },
+    "PB": {
+      "repo": "adisuja/tantra-branding-playbook",
+      "sha": "663b223658947e4010fd565a80dd7e6d9f6299ac",
+      "base": "",
+      "what": "Standalone, reusable copy of the whole pipeline"
+    },
+    "PAGES": {
+      "repo": "adisuja/tantra-enterprise-webinar-pages",
+      "sha": "main",
+      "base": "linkedin-profiles/v2/",
+      "what": "Published team pack (public)"
+    }
+  },
+  "stages": [
+    {
+      "id": "S0",
+      "title": "Context the agent loads first",
+      "goal": "Know the decisions, rules, people and sources before writing or generating anything.",
+      "steps": [
+        {
+          "id": "S0.1",
+          "type": "Context",
+          "title": "Board card 29 + handoffs",
+          "summary": "The task, its history and what is still open",
+          "files": [
+            {
+              "path": "tasks/tasks.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/tasks/tasks.json"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/CLOUD_SESSION_CONTEXT_2026_11_15.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/CLOUD_SESSION_CONTEXT_2026_11_15.md"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/HANDOFF_BRANDING_PROMPT.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/HANDOFF_BRANDING_PROMPT.md"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/HANDOFF_CRM_BRANDING_PROMPT.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/HANDOFF_CRM_BRANDING_PROMPT.md"
+            }
+          ],
+          "details": [
+            "Card 29 is the LinkedIn rebrand; card 102 moved it into the Brand tab",
+            "CLOUD_SESSION_CONTEXT section 3 holds the image pipeline facts"
+          ]
+        },
+        {
+          "id": "S0.2",
+          "type": "Context",
+          "title": "Decisions log (Adi, 13 to 14 Nov)",
+          "summary": "Captions per person, titles, logos, company cover, no label text",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/README.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/README.md"
+            }
+          ],
+          "details": [
+            "Titles: Leading the team (Adi), Leading marketing & product (Bhaskar), Leading automations (Aquila), Leading development (Bharath, Ben), Leading marketing ops (Nelbin), Evangelist (Scott, Conor)",
+            "Caption test: Haunts (Adi, Nelbin), Pipeline (Bhaskar, Bharath, page), Read (Aquila, Scott), Blankets (Ben, Conor)",
+            "Logos: the approved \"Brands We've Helped Grow\" set of 7 Nov, imagineGROWTH left out",
+            "Company cover A2 (face strips, violet); logo D",
+            "No label text on images: headline, bar, logos only"
+          ]
+        },
+        {
+          "id": "S0.3",
+          "type": "Context",
+          "title": "Shared config",
+          "summary": "Webinar day and time, domains, booking link",
+          "files": [
+            {
+              "path": "deliverables/_shared/funnel-config.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/_shared/funnel-config.json"
+            },
+            {
+              "path": "deliverables/06-company-page/copy.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/06-company-page/copy.json"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/copy.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/copy.json"
+            }
+          ],
+          "details": [
+            "funnel-config: webinar.day_of_week, start_time_local, domains.funnel_domain, booking.round_robin_url",
+            "06 copy.json: company page copy (card 06)",
+            "v1 copy.json: the approved About texts"
+          ]
+        },
+        {
+          "id": "S0.4",
+          "type": "Context",
+          "title": "Person library",
+          "summary": "One folder per person, consent first",
+          "files": [
+            {
+              "path": "content/brand/people/README.md",
+              "repo": "adisuja/tantra-content",
+              "commit": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+              "url": "https://github.com/adisuja/tantra-content/blob/1477aafddde8be282f4ea89e845f1a6f208dc81c/content/brand/people/README.md"
+            },
+            {
+              "path": "content/brand/people/<key>/person.json",
+              "repo": "adisuja/tantra-content",
+              "commit": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+              "url": "https://github.com/adisuja/tantra-content/tree/1477aafddde8be282f4ea89e845f1a6f208dc81c/content/brand/people"
+            },
+            {
+              "path": "content/brand/people/<key>/avatars/avatars.json",
+              "repo": "adisuja/tantra-content",
+              "commit": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+              "url": "https://github.com/adisuja/tantra-content/tree/1477aafddde8be282f4ea89e845f1a6f208dc81c/content/brand/people"
+            }
+          ],
+          "details": [
+            "person.json: name, linkedin, look (one sentence from their photos)",
+            "refs/: 4 to 8 consented photos (reference only, never published)",
+            "avatars.json: pose, prompt, Kie task id, credits, refs, date"
+          ]
+        },
+        {
+          "id": "S0.5",
+          "type": "Context",
+          "title": "Brand and copy rules",
+          "summary": "Hard rules every output is checked against",
+          "details": [
+            "No em dashes or en dashes anywhere",
+            "Voice: \"I\" and \"you\", open on a specific pain, proof, one action",
+            "Only approved proof: 400+ brands, 47+ industries, 21+ countries, 10+ years",
+            "Never mention how anyone is paid",
+            "Real people only as their AI avatar, with consent"
+          ]
+        },
+        {
+          "id": "S0.6",
+          "type": "Context",
+          "title": "Brand tab design (CRM PRD)",
+          "summary": "Decisions B1 to B14 for the in-app version",
+          "files": [
+            {
+              "path": "docs/crm/branding/PRD_BRANDING.md",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/docs/crm/branding/PRD_BRANDING.md"
+            }
+          ]
+        },
+        {
+          "id": "S0.7",
+          "type": "Agent / tool",
+          "title": "Claude Code session",
+          "summary": "Local, on Adi's Mac, in the workspace repo",
+          "details": [
+            "Reads every context card before any write",
+            "Works one card at a time; records progress on card 29"
+          ]
+        },
+        {
+          "id": "S0.8",
+          "type": "Output",
+          "title": "Working plan",
+          "summary": "People, elements, decisions in code",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/gen_spec.py",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/gen_spec.py"
+            }
+          ],
+          "details": [
+            "TITLES, HEADLINES, ROLE_FIX dicts in gen_spec.py",
+            "PEOPLE, captions and logo lists in build.mjs and copy.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Intake and profile audit",
+      "goal": "Get a \"now\" value for every element of every profile and the page, plus consent.",
+      "steps": [
+        {
+          "id": "S1.1",
+          "type": "Input",
+          "title": "Profile URLs",
+          "summary": "6 profiles + the company page",
+          "details": [
+            "adisuja, bkp31415, bhaskar-dev, nelbin-xav, aquilaeldho, ben-basil-tomy-5533b9218",
+            "Company: linkedin.com/company/13588687"
+          ]
+        },
+        {
+          "id": "S1.2",
+          "type": "Input",
+          "title": "Intake answers (Brand tab)",
+          "summary": "11 questions, 9 required",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/schema.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/schema.ts"
+            }
+          ],
+          "details": [
+            "company, title (word for word), offer, audience, pain, proof (approved only), role (one line, first person), links (workshop + booking), voice (optional), handle (other networks), avatar_consent"
+          ]
+        },
+        {
+          "id": "S1.3",
+          "type": "Human step",
+          "title": "AI avatar consent + photos",
+          "summary": "Only the person can give these",
+          "details": [
+            "Consent recorded with who and when",
+            "Bharath, Bhaskar, Nelbin: photos from the team photo folder",
+            "Scott, Conor: no photos, so no AI avatar"
+          ]
+        },
+        {
+          "id": "S1.4",
+          "type": "Agent / tool",
+          "title": "OpenCLI in a signed in browser",
+          "summary": "Read only. Never types a password",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/RUNBOOK.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/RUNBOOK.md"
+            }
+          ],
+          "details": [
+            "OpenCLI 2.0.3+, daemon at 127.0.0.1:19825, extension connected (opencli doctor)",
+            "Must run on the Mac where the browser is signed in"
+          ]
+        },
+        {
+          "id": "S1.5",
+          "type": "Commands",
+          "title": "Audit commands",
+          "commands": [
+            "opencli doctor",
+            "mkdir -p _work/linkedin-audit && for s in adisuja bkp31415 bhaskar-dev nelbin-xav aquilaeldho ben-basil-tomy-5533b9218; do opencli linkedin profile-read --profile-url \"https://www.linkedin.com/in/$s/\" --window background -f json > _work/linkedin-audit/$s.json; opencli linkedin profile-experience --profile-url \"https://www.linkedin.com/in/$s/\" --window background -f json > _work/linkedin-audit/$s-experience.json; sleep 20; done",
+            "opencli browser open --session co https://www.linkedin.com/company/13588687/about/ && opencli browser get text --session co > _work/linkedin-audit/company-about.txt && opencli browser close --session co"
+          ]
+        },
+        {
+          "id": "S1.6",
+          "type": "Agent / tool",
+          "title": "Or in the Brand tab",
+          "summary": "Same result inside Tantra",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/intake.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/intake.ts"
+            },
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/audit.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/audit.ts"
+            }
+          ],
+          "details": [
+            "crm_branding_create_project, crm_branding_save_intake, crm_branding_audit",
+            "POST /api/branding/projects/:id/intake, POST /api/branding/projects/:id/audit"
+          ]
+        },
+        {
+          "id": "S1.7",
+          "type": "Output",
+          "title": "Raw audit JSON",
+          "summary": "Git ignored, never committed",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/_work/linkedin-audit/<slug>.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/_work/linkedin-audit"
+            }
+          ]
+        },
+        {
+          "id": "S1.8",
+          "type": "Output",
+          "title": "AUDIT.md",
+          "summary": "Field, now, should be, per person",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/AUDIT.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/AUDIT.md"
+            }
+          ],
+          "example_outputs": [
+            "img/adi-before.jpg"
+          ]
+        },
+        {
+          "id": "S1.9",
+          "type": "Check",
+          "title": "Big gaps found",
+          "details": [
+            "Only Adi listed Tantra as current employer",
+            "Three headlines still sold GrowthClub",
+            "Live titles differed from the spec",
+            "Page said Founded 2024, should be 2018"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "Write every text element",
+      "goal": "A proposal for each copy element, inside its limits, from approved facts only.",
+      "steps": [
+        {
+          "id": "S2.1",
+          "type": "Input",
+          "title": "Approved copy sources",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/copy.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/copy.json"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/copy.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/copy.json"
+            },
+            {
+              "path": "deliverables/06-company-page/copy.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/06-company-page/copy.json"
+            },
+            {
+              "path": "deliverables/_shared/funnel-config.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/_shared/funnel-config.json"
+            }
+          ]
+        },
+        {
+          "id": "S2.2",
+          "type": "Input",
+          "title": "Audit + intake context",
+          "summary": "From S1",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/AUDIT.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/AUDIT.md"
+            }
+          ]
+        },
+        {
+          "id": "S2.3",
+          "type": "Agent / tool",
+          "title": "Path A (card 29): gen_spec.py",
+          "summary": "Python writes the spec from the approved copy",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/gen_spec.py",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/gen_spec.py"
+            }
+          ],
+          "commands": [
+            "python3 deliverables/29-linkedin-profile-branding/v2/gen_spec.py"
+          ]
+        },
+        {
+          "id": "S2.4",
+          "type": "Agent / tool",
+          "title": "Path B (Brand tab): branding writer",
+          "summary": "Claude API (Opus 5.5, then Sonnet 5.5, then Opus 5) or an agent runner",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/generate.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/generate.ts"
+            },
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/writer.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/writer.ts"
+            }
+          ],
+          "details": [
+            "Model registry task: branding.copy",
+            "Minute cron runs queued page_jobs with kind \"branding\"",
+            "Agent runner: crm_pages_job_brief, then crm_pages_job_submit; it answers with failed checks to fix",
+            "writer.ts applyBranding only writes proposals and a labelled version, never the live profile"
+          ]
+        },
+        {
+          "id": "S2.5",
+          "type": "Prompt",
+          "title": "Writer prompt v1",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/sites/prompts/branding/v1.md",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/sites/prompts/branding/v1.md"
+            }
+          ],
+          "prompt": "You write LinkedIn profiles and company pages for B2B founders and their teams at Tantra. You write like a sharp person talking to one reader: \"I\" and \"you\", plain words, short sentences, one idea per line. You open on a specific pain the reader already feels, then show how it gets fixed, then proof, then one clear action.\n\nHard rules:\n- Never use an em dash or an en dash.\n- Never use AI filler words: leverage, unlock, seamless, robust, delve, elevate, supercharge, game changer, synergy.\n- Never mention how anyone is paid.\n- Never write the word \"CRM\" in a headline, caption or tagline; say Tantra.\n- Use only proof that is in the context as approved.\n- Keep every limit: headline 220 starting with \"<title> @ <company>\"; About 2,600; experience description 2,000; Featured descriptions 200; tagline 120; overview 2,000; exactly five skills; at most 20 specialties; captions 60.\n- Every link is one of the links in the context, copied exactly.\n- Keep the title exactly as given.\n\nTask: write the elements under ELEMENTS TO WRITE. Up to three \"options\" for headline, About opening, tagline. For the cover caption return five humorous direct response options, best first.\n\nReturn exactly:\n{\"elements\": {\"<element key>\": {\"value\": <value>, \"options\": [...], \"why\": \"<one line>\"}}}"
+        },
+        {
+          "id": "S2.6",
+          "type": "Output",
+          "title": "PROFILE_SPEC.md",
+          "summary": "Every field, 8 people + the page, with character counts",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/PROFILE_SPEC.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/PROFILE_SPEC.md"
+            },
+            {
+              "path": "linkedin-profiles/v2/PROFILE_SPEC.md",
+              "repo": "adisuja/tantra-enterprise-webinar-pages",
+              "commit": "main",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/blob/main/linkedin-profiles/v2/PROFILE_SPEC.md"
+            }
+          ],
+          "details": [
+            "Example, Adi headline (175 / 220): Leading the team @ Tantra | AI RevOps that turns cold traffic into booked calls and closed revenue | 400+ brands, 21+ countries | Join my live AI RevOps workshop: link below",
+            "Adi About opens: \"Referrals got you here. They won't get you to next year's number.\" (1,440 / 2,600)",
+            "Page tagline (111 / 120), About (1,692 / 2,000), 14 specialties"
+          ]
+        },
+        {
+          "id": "S2.7",
+          "type": "Output",
+          "title": "Proposals in the Brand tab",
+          "summary": "One per element, with options and why",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/migrations/0065_branding.sql",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/migrations/0065_branding.sql"
+            }
+          ],
+          "details": [
+            "branding_elements: current, reference, proposal, options, status",
+            "branding_versions: every proposal, labelled \"Claude Code, branding v1\""
+          ]
+        },
+        {
+          "id": "S2.8",
+          "type": "Check",
+          "title": "Copy checks (checks.ts)",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/checks.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/checks.ts"
+            }
+          ],
+          "details": [
+            "limit: N of LIMIT characters, not empty",
+            "skills: exactly 5; list items each within limit",
+            "Featured: description within 200, has an https link",
+            "headline: starts with the title and \" @ <company>\"",
+            "caption: options exist, each at most 60",
+            "No em or en dashes, no filler, nothing about pay",
+            "A failing check never blocks saving; it blocks approval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "AI images on Kie.ai",
+      "goal": "Two consistent, true to life images per consenting person: a waist up portrait and a strict side profile.",
+      "steps": [
+        {
+          "id": "S3.1",
+          "type": "Input",
+          "title": "look sentence + 4 to 8 photos",
+          "files": [
+            {
+              "path": "content/brand/people/<key>/person.json",
+              "repo": "adisuja/tantra-content",
+              "commit": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+              "url": "https://github.com/adisuja/tantra-content/tree/1477aafddde8be282f4ea89e845f1a6f208dc81c/content/brand/people"
+            },
+            {
+              "path": "content/brand/people/<key>/refs/",
+              "repo": "adisuja/tantra-content",
+              "commit": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+              "url": "https://github.com/adisuja/tantra-content/tree/1477aafddde8be282f4ea89e845f1a6f208dc81c/content/brand/people"
+            }
+          ],
+          "details": [
+            "Example look: a South Asian man in his early thirties with short dark hair swept up, a full neatly trimmed dark beard and moustache, warm dark eyes and a medium-brown complexion"
+          ]
+        },
+        {
+          "id": "S3.2",
+          "type": "Context",
+          "title": "House prompt + client",
+          "files": [
+            {
+              "path": "kits/content/avatars.py",
+              "repo": "adisuja/tantra-content",
+              "commit": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+              "url": "https://github.com/adisuja/tantra-content/blob/1477aafddde8be282f4ea89e845f1a6f208dc81c/kits/content/avatars.py"
+            },
+            {
+              "path": "kits/content/image.py",
+              "repo": "adisuja/tantra-content",
+              "commit": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+              "url": "https://github.com/adisuja/tantra-content/blob/1477aafddde8be282f4ea89e845f1a6f208dc81c/kits/content/image.py"
+            },
+            {
+              "path": "kie/kie.py",
+              "repo": "adisuja/tantra-branding-playbook",
+              "commit": "663b223658947e4010fd565a80dd7e6d9f6299ac",
+              "url": "https://github.com/adisuja/tantra-branding-playbook/blob/663b223658947e4010fd565a80dd7e6d9f6299ac/kie/kie.py"
+            }
+          ],
+          "details": [
+            "Model nano-banana-pro (takes up to 8 reference images)",
+            "18 credits per image at 1K or 2K, about $0.09",
+            "Cache: identical request (model, prompt, aspect, resolution, ref bytes) costs nothing"
+          ]
+        },
+        {
+          "id": "S3.3",
+          "type": "Prompt",
+          "title": "Portrait prompt (verbatim)",
+          "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos ({look}). IDENTITY LOCK: reproduce their real face exactly as in the references: same face shape and width, same nose, same eye spacing and depth, same ears, same age and skin texture. Do not beautify, do not make them younger. Sharp focus on the eyes, full-frame camera, 85mm lens. Editorial waist-up portrait, arms loosely crossed, slight smile, plain warm grey studio wall, soft window light from the left, calm and credible.",
+          "details": [
+            "aspect_ratio 4:5, resolution 2K, output_format png"
+          ]
+        },
+        {
+          "id": "S3.4",
+          "type": "Prompt",
+          "title": "Side profile prompt",
+          "prompt": "<identity lock base as above> Strict side profile view of the head and shoulders, facing left, the whole face in exact profile (nose, lips and chin silhouette clear), neutral expression, pure black background, a thin violet rim light tracing the profile edge, low key studio lighting.",
+          "details": [
+            "Spec from the run notes: strict side view facing left, black background, violet rim light. Exact wording rebuilt; check the first result."
+          ]
+        },
+        {
+          "id": "S3.5",
+          "type": "Agent / tool",
+          "title": "Kie.ai API",
+          "summary": "Upload refs, create task, poll, download",
+          "details": [
+            "1. POST https://kieai.redpandaai.co/api/file-base64-upload {base64Data, uploadPath:\"images/refs\", fileName} returns data.downloadUrl (Kie rejects Google Drive links)",
+            "2. POST https://api.kie.ai/api/v1/jobs/createTask {model:\"nano-banana-pro\", input:{prompt, aspect_ratio, resolution:\"2K\", output_format:\"png\", image_input:[downloadUrl...]}} returns data.taskId",
+            "3. GET /api/v1/jobs/recordInfo?taskId=... every 6 s until state success or fail",
+            "4. Download resultJson.resultUrls[0] from tempfile.aiquickdraw.com at once (it expires)",
+            "Auth: Authorization: Bearer KIE_API_KEY (never printed or committed)"
+          ]
+        },
+        {
+          "id": "S3.6",
+          "type": "Commands",
+          "title": "Commands",
+          "commands": [
+            "python3 kie/kie.py credit",
+            "python3 kie/kie.py avatar people/<key> portrait headshot",
+            "python3 kie/kie.py side people/<key> --rim violet",
+            "python3 kits/content/avatars.py create <key> portrait   # original, in tantra-content"
+          ]
+        },
+        {
+          "id": "S3.7",
+          "type": "Agent / tool",
+          "title": "In the Brand tab",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/kie.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/kie.ts"
+            }
+          ],
+          "details": [
+            "crm_branding_make_image, POST /api/branding/projects/:id/images",
+            "Refused (409) without consent in the intake, or without KIE_API_KEY on the Worker",
+            "Result copied into R2 bucket tantra-branding (binding BRANDING_FILES), served at /branding/f/<workspace>/<project>/<random>.png"
+          ]
+        },
+        {
+          "id": "S3.8",
+          "type": "Output",
+          "title": "Portraits (6)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/avatars/<key>-portrait.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/avatars"
+            }
+          ],
+          "example_outputs": [
+            "img/adi-portrait.jpg",
+            "img/aquila-portrait.jpg",
+            "img/ben-portrait.jpg",
+            "img/bharath-portrait.jpg",
+            "img/bhaskar-portrait.jpg",
+            "img/nelbin-portrait.jpg"
+          ]
+        },
+        {
+          "id": "S3.9",
+          "type": "Output",
+          "title": "Side profiles (6)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/side/<key>.jpg",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/side"
+            }
+          ],
+          "example_outputs": [
+            "img/adi-side.jpg",
+            "img/aquila-side.jpg",
+            "img/ben-side.jpg",
+            "img/bharath-side.jpg",
+            "img/bhaskar-side.jpg",
+            "img/nelbin-side.jpg"
+          ]
+        },
+        {
+          "id": "S3.10",
+          "type": "Output",
+          "title": "avatars.json record",
+          "files": [
+            {
+              "path": "content/brand/people/<key>/avatars/avatars.json",
+              "repo": "adisuja/tantra-content",
+              "commit": "1477aafddde8be282f4ea89e845f1a6f208dc81c",
+              "url": "https://github.com/adisuja/tantra-content/tree/1477aafddde8be282f4ea89e845f1a6f208dc81c/content/brand/people"
+            }
+          ],
+          "details": [
+            "{pose: {file, aspect, prompt, kie_task, credits, refs, created}}"
+          ]
+        },
+        {
+          "id": "S3.11",
+          "type": "Check",
+          "title": "Gates",
+          "details": [
+            "Person confirms it looks like them",
+            "A pose that exists is never regenerated",
+            "Spend: 11 images, 252 credits, about $1.26"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S4",
+      "title": "Cutouts and measurements",
+      "goal": "Turn AI images into clean layers that line up across the whole team.",
+      "steps": [
+        {
+          "id": "S4.1",
+          "type": "Input",
+          "title": "Portraits + side profiles",
+          "summary": "From S3",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/avatars/",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/avatars"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/side/",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/side"
+            }
+          ]
+        },
+        {
+          "id": "S4.2",
+          "type": "Agent / tool",
+          "title": "rembg birefnet-portrait",
+          "summary": "Background removal, about 4 GB RAM, one process per image",
+          "files": [
+            {
+              "path": "kie/cutout.sh",
+              "repo": "adisuja/tantra-branding-playbook",
+              "commit": "663b223658947e4010fd565a80dd7e6d9f6299ac",
+              "url": "https://github.com/adisuja/tantra-branding-playbook/blob/663b223658947e4010fd565a80dd7e6d9f6299ac/kie/cutout.sh"
+            }
+          ],
+          "commands": [
+            "rembg i -m birefnet-portrait people/<key>/avatars/portrait.png render/src/cutouts/<key>.png"
+          ]
+        },
+        {
+          "id": "S4.3",
+          "type": "Agent / tool",
+          "title": "Face and landmark measures",
+          "summary": "So every face lands in the same place",
+          "details": [
+            "OpenCV face boxes: src/avatars/faces.json (aligns eyes and smiles in the strip collage)",
+            "Nose tip and head top: src/side/metrics.json (side profile at the cover edge)",
+            "Eye, nose tip, chin by hand: src/sidecut/landmarks.json (scale by eye to chin, never hair)"
+          ]
+        },
+        {
+          "id": "S4.4",
+          "type": "Output",
+          "title": "Cutouts (6)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/cutouts/<key>.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/cutouts"
+            }
+          ],
+          "example_outputs": [
+            "img/adi-cutout.png",
+            "img/aquila-cutout.png",
+            "img/ben-cutout.png",
+            "img/bharath-cutout.png",
+            "img/bhaskar-cutout.png",
+            "img/nelbin-cutout.png"
+          ]
+        },
+        {
+          "id": "S4.5",
+          "type": "Output",
+          "title": "Measurement files",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/avatars/faces.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/avatars/faces.json"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/side/metrics.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/side/metrics.json"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/sidecut/landmarks.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/sidecut/landmarks.json"
+            }
+          ],
+          "details": [
+            "metrics.json example: adi {w 896, h 1200, top 84, nose 182, nose_y 573}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S5",
+      "title": "Render every image element",
+      "goal": "Covers, photos, Featured, collages, company covers and logos, with every word in code.",
+      "steps": [
+        {
+          "id": "S5.1",
+          "type": "Input",
+          "title": "Layers",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/cutouts/",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/cutouts"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/side/",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/side"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/sidecut/",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/sidecut"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/logos/",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/logos"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/logos/ratios.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/logos/ratios.json"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/bonus/",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/bonus"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/tantra-mark-white.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/tantra-mark-white.png"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/src/inter-var.woff2",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/src/inter-var.woff2"
+            }
+          ]
+        },
+        {
+          "id": "S5.2",
+          "type": "Input",
+          "title": "Words",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/copy.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/copy.json"
+            }
+          ],
+          "details": [
+            "captions, caption_by_asset, workshop, consult, cover, company_cover"
+          ]
+        },
+        {
+          "id": "S5.3",
+          "type": "Context",
+          "title": "LinkedIn layout rules",
+          "details": [
+            "Profile cover 1584 x 396; photo covers the lower left (desktop x 47 to 362 from y 175; phone x 65 to 489 from y 162)",
+            "Zones: mark top left, person x 360 to 920, caption x 806 to 1326, side profile x 1334 to 1584",
+            "Company cover 4200 x 700 (6:1); Featured 1200 x 627; photo square, circle crop"
+          ]
+        },
+        {
+          "id": "S5.4",
+          "type": "Agent / tool",
+          "title": "build.mjs (Playwright)",
+          "summary": "HTML + CSS to PNG at 1x and @2x",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/build.mjs",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/build.mjs"
+            },
+            {
+              "path": "render/build.mjs",
+              "repo": "adisuja/tantra-branding-playbook",
+              "commit": "663b223658947e4010fd565a80dd7e6d9f6299ac",
+              "url": "https://github.com/adisuja/tantra-branding-playbook/blob/663b223658947e4010fd565a80dd7e6d9f6299ac/render/build.mjs"
+            }
+          ],
+          "details": [
+            "Jobs: 6 profile covers, 2 evangelist covers, 5 collages, 5 company covers, 2 Featured",
+            "Fails on a missing image or text that overflows its box",
+            "Writes <name>.layout.json: text lines, logo boxes in chips, caption box, safe zone"
+          ]
+        },
+        {
+          "id": "S5.5",
+          "type": "Agent / tool",
+          "title": "photos.mjs (Playwright)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/photos.mjs",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/photos.mjs"
+            }
+          ],
+          "details": [
+            "6 logo variants A to F (1200), 6 branded photos (1200), preview sheet",
+            "Photo: cutout on violet ground, violet to gold ring, Tantra badge"
+          ]
+        },
+        {
+          "id": "S5.6",
+          "type": "Commands",
+          "title": "Commands",
+          "commands": [
+            "node render/build.mjs",
+            "node render/build.mjs --guides   # photo zones in red, review only",
+            "node render/photos.mjs"
+          ]
+        },
+        {
+          "id": "S5.7",
+          "type": "Output",
+          "title": "Profile covers (8)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/<key>-cover-1584x396.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/<key>-cover-1584x396@2x.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets"
+            }
+          ],
+          "example_outputs": [
+            "img/adi-cover.jpg",
+            "img/aquila-cover.jpg",
+            "img/ben-cover.jpg",
+            "img/bharath-cover.jpg",
+            "img/bhaskar-cover.jpg",
+            "img/nelbin-cover.jpg",
+            "img/scott-cover.jpg",
+            "img/conor-cover.jpg"
+          ]
+        },
+        {
+          "id": "S5.8",
+          "type": "Output",
+          "title": "Branded photos (6)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/<key>-photo-1200.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets"
+            }
+          ],
+          "example_outputs": [
+            "img/adi-photo.jpg",
+            "img/aquila-photo.jpg",
+            "img/ben-photo.jpg",
+            "img/bharath-photo.jpg",
+            "img/bhaskar-photo.jpg",
+            "img/nelbin-photo.jpg"
+          ]
+        },
+        {
+          "id": "S5.9",
+          "type": "Output",
+          "title": "Featured (2, shared)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/featured-workshop-1200x627.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets/featured-workshop-1200x627.png"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/featured-consultation-1200x627.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets/featured-consultation-1200x627.png"
+            }
+          ],
+          "example_outputs": [
+            "img/featured-workshop.jpg",
+            "img/featured-consultation.jpg"
+          ]
+        },
+        {
+          "id": "S5.10",
+          "type": "Output",
+          "title": "Company covers (5) + collages (5)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/tantra-company-cover-<v>-4200x700.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets/tantra-company-cover-"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/tantra-collage-<v>-1330x700.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets/tantra-collage-"
+            }
+          ],
+          "example_outputs": [
+            "img/company-cover-strips-violet.jpg",
+            "img/company-cover-strips.jpg",
+            "img/company-cover-panels.jpg",
+            "img/company-cover-glow.jpg",
+            "img/company-cover-tiles.jpg"
+          ]
+        },
+        {
+          "id": "S5.11",
+          "type": "Output",
+          "title": "Logos (6)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/tantra-logo-<v>-1200.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets/tantra-logo-"
+            }
+          ],
+          "example_outputs": [
+            "img/logo-d.jpg",
+            "img/logo-a.jpg",
+            "img/logo-b.jpg",
+            "img/logo-c.jpg",
+            "img/logo-e.jpg",
+            "img/logo-f.jpg"
+          ]
+        },
+        {
+          "id": "S5.12",
+          "type": "Output",
+          "title": "layout.json per image",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/<name>.layout.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets"
+            }
+          ],
+          "details": [
+            "{width, height, text:[lines], logos:[{box, chip}], caption:{box, lines}, safe:[x,y,w,h]}",
+            "Read by the Brand tab image checks"
+          ]
+        },
+        {
+          "id": "S5.13",
+          "type": "Check",
+          "title": "Render checks",
+          "details": [
+            "No missing image, no overflowing text",
+            "Caption inside the safe zone, logos inside chips",
+            "No label text on images"
+          ],
+          "example_outputs": [
+            "img/adi-cover-guides.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S6",
+      "title": "Mock and approve the look",
+      "goal": "See every image where LinkedIn will put it, then get the yes.",
+      "steps": [
+        {
+          "id": "S6.1",
+          "type": "Input",
+          "title": "Rendered covers + photos",
+          "summary": "From S5"
+        },
+        {
+          "id": "S6.2",
+          "type": "Agent / tool",
+          "title": "mock.mjs",
+          "summary": "Desktop and phone top card, real photo placed where LinkedIn puts it",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/mock.mjs",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/mock.mjs"
+            }
+          ],
+          "commands": [
+            "node render/mock.mjs"
+          ]
+        },
+        {
+          "id": "S6.3",
+          "type": "Output",
+          "title": "Mocks (8 + page)",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/shots/mock-<key>.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/shots/mock-"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/shots/mock-company.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/shots/mock-company.png"
+            }
+          ],
+          "example_outputs": [
+            "img/adi-mock.jpg",
+            "img/aquila-mock.jpg",
+            "img/company-mock.jpg"
+          ]
+        },
+        {
+          "id": "S6.4",
+          "type": "Human step",
+          "title": "Adi approves",
+          "details": [
+            "13 Nov: six covers and both Featured approved; caption may still change",
+            "Teammates confirm their avatar"
+          ]
+        },
+        {
+          "id": "S6.5",
+          "type": "Output",
+          "title": "Published team pack",
+          "summary": "Public, used by teammates to apply",
+          "files": [
+            {
+              "path": "linkedin-profiles/v2/index.html",
+              "repo": "adisuja/tantra-enterprise-webinar-pages",
+              "commit": "main",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/blob/main/linkedin-profiles/v2/index.html"
+            },
+            {
+              "path": "linkedin-profiles/v2/assets/",
+              "repo": "adisuja/tantra-enterprise-webinar-pages",
+              "commit": "main",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/tree/main/linkedin-profiles/v2/assets"
+            },
+            {
+              "path": "linkedin-profiles/v2/TEAM_GUIDE.md",
+              "repo": "adisuja/tantra-enterprise-webinar-pages",
+              "commit": "main",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/blob/main/linkedin-profiles/v2/TEAM_GUIDE.md"
+            },
+            {
+              "path": "linkedin-profiles/v2/li-upload.sh",
+              "repo": "adisuja/tantra-enterprise-webinar-pages",
+              "commit": "main",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-pages/blob/main/linkedin-profiles/v2/li-upload.sh"
+            }
+          ],
+          "details": [
+            "https://adisuja.github.io/tantra-enterprise-webinar-pages/linkedin-profiles/v2/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S7",
+      "title": "Review in the Tantra Brand tab",
+      "goal": "One project per person and per page; every element approved one by one.",
+      "steps": [
+        {
+          "id": "S7.1",
+          "type": "Input",
+          "title": "Seed from the spec",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/branding_seed.py",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/branding_seed.py"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/branding_seed.json",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/branding_seed.json"
+            }
+          ],
+          "commands": [
+            "python3 branding_seed.py   # writes branding_seed.json from gen_spec.py"
+          ],
+          "details": [
+            "8 people + the page, the approved spec as \"reference\", the live value as \"current\"",
+            "No consent is seeded"
+          ]
+        },
+        {
+          "id": "S7.2",
+          "type": "Agent / tool",
+          "title": "Import",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/routes.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/routes.ts"
+            }
+          ],
+          "details": [
+            "crm_branding_import, POST /api/branding/import"
+          ]
+        },
+        {
+          "id": "S7.3",
+          "type": "Agent / tool",
+          "title": "post-assets.mjs",
+          "summary": "Sends renders + layout into each project",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/post-assets.mjs",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/post-assets.mjs"
+            }
+          ],
+          "commands": [
+            "node post-assets.mjs            # dry run: the plan",
+            "TANTRA_API_KEY=... node post-assets.mjs --send"
+          ],
+          "details": [
+            "POST /api/branding/projects/:id/assets with layout meta",
+            "Skips verified projects; 409 until the person gave avatar consent"
+          ]
+        },
+        {
+          "id": "S7.4",
+          "type": "Context",
+          "title": "Data model (migration 0065)",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/migrations/0065_branding.sql",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/migrations/0065_branding.sql"
+            },
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/schema.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/schema.ts"
+            },
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/store.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/store.ts"
+            }
+          ],
+          "details": [
+            "branding_projects, branding_elements, branding_versions, branding_assets",
+            "Element status: empty, current, proposed, approved, skipped, applied, verified",
+            "Project status: intake, audit, generating, review, approved, applying, verified, error"
+          ]
+        },
+        {
+          "id": "S7.5",
+          "type": "Human step",
+          "title": "Approve each element",
+          "summary": "The only manual step",
+          "details": [
+            "crm_branding_review: approve, skip, edit",
+            "Share link per element: crm.usetantra.com/content/brand/s/<token> (same workspace only)",
+            "crm_branding_regenerate for a new proposal"
+          ]
+        },
+        {
+          "id": "S7.6",
+          "type": "Agent / tool",
+          "title": "Team flow",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/teamFlow.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/teamFlow.ts"
+            },
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/teamFlowRoutes.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/teamFlowRoutes.ts"
+            }
+          ],
+          "details": [
+            "crm.usetantra.com/content/brand/team: find teammates, send invites, each opens their own project",
+            "crm_branding_team_find, _add, _send_invites, _open"
+          ]
+        },
+        {
+          "id": "S7.7",
+          "type": "Output",
+          "title": "Brand tab: projects",
+          "example_outputs": [
+            "img/app-brand-list.jpg"
+          ]
+        },
+        {
+          "id": "S7.8",
+          "type": "Output",
+          "title": "Brand tab: review",
+          "example_outputs": [
+            "img/app-brand-review.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S8",
+      "title": "Tracked links",
+      "goal": "Every link on every profile reports per person, per spot and per caption.",
+      "steps": [
+        {
+          "id": "S8.1",
+          "type": "Input",
+          "title": "Destinations",
+          "details": [
+            "Workshop: https://jointantra.com/",
+            "Consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation"
+          ]
+        },
+        {
+          "id": "S8.2",
+          "type": "Agent / tool",
+          "title": "Link builder",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/links.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/links.ts"
+            }
+          ],
+          "details": [
+            "crm_branding_links (dry run first; existing codes never change)",
+            "Uses the tracking module createLink"
+          ]
+        },
+        {
+          "id": "S8.3",
+          "type": "Output",
+          "title": "Link scheme",
+          "details": [
+            "Code: <key>-<spot><kind>: spot f featured, w website, a about, r role; kind w workshop, c consultation",
+            "Page: tantra-aw, tantra-ac, tantra-btn",
+            "UTMs: utm_source=linkedin, utm_medium=profile|company_page, utm_campaign=enterprise-webinar, utm_content=<key>-<where>-<kind>",
+            "51 links, campaign \"LinkedIn organic: team profiles\"",
+            "Report: GET https://crm-api.usetantra.com/api/trk/reports/campaign/<campaign id>"
+          ]
+        },
+        {
+          "id": "S8.4",
+          "type": "Check",
+          "title": "Link checks",
+          "details": [
+            "Short link resolves with UTMs plus tcid, tlink, tclid",
+            "LinkedIn previews go.usetantra.com (Featured switched from full UTM links once it did)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S9",
+      "title": "Go live on LinkedIn",
+      "goal": "Apply every approved element in the person's own browser, read it back, record it.",
+      "steps": [
+        {
+          "id": "S9.1",
+          "type": "Input",
+          "title": "Approved values + files",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/PROFILE_SPEC.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/PROFILE_SPEC.md"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/assets/",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/tree/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/assets"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/li-upload.sh",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/li-upload.sh"
+            }
+          ]
+        },
+        {
+          "id": "S9.2",
+          "type": "Human step",
+          "title": "Signed in browser",
+          "summary": "Only the person signs in. Never a password through the agent",
+          "details": [
+            "LinkedIn lets nobody edit another person's profile: each person applies their own",
+            "Adi's profile and the page: Claude applies in Adi's browser"
+          ]
+        },
+        {
+          "id": "S9.3",
+          "type": "Agent / tool",
+          "title": "Claude Code + OpenCLI",
+          "summary": "Edits field by field, reads each back",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/RUNBOOK.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/RUNBOOK.md"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/TEAM_GUIDE.md",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/TEAM_GUIDE.md"
+            }
+          ],
+          "details": [
+            "Rules: only own profile, never post, message, connect or notify network; back up each old value to ./backup/; keep the browser window visible"
+          ]
+        },
+        {
+          "id": "S9.4",
+          "type": "Commands",
+          "title": "Profile steps a to g",
+          "commands": [
+            "a Headline: open /in/me/edit/intro/; opencli browser fill --session me '[contenteditable=true][aria-label=\"Headline\"]' \"<headline>\"; Save",
+            "b About + skills: /in/<slug>/edit/forms/summary/new/; fill aria-label \"About\"; Add skill, wait 3 s, click the [role=option] that matches exactly",
+            "c Cover: [aria-label=\"Edit background image\"], \"Edit cover image\" by ref, \"Change photo\"; ./li-upload.sh me --catch; click \"Upload single photo\"; ./li-upload.sh me assets/<key>-cover-1584x396@2x.png; Save changes",
+            "d Photo: same catch and upload with assets/<key>-photo-1200.png, centred, no zoom",
+            "e Contact info: /in/<slug>/overlay/contact-info/, Edit contact info: workshop link (Company), consultation link (Other); remove old links",
+            "f Current role: /in/<slug>/details/experience/: title, company = the Tantra page from the dropdown, description, 5 skills, notify off; then intro Organization = Tantra",
+            "g Featured: /in/<slug>/details/featured/, Add a link, wait up to 60 s, title, description, Choose thumbnail via li-upload; add consultation first, workshop last so it shows first"
+          ]
+        },
+        {
+          "id": "S9.5",
+          "type": "Commands",
+          "title": "Company page (admin)",
+          "commands": [
+            "Admin: https://www.linkedin.com/company/13588687/admin/dashboard/",
+            "Edit page, Header: tagline from the spec",
+            "Details: About, website, industry, size, specialties, founded 2018",
+            "Cover: upload tantra-company-cover-strips-violet-4200x700.png (li-upload: #org-image-editor__change-photo-input), no zoom, Save",
+            "Buttons: Custom button on, Register, https://go.usetantra.com/l/tantra-btn"
+          ]
+        },
+        {
+          "id": "S9.6",
+          "type": "Context",
+          "title": "Known blockers and fixes",
+          "details": [
+            "\"Not allowed\" on upload: use li-upload.sh (catch the file field, then attach)",
+            "\"Edit cover image\" ignores script clicks: click its ref from opencli browser state",
+            "Featured \"couldn't load a preview\": wait, retry up to 3 times",
+            "Featured shows a bare domain: refresh at linkedin.com/post-inspector, re-add",
+            "Top card shows the wrong company: Edit intro, Organization: Tantra",
+            "\"Native input requires a visible browser page\": bring the window to the front",
+            "Password, code or security check: stop, the person does it"
+          ]
+        },
+        {
+          "id": "S9.7",
+          "type": "Agent / tool",
+          "title": "Brand tab apply (M5)",
+          "files": [
+            {
+              "path": "tantra-backend-v2/crm-worker/src/branding/routes.ts",
+              "repo": "adisuja/tantra-crm",
+              "commit": "737c359a03887b14a6eb0d9b9faae2818da0484b",
+              "url": "https://github.com/adisuja/tantra-crm/blob/737c359a03887b14a6eb0d9b9faae2818da0484b/tantra-backend-v2/crm-worker/src/branding/routes.ts"
+            }
+          ],
+          "details": [
+            "crm_branding_apply_plan: POST /api/branding/projects/:id/apply (dry run)",
+            "crm_branding_apply_run, then crm_branding_record_applied: POST /api/branding/projects/:id/applied",
+            "Runs as runner job kind branding_apply on the person's own Mac; headline through the API where possible"
+          ]
+        },
+        {
+          "id": "S9.8",
+          "type": "Output",
+          "title": "Live: Adi",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/shots/live/after-adi-top.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/shots/live/after-adi-top.png"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/shots/live/after-adi-featured.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/shots/live/after-adi-featured.png"
+            },
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/shots/live/after-adi-role.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/shots/live/after-adi-role.png"
+            }
+          ],
+          "example_outputs": [
+            "img/adi-after.jpg",
+            "img/adi-after-featured.jpg",
+            "img/adi-after-role.jpg"
+          ]
+        },
+        {
+          "id": "S9.9",
+          "type": "Output",
+          "title": "Live: company page",
+          "files": [
+            {
+              "path": "deliverables/29-linkedin-profile-branding/v2/shots/live/after-company.png",
+              "repo": "adisuja/tantra-enterprise-webinar-workspace",
+              "commit": "31c584a6b249348ade0f37765dbbcb6b705a9924",
+              "url": "https://github.com/adisuja/tantra-enterprise-webinar-workspace/blob/31c584a6b249348ade0f37765dbbcb6b705a9924/deliverables/29-linkedin-profile-branding/v2/shots/live/after-company.png"
+            }
+          ],
+          "example_outputs": [
+            "img/company-after.jpg"
+          ]
+        },
+        {
+          "id": "S9.10",
+          "type": "Check",
+          "title": "Verify (Runbook phase 4)",
+          "commands": [
+            "opencli linkedin profile-read --profile-url <url> -f json > backup/after.json",
+            "diff against PROFILE_SPEC.md: every field must match",
+            "opencli browser screenshot --session me profile-after.png"
+          ],
+          "details": [
+            "Screens at 1440 and 390 px against the mocks",
+            "Record done or what differs on card 29; element status applied, then verified"
+          ]
+        }
+      ]
+    }
+  ],
+  "elements": {
+    "profile": [
+      {
+        "element": "Cover image",
+        "limit": "1584 x 396 (@2x)",
+        "made_by": "Kie.ai portrait + side profile, build.mjs",
+        "file": "assets/<key>-cover-1584x396@2x.png",
+        "goes_live_by": "Browser upload (li-upload.sh)"
+      },
+      {
+        "element": "Cover caption",
+        "limit": "60 chars, 4 in test",
+        "made_by": "Writer, chosen by Adi",
+        "file": "copy.json captions",
+        "goes_live_by": "Part of the cover render"
+      },
+      {
+        "element": "Profile photo",
+        "limit": "1200 square, circle",
+        "made_by": "Kie.ai portrait cutout, photos.mjs",
+        "file": "assets/<key>-photo-1200.png",
+        "goes_live_by": "Browser upload"
+      },
+      {
+        "element": "Headline",
+        "limit": "220, \"Title @ Tantra\"",
+        "made_by": "gen_spec.py / writer v1",
+        "file": "PROFILE_SPEC.md",
+        "goes_live_by": "API (Unipile) or browser fill"
+      },
+      {
+        "element": "About",
+        "limit": "2,600",
+        "made_by": "gen_spec.py / writer v1",
+        "file": "PROFILE_SPEC.md",
+        "goes_live_by": "Browser fill"
+      },
+      {
+        "element": "Experience title",
+        "limit": "100, exact",
+        "made_by": "Adi's decision",
+        "file": "gen_spec.py TITLES",
+        "goes_live_by": "Browser"
+      },
+      {
+        "element": "Experience description",
+        "limit": "2,000",
+        "made_by": "gen_spec.py / writer v1",
+        "file": "PROFILE_SPEC.md",
+        "goes_live_by": "Browser"
+      },
+      {
+        "element": "Top skills",
+        "limit": "Exactly 5",
+        "made_by": "gen_spec.py / writer v1",
+        "file": "PROFILE_SPEC.md",
+        "goes_live_by": "Browser (typeahead)"
+      },
+      {
+        "element": "Featured 1 (workshop)",
+        "limit": "Desc 200 + 1200 x 627",
+        "made_by": "build.mjs + spec text",
+        "file": "featured-workshop-1200x627.png",
+        "goes_live_by": "Browser, add last"
+      },
+      {
+        "element": "Featured 2 (consultation)",
+        "limit": "Desc 200 + 1200 x 627",
+        "made_by": "build.mjs + spec text",
+        "file": "featured-consultation-1200x627.png",
+        "goes_live_by": "Browser, add first"
+      },
+      {
+        "element": "Website (Company)",
+        "limit": "Short link",
+        "made_by": "links.ts",
+        "file": "<key>-ww",
+        "goes_live_by": "Browser"
+      },
+      {
+        "element": "Website (Other)",
+        "limit": "Short link",
+        "made_by": "links.ts",
+        "file": "<key>-wc",
+        "goes_live_by": "Browser"
+      }
+    ],
+    "page": [
+      {
+        "element": "Logo",
+        "limit": "400 x 400 (1200 made)",
+        "made_by": "photos.mjs, 6 options",
+        "file": "assets/tantra-logo-d-1200.png",
+        "goes_live_by": "Admin upload"
+      },
+      {
+        "element": "Cover image",
+        "limit": "4200 x 700",
+        "made_by": "build.mjs collage of team faces",
+        "file": "tantra-company-cover-strips-violet-4200x700.png",
+        "goes_live_by": "Admin upload"
+      },
+      {
+        "element": "Cover caption",
+        "limit": "60 chars",
+        "made_by": "Writer, chosen by Adi",
+        "file": "copy.json (pipeline)",
+        "goes_live_by": "Part of the cover"
+      },
+      {
+        "element": "Tagline",
+        "limit": "120",
+        "made_by": "Spec / writer",
+        "file": "PROFILE_SPEC.md",
+        "goes_live_by": "Admin form"
+      },
+      {
+        "element": "Overview (About)",
+        "limit": "2,000",
+        "made_by": "Spec / writer",
+        "file": "PROFILE_SPEC.md",
+        "goes_live_by": "Admin form"
+      },
+      {
+        "element": "Specialties",
+        "limit": "Up to 20",
+        "made_by": "Spec / writer",
+        "file": "PROFILE_SPEC.md (14)",
+        "goes_live_by": "Admin form"
+      },
+      {
+        "element": "Year founded",
+        "limit": "4 digits",
+        "made_by": "Adi's decision",
+        "file": "2018",
+        "goes_live_by": "Admin form"
+      },
+      {
+        "element": "Custom button",
+        "limit": "Label + link",
+        "made_by": "links.ts",
+        "file": "Register, tantra-btn",
+        "goes_live_by": "Admin form"
+      }
+    ]
+  },
+  "people": [
+    {
+      "key": "adi",
+      "name": "Adithya Murali",
+      "title": "Leading the team",
+      "caption": "Our AI Haunts Your Audience Until They Pay You."
+    },
+    {
+      "key": "aquila",
+      "name": "Aquila Eldho",
+      "title": "Leading automations",
+      "caption": "Leads Left on Read? Not on Our Watch."
+    },
+    {
+      "key": "ben",
+      "name": "Ben Basil Tomy",
+      "title": "Leading development",
+      "caption": "Cold Leads? We Bring Blankets."
+    },
+    {
+      "key": "bharath",
+      "name": "Bharath",
+      "title": "Leading development",
+      "caption": "Your Pipeline Called. It's Hungry."
+    },
+    {
+      "key": "bhaskar",
+      "name": "Bhaskar",
+      "title": "Leading marketing & product",
+      "caption": "Your Pipeline Called. It's Hungry."
+    },
+    {
+      "key": "nelbin",
+      "name": "Nelbin",
+      "title": "Leading marketing ops",
+      "caption": "Our AI Haunts Your Audience Until They Pay You."
+    },
+    {
+      "key": "scott",
+      "name": "Scott McArthur",
+      "title": "Evangelist",
+      "caption": "Leads Left on Read? Not on Our Watch."
+    },
+    {
+      "key": "conor",
+      "name": "Conor Norton",
+      "title": "Evangelist",
+      "caption": "Cold Leads? We Bring Blankets."
+    }
+  ]
+}

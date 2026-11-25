@@ -6,9 +6,10 @@
 <meta name="robots" content="noindex, nofollow">
 <title>LinkedIn Branding Workflow Map | Tantra</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0b10;--dot:#22243a;--card:#12141d;--line:#262a3b;--ink:#eceaf6;--mute:#8d8aa3;--v:#8b6cff;--vb:#1c1636;--t:#2fc79a;--tb:#0f2a23;--g:#a8a59a;--gb:#1b1b19;--gold:#f5c76b}
+:root{--bg:#0a0b10;--dot:#20223a;--card:#12141d;--line:#262a3b;--ink:#eceaf6;--mute:#8d8aa3;--v:#8b6cff;
+--ctx:#6ea8fe;--in:#a8a59a;--agent:#8b6cff;--prompt:#f5c76b;--cmd:#5ad1e6;--out:#2fc79a;--check:#ff8a65;--human:#f472b6;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 #vp{position:fixed;inset:0;cursor:grab;touch-action:none;background-color:var(--bg);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.2px)}
@@ -17,277 +18,355 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font
 #edges{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 #edges path{fill:none;stroke-width:2}
 #edges path.flow{stroke-dasharray:7 7;animation:flow 1.2s linear infinite}
+#edges path.x{stroke-width:4;stroke-dasharray:14 10;opacity:.6;animation:flow 1.6s linear infinite}
 @keyframes flow{to{stroke-dashoffset:-14}}
-@media (prefers-reduced-motion:reduce){#edges path.flow{animation:none}}
-.frame{position:absolute;border:1.5px dashed #34375066;border-radius:22px;background:#ffffff05}
-.frame .fh{position:absolute;left:0;top:-46px;display:flex;align-items:center;gap:10px;cursor:move;user-select:none;padding:6px 14px 6px 8px;border-radius:12px;background:#15172299;border:1px solid var(--line)}
-.frame .fh b{font-size:20px;font-weight:800;letter-spacing:-.01em}
-.frame .fh span{font-size:13px;color:var(--mute)}
-.frame .fh i{width:12px;height:12px;border-radius:4px}
-.node{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:14px;user-select:none;cursor:move;box-shadow:0 10px 30px #0006;overflow:hidden}
-.node.dragging{box-shadow:0 18px 50px #000a,0 0 0 2px var(--v);z-index:5}
-.node .hd{padding:10px 12px 8px;border-bottom:1px solid var(--line)}
-.node .chip{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:2px 7px;margin-bottom:5px}
-.k-in .chip{background:var(--gb);color:var(--g);border:1px solid #3a3933}
-.k-gen .chip{background:var(--vb);color:#c4b5fd;border:1px solid #3b2f7a}
-.k-app .chip{background:var(--tb);color:var(--t);border:1px solid #1d5a49}
-.k-in{border-top:3px solid var(--g)}.k-gen{border-top:3px solid var(--v)}.k-app{border-top:3px solid var(--t)}
-.node .tt{font-size:15px;font-weight:700;line-height:1.25}
-.node .sb{font-size:12.5px;color:var(--mute);margin-top:3px;line-height:1.4}
-.node ul{list-style:none;padding:8px 12px 12px;font-size:13px;color:#cfcce0}
-.node li{padding:4px 0 4px 16px;position:relative;line-height:1.35}
-.node li:before{content:'';position:absolute;left:2px;top:10px;width:6px;height:6px;border-radius:2px;background:var(--v)}
-.node .im{display:block;width:100%;cursor:zoom-in;background:#07080c}
-.node .grid{display:grid;gap:6px;padding:8px}
-.node .grid .cell{position:relative}
-.node .grid .cell .im{border-radius:8px}
-.node .grid .cell.on .im{outline:2px solid var(--gold);outline-offset:1px}
-.node .grid .cell em{position:absolute;left:6px;bottom:6px;font-style:normal;font-size:10.5px;font-weight:700;background:#000b;padding:1px 6px;border-radius:5px}
-.node.img .hd{padding:7px 10px}
-.node.img .tt{font-size:13px}
-.node .chk{background:repeating-conic-gradient(#1a1c27 0 25%,#12131b 0 50%) 0/14px 14px}
-.node .pic{width:34px;height:34px;border-radius:50%;object-fit:cover;float:left;margin-right:10px}
-.node.port .im{aspect-ratio:4/5;object-fit:cover}
-#ui{position:fixed;left:16px;top:16px;display:flex;flex-direction:column;gap:10px;z-index:20;max-width:calc(100vw - 32px)}
-.bar{display:flex;align-items:center;gap:6px;background:#12141dee;border:1px solid var(--line);border-radius:14px;padding:8px;backdrop-filter:blur(8px);flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){#edges path{animation:none!important}}
+.frame{position:absolute;border:1.5px dashed #3a3e5a;border-radius:24px;background:#ffffff04}
+.frame .fh{position:absolute;left:24px;top:-26px;display:flex;align-items:center;gap:12px;cursor:move;user-select:none;padding:8px 16px 8px 10px;border-radius:14px;background:#151722;border:1px solid var(--line);max-width:calc(100% - 48px)}
+.frame .fh .sid{font:800 15px var(--mono);background:var(--v);color:#fff;border-radius:8px;padding:3px 9px}
+.frame .fh b{font-size:21px;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+.frame .fh span{font-size:13px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.frame .colh{position:absolute;font:700 11px Inter;letter-spacing:.12em;text-transform:uppercase;color:#5f6080}
+.card{position:absolute;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:12px;user-select:none;cursor:pointer;box-shadow:0 10px 30px #0006;overflow:hidden}
+.card:hover{border-color:var(--c)}
+.card.dragging{box-shadow:0 18px 50px #000a,0 0 0 2px var(--c);z-index:5;cursor:move}
+.card.sel{box-shadow:0 0 0 3px var(--c),0 18px 50px #000a}
+.card .top{display:flex;align-items:center;justify-content:space-between;padding:9px 12px 0}
+.card .tag{font:800 10.5px Inter;letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
+.card .id{font:600 11px var(--mono);color:var(--mute)}
+.card .tt{font-size:15px;font-weight:700;line-height:1.25;padding:4px 12px 0}
+.card .sb{font-size:12.5px;color:var(--mute);line-height:1.4;padding:3px 12px 0}
+.card .files{display:flex;flex-wrap:wrap;gap:5px;padding:8px 12px 0}
+.card .f{font:500 11px var(--mono);color:#c9c4ef;background:#1d1a33;border:1px solid #2e2856;border-radius:6px;padding:2px 6px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .f b{color:#8d84d6;font-weight:600}
+.card pre{margin:8px 12px 0;font:500 11px/1.45 var(--mono);color:#cfeff6;background:#0c1418;border:1px solid #173039;border-radius:8px;padding:8px;white-space:pre-wrap;max-height:120px;overflow:hidden}
+.card pre.p{color:#f7e6bf;background:#17130a;border-color:#3a2f12}
+.card ul{list-style:none;padding:6px 12px 0;font-size:12.5px;color:#cfcce0}
+.card li{padding:3px 0 3px 14px;position:relative;line-height:1.35}
+.card li:before{content:'';position:absolute;left:1px;top:9px;width:6px;height:6px;border-radius:2px;background:var(--c)}
+.card .more{font-size:11.5px;color:var(--c);padding:6px 12px 0;font-weight:600}
+.card .grid{display:grid;gap:6px;padding:8px 12px 0}
+.card .cell{position:relative}
+.card .cell img,.card .im{display:block;width:100%;border-radius:8px;background:#07080c}
+.card .cell.on img{outline:2px solid #f5c76b;outline-offset:1px}
+.card .cell em{position:absolute;left:5px;bottom:5px;font-style:normal;font-size:10.5px;font-weight:700;background:#000c;padding:1px 6px;border-radius:5px}
+.card .chk img{background:repeating-conic-gradient(#1a1c27 0 25%,#12131b 0 50%) 0/12px 12px}
+.card .im{margin:8px 12px 0;width:calc(100% - 24px)}
+.card .pad{height:12px}
+.card table{margin:8px 12px 0;border-collapse:collapse;font-size:12.5px;width:calc(100% - 24px)}
+.card th,.card td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.card th{color:var(--mute);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.card td code{font:500 11px var(--mono);color:#c9c4ef}
+.card .pic{width:32px;height:32px;border-radius:50%;object-fit:cover;float:left;margin:2px 10px 0 0}
+.dim .card:not(.hl),.dim .frame:not(.hl){opacity:.15}
+#ui{position:fixed;left:14px;top:14px;right:14px;display:flex;flex-direction:column;gap:8px;z-index:20;pointer-events:none}
+.bar{display:flex;align-items:center;gap:6px;background:#12141df0;border:1px solid var(--line);border-radius:14px;padding:7px;backdrop-filter:blur(8px);flex-wrap:wrap;pointer-events:auto;width:max-content;max-width:100%}
 .bar h1{font-size:15px;font-weight:800;padding:0 8px 0 4px;white-space:nowrap}
 .bar h1 small{display:block;font-size:11.5px;font-weight:500;color:var(--mute)}
-.bar button{font:inherit;font-size:13px;font-weight:600;color:var(--ink);background:#1b1e2b;border:1px solid var(--line);border-radius:9px;padding:7px 11px;cursor:pointer}
+.bar button{font:inherit;font-size:12.5px;font-weight:600;color:var(--ink);background:#1b1e2b;border:1px solid var(--line);border-radius:9px;padding:6px 10px;cursor:pointer}
 .bar button:hover{border-color:var(--v)}
-.bar button.on{background:var(--vb);border-color:var(--v)}
-.legend{display:flex;gap:12px;font-size:12px;color:var(--mute);padding:0 6px}
-.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:10px;height:10px;border-radius:3px}
-#zoom{font-size:12px;color:var(--mute);min-width:44px;text-align:center}
-#hint{position:fixed;right:16px;bottom:16px;font-size:12px;color:var(--mute);background:#12141dcc;border:1px solid var(--line);border-radius:10px;padding:8px 12px;z-index:20}
-#lb{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out;padding:4vh 4vw}
-#lb.on{display:flex}
-#lb img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 20px 80px #000}
-.dim .node:not(.hl),.dim .frame:not(.hl){opacity:.18}
+.bar button.on{background:#231b45;border-color:var(--v)}
+.bar button.pri{background:var(--v);border-color:var(--v)}
+.bar input{font:inherit;font-size:13px;color:var(--ink);background:#0d0f16;border:1px solid var(--line);border-radius:9px;padding:6px 10px;width:220px}
+.legend{display:flex;gap:10px;font-size:11.5px;color:var(--mute);padding:0 6px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:5px}.legend i{width:10px;height:10px;border-radius:3px}
+#zoom{font-size:12px;color:var(--mute);min-width:40px;text-align:center}
+#hint{position:fixed;left:14px;bottom:14px;font-size:12px;color:var(--mute);background:#12141dcc;border:1px solid var(--line);border-radius:10px;padding:7px 11px;z-index:20}
+#dr{position:fixed;top:0;right:0;bottom:0;width:min(560px,100vw);background:#0f1118;border-left:1px solid var(--line);z-index:30;transform:translateX(100%);transition:transform .22s ease;display:flex;flex-direction:column}
+#dr.on{transform:none}
+#dr .dh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:18px 20px 12px;border-bottom:1px solid var(--line)}
+#dr .dh .tag{font:800 11px Inter;letter-spacing:.1em;text-transform:uppercase}
+#dr .dh h2{font-size:20px;font-weight:800;margin-top:4px;line-height:1.25}
+#dr .dh p{color:var(--mute);font-size:13.5px;margin-top:4px}
+#dr .x{font:inherit;font-size:22px;background:none;border:0;color:var(--mute);cursor:pointer;padding:0 4px}
+#dr .db{overflow:auto;padding:16px 20px 40px;font-size:14px;line-height:1.55}
+#dr h3{font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px}
+#dr h3:first-child{margin-top:0}
+#dr a{color:#b9a8ff}
+#dr .fl{display:flex;flex-direction:column;gap:6px}
+#dr .fl a,#dr .fl span{font:500 12.5px var(--mono);word-break:break-all}
+#dr .fl small{display:block;font:400 11.5px Inter;color:var(--mute)}
+#dr pre{font:500 12px/1.5 var(--mono);background:#0b0d13;border:1px solid var(--line);border-radius:10px;padding:12px;padding-top:30px;white-space:pre-wrap;word-break:break-word;color:#dfe9f2;position:relative}
+#dr pre.p{background:#17130a;border-color:#3a2f12;color:#f7e6bf}
+#dr .copy{position:absolute;top:6px;right:8px;font:600 11px Inter;background:#1b1e2b;color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:3px 8px;cursor:pointer}
+#dr ul{padding-left:18px}#dr li{margin:4px 0}
+#dr table{border-collapse:collapse;font-size:12.5px;width:100%}#dr th,#dr td{text-align:left;padding:6px;border-bottom:1px solid var(--line);vertical-align:top}#dr td code{font:500 11px var(--mono)}
+#dr .imgs{display:grid;gap:10px}
+#dr .imgs img{width:100%;border-radius:10px;border:1px solid var(--line);cursor:zoom-in;background:#07080c}
+#dr .imgs figcaption{font-size:12px;color:var(--mute);margin-top:3px}
+#dr .meta{display:flex;gap:8px;flex-wrap:wrap}
+#dr .pill{font:600 11.5px var(--mono);background:#1b1e2b;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:#cfcce0;text-decoration:none}
+#lb{position:fixed;inset:0;background:#000e;display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out;padding:3vh 3vw}
+#lb.on{display:flex}#lb img{max-width:100%;max-height:100%;border-radius:10px}
+#load{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:14px;z-index:40;background:var(--bg)}
 </style>
 </head>
 <body>
+<div id="load">Loading the workflow map…</div>
 <div id="vp"><div id="world"><svg id="edges" width="1" height="1"></svg></div></div>
 <div id="ui">
   <div class="bar">
-    <h1>LinkedIn branding workflow<small>Personal profiles + company page · Tantra</small></h1>
-    <button data-focus="all" class="on">All</button>
-    <button data-focus="profile">Profile track</button>
-    <button data-focus="team">Team results</button>
-    <button data-focus="company">Company page</button>
+    <h1>LinkedIn branding workflow<small>AI workflows, context, files, inputs, outputs, elements, going live · profiles + company page</small></h1>
+    <input id="q" placeholder="Find a file, step or tool" aria-label="Find">
+    <button id="spec" class="pri">Agent spec (JSON)</button>
   </div>
+  <div class="bar" id="jump"></div>
   <div class="bar">
     <button id="zo" aria-label="Zoom out">−</button><span id="zoom">100%</span><button id="zi" aria-label="Zoom in">+</button>
-    <button id="fit">Fit</button><button id="reset">Reset layout</button>
-    <div class="legend"><span><i style="background:var(--g)"></i>Inputs</span><span><i style="background:var(--v)"></i>Generated</span><span><i style="background:var(--t)"></i>Review and live in Tantra</span></div>
+    <button id="fit">Fit all</button><button id="reset">Reset layout</button>
+    <div class="legend" id="legend"></div>
   </div>
 </div>
-<div id="hint">Drag the canvas to pan · scroll or pinch to zoom · drag a card or a frame title to move it · click an image for full size</div>
+<div id="hint">Click a card for every detail · drag cards or frame titles · drag the canvas to pan · pinch or ctrl + scroll to zoom</div>
+<aside id="dr" aria-live="polite"><div class="dh"><div><div class="tag" id="dtag"></div><h2 id="dtt"></h2><p id="dsb"></p></div><button class="x" id="dx" aria-label="Close">×</button></div><div class="db" id="db"></div></aside>
 <div id="lb"><img alt=""></div>
+<script src="workflow-data.js"></script>
 <script>
-const I = (f) => 'img/' + f;
-const PEOPLE = [
-  ['adi', 'Adithya Murali', 'Leading the team', 'Our AI Haunts Your Audience Until They Pay You.'],
-  ['aquila', 'Aquila Eldho', 'Leading automations', "Leads Left on Read? Not on Our Watch."],
-  ['ben', 'Ben Basil Tomy', 'Leading development', 'Cold Leads? We Bring Blankets.'],
-  ['bharath', 'Bharath', 'Leading development', "Your Pipeline Called. It's Hungry."],
-  ['bhaskar', 'Bhaskar', 'Leading marketing & product', "Your Pipeline Called. It's Hungry."],
-  ['nelbin', 'Nelbin', 'Leading marketing ops', 'Our AI Haunts Your Audience Until They Pay You.'],
-];
-const EVANG = [['scott', 'Scott McArthur', 'Evangelist', "Leads Left on Read? Not on Our Watch."], ['conor', 'Conor Norton', 'Evangelist', 'Cold Leads? We Bring Blankets.']];
+const { REPOS, STAGES, ELEMENTS, PEOPLE, EVANG } = window.WF;
+const TYPES = { ctx: ['Context', 'var(--ctx)'], in: ['Input', 'var(--in)'], agent: ['Agent / tool', 'var(--agent)'], prompt: ['Prompt', 'var(--prompt)'], cmd: ['Commands', 'var(--cmd)'], out: ['Output', 'var(--out)'], check: ['Check', 'var(--check)'], human: ['Human step', 'var(--human)'] };
+const HEX = { ctx: '#6ea8fe', in: '#a8a59a', agent: '#8b6cff', prompt: '#f5c76b', cmd: '#5ad1e6', out: '#2fc79a', check: '#ff8a65', human: '#f472b6' };
+const COLS = [{ types: ['ctx', 'in'], w: 320, label: 'Context and inputs' }, { types: ['agent', 'prompt', 'cmd'], w: 360, label: 'Agent, prompt, commands' }, { types: ['out'], w: 380, label: 'Outputs' }, { types: ['check', 'human'], w: 320, label: 'Checks and human steps' }];
+const GAPX = 60, PADX = 40, HEADY = 72, GAPY = 22, FRAME_W = PADX * 2 + COLS.reduce((s, c) => s + c.w, 0) + GAPX * (COLS.length - 1), FGAP = 200, PER_ROW = 5;
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function fileInfo(ref) {
+  const i = ref.indexOf(':'), R = REPOS[ref.slice(0, i)], p = ref.slice(i + 1);
+  if (!R) return { full: ref, url: null };
+  const full = R.base + p, clean = full.replace(/<[^>]+>.*$/, '').replace(/\/$/, '');
+  const isFile = /\.[a-z0-9]+$/i.test(clean) && !/<|\/$/.test(p);
+  return { short: ref.slice(0, i), path: p, full, repo: R.repo, sha: R.sha, url: `https://github.com/${R.repo}/${isFile ? 'blob' : 'tree'}/${R.sha}/${clean}` };
+}
 
-const frames = [
-  { id: 'F-profile', group: 'profile', x: -60, y: -40, w: 2600, h: 800, title: 'Personal profile track', sub: '12 elements per person, one approval each', color: 'var(--v)' },
-  { id: 'F-team', group: 'team', x: -60, y: 860, w: 2600, h: 2200, title: 'Team results: every element generated', sub: '6 AI avatar profiles + 2 evangelists', color: 'var(--gold)' },
-  { id: 'F-company', group: 'company', x: -60, y: 3170, w: 2600, h: 1020, title: 'Company page track', sub: 'Tantra page: 8 elements, reuses the team faces', color: 'var(--t)' },
-];
-const nodes = [];
-const edges = [];
-const N = (o) => (nodes.push(o), o.id);
-const E = (a, b, kind = 'gen', opt = {}) => edges.push({ a, b, kind, ...opt });
-
-// Personal profile track
-N({ id: 'intake', f: 'F-profile', x: 0, y: 20, w: 300, k: 'in', chip: '1 Inputs', tt: 'Intake or profile audit', sb: 'The person answers the intake, or OpenCLI reads their LinkedIn in their own browser', img: I('adi-before.jpg') });
-N({ id: 'consent', f: 'F-profile', x: 0, y: 380, w: 300, k: 'in', chip: '1 Inputs', tt: 'AI avatar consent + 4 to 8 photos', sb: 'Real photos are references only, never published', list: ['Consent recorded: who and when', 'One "look" sentence from the photos', 'Destinations: workshop, consultation'] });
-N({ id: 'sections', f: 'F-profile', x: 420, y: 20, w: 300, k: 'gen', chip: '2 Sections', tt: 'Rewrite 12 elements', list: ['Cover image + caption', 'Profile photo', 'Headline (220)', 'About (2,600)', 'Experience title + description', 'Top skills (exactly 5)', 'Featured 1 + 2', 'Contact websites (2)'] });
-N({ id: 'checks', f: 'F-profile', x: 420, y: 470, w: 300, k: 'gen', chip: '2 Sections', tt: 'Checks on every proposal', list: ['Character limits', 'Headline starts "Title @ Tantra"', 'No em or en dashes, no AI filler', 'Every link is a tracked link'] });
-N({ id: 'kie', f: 'F-profile', x: 840, y: 20, w: 300, k: 'gen', chip: '3 Kie.ai', tt: 'nano-banana-pro', sb: 'Identity lock prompt, their photos as references', list: ['Waist up portrait (4:5)', 'Strict side profile, violet rim light', '18 credits each, ~$0.09', '11 images, $1.26 for the team'] });
-N({ id: 'render', f: 'F-profile', x: 1260, y: 20, w: 300, k: 'gen', chip: '4 Render', tt: 'Code renders every word', list: ['rembg cutout of the portrait', 'build.mjs: covers, Featured', 'photos.mjs: photo, logo', 'Layout check + LinkedIn mock'] });
-N({ id: 'featured', f: 'F-profile', x: 1260, y: 330, w: 300, k: 'gen', chip: '4 Render', tt: 'Featured images (shared)', grid: [[I('featured-workshop.jpg'), 'Workshop'], [I('featured-consultation.jpg'), 'Consultation']], cols: 1 });
-N({ id: 'brandList', f: 'F-profile', x: 1680, y: 20, w: 400, k: 'app', chip: '5 Brand tab', tt: 'One project per person', sb: 'crm.usetantra.com/content/brand', img: I('app-brand-list.jpg') });
-N({ id: 'brandReview', f: 'F-profile', x: 1680, y: 400, w: 400, k: 'app', chip: '5 Brand tab', tt: 'Approve each element', sb: 'Live vs proposal, checks, LinkedIn mock', img: I('app-brand-review.jpg') });
-N({ id: 'live', f: 'F-profile', x: 2160, y: 20, w: 340, k: 'app', chip: '6 Live', tt: 'Applied and read back', sb: 'Cover, photo, headline', img: I('adi-after.jpg') });
-N({ id: 'liveF', f: 'F-profile', x: 2160, y: 300, w: 340, k: 'app', chip: '6 Live', tt: 'Featured + role live', img: I('adi-after-featured.jpg') });
-N({ id: 'liveR', f: 'F-profile', x: 2160, y: 600, w: 340, k: 'app', chip: '6 Live', tt: 'Tracked short links', sb: 'go.usetantra.com/l/<person>-<spot>, per person and spot' });
-E('intake', 'sections', 'in'); E('consent', 'kie', 'in'); E('sections', 'checks'); E('kie', 'render'); E('render', 'featured');
-E('checks', 'brandReview'); E('render', 'brandList'); E('featured', 'brandReview'); E('brandList', 'brandReview', 'app');
-E('brandReview', 'live', 'app'); E('live', 'liveF', 'app'); E('liveF', 'liveR', 'app');
-
-// Team results: one row per person
-const ROW = 260, TY = 900;
-PEOPLE.forEach(([k, name, title, cap], i) => {
-  const y = TY + i * ROW;
-  N({ id: k + '-who', f: 'F-team', x: 0, y, w: 250, k: 'in', chip: 'Person', tt: name, sb: title + ' @ Tantra', pic: I(k + '-photo.jpg'), list: ['Caption: ' + cap] });
-  N({ id: k + '-port', f: 'F-team', x: 300, y, w: 150, k: 'gen', cls: 'img port', tt: 'Kie.ai portrait', img: I(k + '-portrait.jpg') });
-  N({ id: k + '-side', f: 'F-team', x: 470, y, w: 150, k: 'gen', cls: 'img port', tt: 'Kie.ai side profile', img: I(k + '-side.jpg') });
-  N({ id: k + '-cut', f: 'F-team', x: 640, y, w: 150, k: 'gen', cls: 'img port', tt: 'Cutout', img: I(k + '-cutout.png'), chk: true });
-  N({ id: k + '-photo', f: 'F-team', x: 810, y, w: 170, k: 'gen', cls: 'img', tt: 'Branded photo', img: I(k + '-photo.jpg') });
-  N({ id: k + '-cover', f: 'F-team', x: 1030, y, w: 640, k: 'gen', cls: 'img', tt: 'Cover 1584 x 396', img: I(k + '-cover.jpg') });
-  N({ id: k + '-mock', f: 'F-team', x: 1720, y, w: 520, k: 'app', cls: 'img', tt: 'Checked in a LinkedIn mock', img: I(k + '-mock.jpg') });
-  E(k + '-who', k + '-port', 'in'); E(k + '-port', k + '-cut'); E(k + '-cut', k + '-photo'); E(k + '-side', k + '-cover', 'gen', { side: true });
-  E(k + '-cut', k + '-cover', 'gen', { under: true }); E(k + '-cover', k + '-mock', 'app');
-});
-EVANG.forEach(([k, name, title, cap], i) => {
-  const y = TY + PEOPLE.length * ROW + i * 300;
-  N({ id: k + '-who', f: 'F-team', x: 0, y, w: 250, k: 'in', chip: 'Evangelist', tt: name, sb: 'No consented photos, so no AI avatar', list: ['Caption: ' + cap] });
-  N({ id: k + '-strip', f: 'F-team', x: 300, y, w: 380, k: 'gen', cls: 'img', tt: 'Team face strips instead of a portrait', img: I('collage-strips-violet.jpg') });
-  N({ id: k + '-cover', f: 'F-team', x: 1030, y, w: 640, k: 'gen', cls: 'img', tt: 'Cover 1584 x 396', img: I(k + '-cover.jpg') });
-  N({ id: k + '-mock', f: 'F-team', x: 1720, y, w: 520, k: 'app', cls: 'img', tt: 'Checked in a LinkedIn mock', img: I(k + '-mock.jpg') });
-  E(k + '-who', k + '-strip', 'in'); E(k + '-strip', k + '-cover'); E(k + '-cover', k + '-mock', 'app');
-});
-E('kie', 'adi-port', 'gen', { faint: true }); E('kie', 'adi-side', 'gen', { faint: true });
-E('adi-mock', 'brandList', 'app', { faint: true });
-
-// Company page track
-const CY = 3210;
-N({ id: 'caudit', f: 'F-company', x: 0, y: CY, w: 320, k: 'in', chip: '1 Inputs', tt: 'Page audit (admin view)', sb: 'Tagline, About, cover, logo, button', img: I('company-before.jpg') });
-N({ id: 'csections', f: 'F-company', x: 400, y: CY, w: 300, k: 'gen', chip: '2 Sections', tt: 'Rewrite 8 elements', list: ['Tagline (111 / 120)', 'About (1,692 / 2,000)', 'Specialties (14 / 20)', 'Industry, size, founded', 'Register button, tracked', 'Logo', 'Cover + caption'] });
-N({ id: 'creuse', f: 'F-company', x: 400, y: CY + 420, w: 300, k: 'gen', chip: '3 No new AI', tt: 'Reuse the team faces', sb: 'Side profiles and portraits become the collage' });
-N({ id: 'collages', f: 'F-company', x: 780, y: CY, w: 440, k: 'gen', chip: '4 Render', tt: 'Collages (1330 x 700)', cols: 2, grid: [['collage-strips-violet.jpg', 'A2 strips violet', 1], ['collage-strips.jpg', 'A1 strips'], ['collage-panels.jpg', 'B1 panels'], ['collage-glow.jpg', 'B2 glow'], ['collage-tiles.jpg', 'B3 tiles']].map(([f, l, on]) => [I(f), l, on]) });
-N({ id: 'logos', f: 'F-company', x: 780, y: CY + 560, w: 440, k: 'gen', chip: '4 Render', tt: 'Logo options', cols: 3, grid: [['d', 1], ['a'], ['b'], ['c'], ['e'], ['f']].map(([v, on]) => [I('logo-' + v + '.jpg'), v.toUpperCase(), on]) });
-N({ id: 'ccovers', f: 'F-company', x: 1300, y: CY, w: 620, k: 'gen', chip: '4 Render', tt: 'Company covers 4200 x 700', sb: 'A2 chosen. Caption: Your Pipeline Called. It\'s Hungry.', cols: 1, grid: [['strips-violet', 'A2 live', 1], ['strips', 'A1'], ['panels', 'B1'], ['glow', 'B2'], ['tiles', 'B3']].map(([v, l, on]) => [I('company-cover-' + v + '.jpg'), l, on]) });
-N({ id: 'cmock', f: 'F-company', x: 2000, y: CY, w: 500, k: 'app', chip: '4 Check', tt: 'Cover in a LinkedIn mock', img: I('company-mock.jpg') });
-N({ id: 'cbrand', f: 'F-company', x: 2000, y: CY + 300, w: 500, k: 'app', chip: '5 Brand tab', tt: 'Tantra page project: 8 of 8 approved', sb: 'Same Brand tab, one page project' });
-N({ id: 'clive', f: 'F-company', x: 2000, y: CY + 470, w: 500, k: 'app', chip: '6 Live', tt: 'Live on LinkedIn', sb: 'Logo D, cover A2, Register button on a tracked short link', img: I('company-after.jpg') });
-E('caudit', 'csections', 'in'); E('csections', 'creuse'); E('creuse', 'collages'); E('collages', 'ccovers'); E('creuse', 'logos');
-E('ccovers', 'cmock', 'app'); E('logos', 'cmock', 'app'); E('cmock', 'cbrand', 'app'); E('cbrand', 'clive', 'app'); E('csections', 'cbrand', 'app', { faint: true });
-E('nelbin-side', 'creuse', 'gen', { faint: true }); E('brandList', 'cbrand', 'app', { faint: true });
-
-// Build DOM
 const world = document.getElementById('world'), svg = document.getElementById('edges'), vp = document.getElementById('vp');
-const KEY = 'tantra-branding-map-v2';
-const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
-const byId = {};
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-for (const f of frames) {
-  const el = document.createElement('div'); el.className = 'frame'; el.dataset.group = f.group;
-  el.innerHTML = `<div class="fh"><i style="background:${f.color}"></i><b>${esc(f.title)}</b><span>${esc(f.sub)}</span></div>`;
-  Object.assign(f, saved[f.id] || {}); f.el = el; byId[f.id] = f; world.appendChild(el);
+const frames = [], cards = [], edges = [], byId = {};
+function cardHTML(c) {
+  let h = `<div class="top"><span class="tag">${TYPES[c.t][0]}</span><span class="id">${esc(c.id)}</span></div><div class="tt">${c.pic ? `<img class="pic" src="${c.pic}" alt="">` : ''}${esc(c.tt)}</div>`;
+  if (c.sb) h += `<div class="sb">${esc(c.sb)}</div>`;
+  if (c.files) h += `<div class="files">${c.files.slice(0, 4).map((f) => { const x = fileInfo(f); return `<span class="f" title="${esc(x.full)}"><b>${esc(x.short || '')}</b> ${esc(x.path || f)}</span>`; }).join('')}${c.files.length > 4 ? `<span class="f">+${c.files.length - 4}</span>` : ''}</div>`;
+  if (c.prompt) h += `<pre class="p">${esc(c.prompt.slice(0, 230))}…</pre>`;
+  if (c.cmd) h += `<pre>${esc(c.cmd.slice(0, 3).map((x) => (x.length > 120 ? x.slice(0, 120) + '…' : x)).join('\n'))}</pre>`;
+  if (c.notes) h += `<ul>${c.notes.slice(0, 3).map((n) => `<li>${esc(n.length > 140 ? n.slice(0, 140) + '…' : n)}</li>`).join('')}</ul>`;
+  if (c.grid) h += `<div class="grid${c.chk ? ' chk' : ''}" style="grid-template-columns:repeat(${c.cols || 2},1fr)">${c.grid.map(([s, l, on]) => `<div class="cell${on ? ' on' : ''}"><img src="${s}" alt="${esc(l)}" draggable="false"><em>${esc(l)}</em></div>`).join('')}</div>`;
+  if (c.img) h += `<img class="im" src="${c.img}" alt="${esc(c.tt)}" draggable="false">`;
+  if (c.html) h += c.html;
+  const extra = c.notes?.length > 3 || c.cmd?.length > 3 || c.files?.length > 4 || c.prompt;
+  return h + (extra ? '<div class="more">Open for full detail →</div>' : '') + '<div class="pad"></div>';
 }
-for (const n of nodes) {
-  n.x0 = n.x; n.y0 = n.y; Object.assign(n, saved[n.id] || {});
-  const el = document.createElement('div'); el.className = `node k-${n.k} ${n.cls || ''}`; el.dataset.group = byId[n.f].group; el.style.width = n.w + 'px';
-  let h = `<div class="hd">${n.pic ? `<img class="pic" src="${n.pic}" alt="">` : ''}${n.chip ? `<span class="chip">${esc(n.chip)}</span><br>` : ''}<div class="tt">${esc(n.tt)}</div>${n.sb ? `<div class="sb">${esc(n.sb)}</div>` : ''}</div>`;
-  if (n.img) h += `<img class="im${n.chk ? ' chk' : ''}" src="${n.img}" alt="${esc(n.tt)}" draggable="false">`;
-  if (n.grid) h += `<div class="grid" style="grid-template-columns:repeat(${n.cols || 2},1fr)">${n.grid.map(([s, l, on]) => `<div class="cell${on ? ' on' : ''}"><img class="im" src="${s}" alt="${esc(l)}" draggable="false"><em>${esc(l)}</em></div>`).join('')}</div>`;
-  if (n.list) h += `<ul>${n.list.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
-  el.innerHTML = h; n.el = el; byId[n.id] = n; world.appendChild(el);
+function addCard(c, frame, w) {
+  c.frame = frame.id; c.w = w; const el = document.createElement('div');
+  el.className = 'card'; el.style.setProperty('--c', TYPES[c.t][1]); el.style.width = w + 'px'; el.dataset.group = frame.id;
+  el.innerHTML = cardHTML(c); c.el = el; byId[c.id] = c; cards.push(c); world.appendChild(el); return c;
 }
-for (const f of frames) { f.x0 = f.x; f.y0 = f.y; }
-const COL = { in: '#a8a59a', gen: '#8b6cff', app: '#2fc79a' };
-for (const e of edges) {
-  const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  p.setAttribute('stroke', COL[e.kind]); p.setAttribute('class', e.faint ? '' : 'flow');
-  if (e.faint) { p.setAttribute('stroke-dasharray', '3 7'); p.setAttribute('opacity', '.45'); }
-  p.setAttribute('marker-end', `url(#m-${e.kind})`); e.p = p; svg.appendChild(p);
+function addFrame(f) {
+  const el = document.createElement('div'); el.className = 'frame'; el.dataset.group = f.id;
+  el.innerHTML = `<div class="fh"><span class="sid">${esc(f.sid)}</span><b>${esc(f.title)}</b><span>${esc(f.goal || '')}</span></div>` + (f.cols ? f.cols.map((c) => `<div class="colh" style="left:${c.x}px;top:46px">${esc(c.label)}</div>`).join('') : '');
+  f.el = el; frames.push(f); byId[f.id] = f; world.appendChild(el); return f;
 }
-svg.insertAdjacentHTML('afterbegin', '<defs>' + Object.entries(COL).map(([k, c]) => `<marker id="m-${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9z" fill="${c}"/></marker>`).join('') + '</defs>');
 
+STAGES.forEach((s) => {
+  let x = PADX; const cols = COLS.map((c) => { const o = { ...c, x }; x += c.w + GAPX; return o; });
+  const f = addFrame({ id: s.id, sid: s.id, title: s.title, goal: s.goal, cols, stage: s });
+  f.colCards = cols.map((col) => s.cards.filter((c) => col.types.includes(c.t)).map((c) => addCard(c, f, col.w)));
+});
+const elTable = (rows) => `<table><tr><th>Element</th><th>Size / limit</th><th>Made by</th><th>File / source</th><th>Goes live by</th></tr>${rows.map((r) => `<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td><code>${esc(r[3])}</code></td><td>${esc(r[4])}</td></tr>`).join('')}</table>`;
+const FE = addFrame({ id: 'EL', sid: 'EL', title: 'Branding elements to create', goal: '12 per personal profile, 8 for the company page (CRM schema.ts)' });
+FE.items = [
+  addCard({ t: 'out', id: 'EL.1', tt: 'Personal profile: 12 elements', sb: 'PROFILE_ELEMENTS in schema.ts, in LinkedIn order', files: ['CRM:src/branding/schema.ts'], html: elTable(ELEMENTS.profile), rows: ELEMENTS.profile }, FE, 1110),
+  addCard({ t: 'out', id: 'EL.2', tt: 'Company page: 8 elements', sb: 'PAGE_ELEMENTS in schema.ts', files: ['CRM:src/branding/schema.ts'], html: elTable(ELEMENTS.page), rows: ELEMENTS.page }, FE, 1110),
+];
+const FT = addFrame({ id: 'TEAM', sid: 'TEAM', title: 'Real outputs per person', goal: 'Stages S3 to S6 applied to every team member' });
+FT.rows = [];
+PEOPLE.forEach(([k, name, title, cap]) => {
+  const W = (id, w, c) => addCard({ id: `${k}.${id}`, ...c }, FT, w);
+  FT.rows.push([
+    W('who', 250, { t: 'in', tt: name, sb: title + ' @ Tantra', pic: `img/${k}-photo.jpg`, notes: ['Caption: ' + cap], files: [`TC:content/brand/people/${k}/person.json`] }),
+    W('port', 170, { t: 'out', tt: 'S3 portrait', img: `img/${k}-portrait.jpg`, files: [`WS:src/avatars/${k}-portrait.png`] }),
+    W('side', 170, { t: 'out', tt: 'S3 side profile', img: `img/${k}-side.jpg`, files: [`WS:src/side/${k}.jpg`] }),
+    W('cut', 170, { t: 'out', tt: 'S4 cutout', grid: [[`img/${k}-cutout.png`, 'cutout']], cols: 1, chk: true, files: [`WS:src/cutouts/${k}.png`] }),
+    W('photo', 190, { t: 'out', tt: 'S5 photo', img: `img/${k}-photo.jpg`, files: [`WS:assets/${k}-photo-1200.png`] }),
+    W('cover', 620, { t: 'out', tt: 'S5 cover 1584 x 396', img: `img/${k}-cover.jpg`, files: [`WS:assets/${k}-cover-1584x396@2x.png`] }),
+    W('mock', 500, { t: 'check', tt: 'S6 LinkedIn mock', img: `img/${k}-mock.jpg`, files: [`WS:shots/mock-${k}.png`] }),
+  ]);
+});
+EVANG.forEach(([k, name, title, cap]) => {
+  const W = (id, w, c) => addCard({ id: `${k}.${id}`, ...c }, FT, w);
+  FT.rows.push([
+    W('who', 250, { t: 'in', tt: name, sb: 'Evangelist: no consented photos, so no AI avatar', notes: ['Caption: ' + cap] }),
+    W('strip', 380, { t: 'out', tt: 'Team face strips instead', img: 'img/collage-strips-violet.jpg', files: ['WS:assets/tantra-collage-strips-violet-1330x700.png'] }),
+    W('cover', 620, { t: 'out', tt: 'S5 cover 1584 x 396', img: `img/${k}-cover.jpg`, files: [`WS:assets/${k}-cover-1584x396@2x.png`] }),
+    W('mock', 500, { t: 'check', tt: 'S6 LinkedIn mock', img: `img/${k}-mock.jpg`, files: [`WS:shots/mock-${k}.png`] }),
+  ]);
+});
+
+const E = (a, b, kind, o = {}) => edges.push({ a, b, kind, ...o });
+const stageFrames = frames.filter((f) => f.stage);
+stageFrames.forEach((f) => {
+  const [c0, c1, c2, c3] = f.colCards, hub = c1.find((c) => c.t === 'agent') || c1[0];
+  if (hub) { c0.forEach((c) => E(c.id, hub.id, c.t)); const hi = c1.indexOf(hub); c1.forEach((c, i) => { if (c !== hub) E(i < hi ? c.id : hub.id, i < hi ? hub.id : c.id, c.t, { v: true }); }); }
+  const src = hub || c0[0]; c2.forEach((c) => src && E(src.id, c.id, 'out'));
+  if (c3.length && c2.length) E(c2[0].id, c3[0].id, 'check');
+  c3.slice(1).forEach((c) => E(c3[0].id, c.id, c.t, { v: true }));
+});
+for (let i = 0; i < stageFrames.length - 1; i++) { const a = stageFrames[i].colCards[2][0] || stageFrames[i].colCards[1][0], b = stageFrames[i + 1].colCards[0][0]; if (a && b) E(a.id, b.id, 'out', { x: true }); }
+FT.rows.forEach((r) => { for (let i = 0; i < r.length - 1; i++) E(r[i].id, r[i + 1].id, r[i + 1].t === 'check' ? 'check' : 'out'); });
+for (const e of edges) { const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('stroke', HEX[e.kind] || '#888'); p.setAttribute('class', e.x ? 'x' : 'flow'); p.setAttribute('marker-end', `url(#m-${e.kind})`); e.p = p; svg.appendChild(p); }
+svg.insertAdjacentHTML('afterbegin', '<defs>' + Object.entries(HEX).map(([k, c]) => `<marker id="m-${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9z" fill="${c}"/></marker>`).join('') + '</defs>');
+
+function layout() {
+  let y = 0;
+  for (let r = 0; r < Math.ceil(stageFrames.length / PER_ROW); r++) {
+    const row = stageFrames.slice(r * PER_ROW, r * PER_ROW + PER_ROW); let rowH = 0;
+    row.forEach((f, i) => {
+      f.x = i * (FRAME_W + FGAP); f.y = y; f.w = FRAME_W; let maxB = 0;
+      f.colCards.forEach((cs, ci) => { let cy = HEADY; cs.forEach((c) => { c.x = f.x + f.cols[ci].x; c.y = f.y + cy; cy += c.el.offsetHeight + GAPY; }); maxB = Math.max(maxB, cy); });
+      rowH = Math.max(rowH, maxB + 20);
+    });
+    row.forEach((f) => (f.h = rowH));
+    y += rowH + FGAP;
+  }
+  let ex = PADX, eh = 0; FE.x = 0; FE.y = y;
+  FE.items.forEach((c) => { c.x = FE.x + ex; c.y = FE.y + HEADY; ex += c.w + GAPX; eh = Math.max(eh, c.el.offsetHeight); });
+  FE.w = ex - GAPX + PADX; FE.h = HEADY + eh + 40;
+  FT.x = FE.x + FE.w + FGAP; FT.y = y; let ty2 = HEADY, tw = 0;
+  FT.rows.forEach((r) => { let x = PADX, h = 0; r.forEach((c) => { c.x = FT.x + x; c.y = FT.y + ty2; x += c.w + 40; h = Math.max(h, c.el.offsetHeight); }); tw = Math.max(tw, x - 40 + PADX); ty2 += h + 40; });
+  FT.h = ty2; FT.w = tw;
+  for (const o of [...frames, ...cards]) { o.x0 = o.x; o.y0 = o.y; }
+}
+const KEY = 'tantra-branding-map-v4';
 function place() {
   for (const f of frames) Object.assign(f.el.style, { left: f.x + 'px', top: f.y + 'px', width: f.w + 'px', height: f.h + 'px' });
-  for (const n of nodes) Object.assign(n.el.style, { left: n.x + 'px', top: n.y + 'px' });
+  for (const c of cards) Object.assign(c.el.style, { left: c.x + 'px', top: c.y + 'px' });
   drawEdges();
 }
-function box(n) { return { x: n.x, y: n.y, w: n.el.offsetWidth, h: n.el.offsetHeight }; }
+const box = (c) => ({ x: c.x, y: c.y, w: c.el.offsetWidth, h: c.el.offsetHeight });
 function drawEdges() {
   for (const e of edges) {
-    const a = box(byId[e.a]), b = box(byId[e.b]);
-    let d;
-    const vertical = b.y > a.y + a.h + 20 && Math.abs((a.x + a.w / 2) - (b.x + b.w / 2)) < Math.max(a.w, b.w) / 2;
-    if (e.under) {
-      const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w * 0.3, y2 = b.y + b.h;
-      const dy = 40; d = `M${x1},${y1} C${x1},${y1 + dy} ${x2},${y2 + dy} ${x2},${y2 + 2}`;
-    } else if (vertical) {
-      const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y - 4, m = (y2 - y1) / 2;
-      d = `M${x1},${y1} C${x1},${y1 + m} ${x2},${y2 - m} ${x2},${y2}`;
-    } else if (e.side) {
-      const x1 = a.x + a.w / 2, y1 = a.y, x2 = b.x + b.w * 0.85, y2 = b.y - 4, top = Math.min(y1, y2) - 18;
-      d = `M${x1},${y1} C${x1},${top} ${x2},${top} ${x2},${y2}`;
+    const a = box(byId[e.a]), b = box(byId[e.b]); let d;
+    if (e.v || (Math.abs(a.x - b.x) < 30 && b.y > a.y)) {
+      const x1 = a.x + 26, y1 = a.y + a.h, x2 = b.x + 26, y2 = b.y - 4; d = `M${x1},${y1} C${x1 - 30},${y1 + 20} ${x2 - 30},${y2 - 20} ${x2},${y2}`;
+    } else if (b.x > a.x + a.w) {
+      const x1 = a.x + a.w, y1 = a.y + Math.min(a.h / 2, 40), x2 = b.x - 4, y2 = b.y + Math.min(b.h / 2, 40), c = Math.max(50, (x2 - x1) / 2); d = `M${x1},${y1} C${x1 + c},${y1} ${x2 - c},${y2} ${x2},${y2}`;
     } else {
-      const back = b.x < a.x + a.w;
-      const x1 = back ? a.x + a.w / 2 : a.x + a.w, y1 = back ? a.y + a.h : a.y + Math.min(a.h / 2, 60);
-      const x2 = b.x - 4, y2 = b.y + Math.min(b.h / 2, 60), c = Math.max(60, Math.abs(x2 - x1) / 2);
-      d = back ? `M${x1},${y1} C${x1},${y1 + 120} ${x2 - 120},${y2} ${x2},${y2}` : `M${x1},${y1} C${x1 + c},${y1} ${x2 - c},${y2} ${x2},${y2}`;
+      const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y - 4, m = Math.max(80, (y2 - y1) / 2); d = `M${x1},${y1} C${x1},${y1 + m} ${x2},${y2 - m} ${x2},${y2}`;
     }
     e.p.setAttribute('d', d);
   }
 }
 
-// View: pan and zoom
-let k = 1, tx = 0, ty = 0;
-const zl = document.getElementById('zoom');
+let k = 1, tx = 0, ty = 0; const zl = document.getElementById('zoom');
 function view() { world.style.transform = `translate(${tx}px,${ty}px) scale(${k})`; zl.textContent = Math.round(k * 100) + '%'; vp.style.backgroundSize = `${24 * k}px ${24 * k}px`; vp.style.backgroundPosition = `${tx}px ${ty}px`; }
-function zoomAt(f, cx, cy) { const nk = Math.min(2.5, Math.max(0.08, k * f)); tx = cx - (cx - tx) * (nk / k); ty = cy - (cy - ty) * (nk / k); k = nk; view(); }
-function fit(group) {
-  const items = group && group !== 'all' ? frames.filter((f) => f.group === group) : frames;
-  const x0 = Math.min(...items.map((f) => f.x)), y0 = Math.min(...items.map((f) => f.y - 60)), x1 = Math.max(...items.map((f) => f.x + f.w)), y1 = Math.max(...items.map((f) => f.y + f.h));
-  const top = document.getElementById('ui').offsetHeight + 30, W = innerWidth - 60, H = innerHeight - top - 50;
-  k = Math.min(W / (x1 - x0), H / (y1 - y0), 1.4); tx = 30 + (W - (x1 - x0) * k) / 2 - x0 * k; ty = top + (H - (y1 - y0) * k) / 2 - y0 * k; view();
+function zoomAt(f, cx, cy) { const nk = Math.min(2.5, Math.max(0.04, k * f)); tx = cx - (cx - tx) * (nk / k); ty = cy - (cy - ty) * (nk / k); k = nk; view(); }
+function fitTo(items) {
+  const x0 = Math.min(...items.map((f) => f.x)), y0 = Math.min(...items.map((f) => f.y - 40)), x1 = Math.max(...items.map((f) => f.x + f.w)), y1 = Math.max(...items.map((f) => f.y + f.h));
+  const top = document.getElementById('ui').offsetHeight + 24, drw = document.getElementById('dr'), right = drw.classList.contains('on') ? drw.offsetWidth : 0;
+  const W = innerWidth - 40 - right, H = innerHeight - top - 50;
+  k = Math.min(W / (x1 - x0), H / (y1 - y0), 1.2); tx = 20 + (W - (x1 - x0) * k) / 2 - x0 * k; ty = top + (H - (y1 - y0) * k) / 2 - y0 * k; view();
 }
-vp.addEventListener('wheel', (ev) => {
-  ev.preventDefault();
-  if (ev.ctrlKey || ev.metaKey) zoomAt(Math.exp(-ev.deltaY * 0.01), ev.clientX, ev.clientY);
-  else if (ev.deltaMode === 1) zoomAt(ev.deltaY < 0 ? 1.12 : 1 / 1.12, ev.clientX, ev.clientY);
-  else { tx -= ev.deltaX; ty -= ev.deltaY; view(); }
-}, { passive: false });
+const cardBox = (c, pad = 0) => ({ x: c.x - pad, y: c.y - pad, w: c.el.offsetWidth + pad * 2, h: c.el.offsetHeight + pad * 2 });
+vp.addEventListener('wheel', (ev) => { ev.preventDefault(); if (ev.ctrlKey || ev.metaKey || ev.deltaMode === 1) zoomAt(Math.exp(-ev.deltaY * (ev.deltaMode === 1 ? 0.05 : 0.01)), ev.clientX, ev.clientY); else { tx -= ev.deltaX; ty -= ev.deltaY; view(); } }, { passive: false });
 document.getElementById('zi').onclick = () => zoomAt(1.2, innerWidth / 2, innerHeight / 2);
 document.getElementById('zo').onclick = () => zoomAt(1 / 1.2, innerWidth / 2, innerHeight / 2);
-document.getElementById('fit').onclick = () => fit(current);
-document.getElementById('reset').onclick = () => { localStorage.removeItem(KEY); for (const o of [...nodes, ...frames]) { o.x = o.x0; o.y = o.y0; } place(); fit(current); };
+document.getElementById('fit').onclick = () => focus('all');
+document.getElementById('reset').onclick = () => { localStorage.removeItem(KEY); for (const o of [...frames, ...cards]) { o.x = o.x0; o.y = o.y0; } place(); focus('all'); };
 
-// Dragging: canvas pans, cards move, frame titles move the frame with its cards
+const jump = document.getElementById('jump');
+const short = { S0: 'Context', S1: 'Intake + audit', S2: 'Copy', S3: 'Kie.ai images', S4: 'Cutouts', S5: 'Render', S6: 'Mock + approve', S7: 'Brand tab', S8: 'Links', S9: 'Go live', EL: 'Elements', TEAM: 'Per person' };
+jump.innerHTML = '<button data-f="all" class="on">All</button>' + frames.map((f) => `<button data-f="${f.id}" title="${esc(f.title)}">${f.stage ? f.id + ' ' : ''}${esc(short[f.id] || f.title)}</button>`).join('');
+document.getElementById('legend').innerHTML = Object.entries(TYPES).map(([t, [l]]) => `<span><i style="background:${HEX[t]}"></i>${l}</span>`).join('');
+function focus(id) {
+  jump.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b.dataset.f === id));
+  world.classList.toggle('dim', id !== 'all');
+  document.querySelectorAll('.card,.frame').forEach((el) => el.classList.toggle('hl', el.dataset.group === id));
+  fitTo(id === 'all' ? frames : [byId[id]]);
+}
+jump.onclick = (e) => { const b = e.target.closest('button'); if (b) focus(b.dataset.f); };
+
+document.getElementById('q').addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) { world.classList.remove('dim'); document.querySelectorAll('.hl').forEach((x) => x.classList.remove('hl')); return; }
+  world.classList.add('dim'); const hits = [];
+  for (const c of cards) { const hit = JSON.stringify({ t: c.tt, s: c.sb, f: c.files, n: c.notes, c: c.cmd, p: c.prompt, id: c.id, r: c.rows }).toLowerCase().includes(q); c.el.classList.toggle('hl', hit); if (hit) hits.push(c); }
+  frames.forEach((f) => f.el.classList.toggle('hl', hits.some((c) => c.frame === f.id)));
+  if (hits.length) fitTo(hits.map((c) => cardBox(c, 40)));
+});
+
+const dr = document.getElementById('dr'), db = document.getElementById('db'), lb = document.getElementById('lb');
+const pre = (txt, cls = '') => `<pre class="${cls}"><button class="copy">Copy</button>${esc(txt)}</pre>`;
+function openCard(c) {
+  cards.forEach((x) => x.el.classList.toggle('sel', x === c));
+  const tg = document.getElementById('dtag'); tg.textContent = `${TYPES[c.t][0]} · ${c.id}`; tg.style.color = HEX[c.t];
+  document.getElementById('dtt').textContent = c.tt; document.getElementById('dsb').textContent = c.sb || '';
+  const f = byId[c.frame]; let h = '';
+  if (f.stage) h += `<h3>Stage</h3><p><b>${esc(f.id)} ${esc(f.title)}</b>: ${esc(f.goal)}</p>`;
+  if (c.files) h += `<h3>Files (pinned to the commit)</h3><div class="fl">${c.files.map((r) => { const x = fileInfo(r); return x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.full)}<small>${esc(x.repo)} @ ${esc(String(x.sha).slice(0, 8))}</small></a>` : `<span>${esc(r)}</span>`; }).join('')}</div>`;
+  if (c.prompt) h += `<h3>Prompt, verbatim</h3>${pre(c.prompt, 'p')}`;
+  if (c.cmd) h += `<h3>Commands, in order</h3>${pre(c.cmd.join('\n'))}`;
+  if (c.notes) h += `<h3>Details</h3><ul>${c.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>`;
+  if (c.rows) h += `<h3>Elements</h3>${elTable(c.rows)}`;
+  const imgs = [...(c.img ? [[c.img, c.tt]] : []), ...(c.grid || [])];
+  if (imgs.length) h += `<h3>Real outputs</h3><div class="imgs">${imgs.map(([s, l]) => `<figure><img src="${s}" alt="${esc(l)}"><figcaption>${esc(l)}</figcaption></figure>`).join('')}</div>`;
+  const ins = edges.filter((e) => e.b === c.id).map((e) => byId[e.a]), outs = edges.filter((e) => e.a === c.id).map((e) => byId[e.b]);
+  if (ins.length || outs.length) h += `<h3>Connected steps</h3><div class="meta">${ins.map((x) => `<a href="#" data-go="${x.id}" class="pill">← ${esc(x.id)} ${esc(x.tt)}</a>`).join('')}${outs.map((x) => `<a href="#" data-go="${x.id}" class="pill">→ ${esc(x.id)} ${esc(x.tt)}</a>`).join('')}</div>`;
+  db.innerHTML = h; db.scrollTop = 0; dr.classList.add('on'); history.replaceState(null, '', '#' + c.id);
+}
+function spec() {
+  const keyName = { sb: 'summary', files: 'files', prompt: 'prompt', cmd: 'commands', notes: 'details' };
+  const strip = (c) => { const o = { id: c.id, type: TYPES[c.t][0], title: c.tt }; for (const kk of Object.keys(keyName)) if (c[kk]) o[keyName[kk]] = kk === 'files' ? c.files.map((r) => { const x = fileInfo(r); return x.url ? { path: x.full, repo: x.repo, commit: x.sha, url: x.url } : r; }) : c[kk]; if (c.grid || c.img) o.example_outputs = [...(c.img ? [c.img] : []), ...(c.grid || []).map((g) => g[0])]; return o; };
+  return {
+    name: 'Tantra LinkedIn branding workflow (personal profiles + company page)',
+    how_to_use: 'Run the stages in order. In each stage: load the context, take the inputs, run the agent or tool with the prompt and commands, produce the outputs, pass the checks. Stop at every human step and wait for the person. Never type a password, never post or message, never commit keys or raw photos. Example outputs are relative to the published map folder.',
+    repos: REPOS,
+    stages: STAGES.map((s) => ({ id: s.id, title: s.title, goal: s.goal, steps: s.cards.map(strip) })),
+    elements: Object.fromEntries(Object.entries(ELEMENTS).map(([kk, rows]) => [kk, rows.map((r) => ({ element: r[0], limit: r[1], made_by: r[2], file: r[3], goes_live_by: r[4] }))])),
+    people: [...PEOPLE, ...EVANG].map(([key, name, title, caption]) => ({ key, name, title, caption })),
+  };
+}
+function openSpec() {
+  cards.forEach((x) => x.el.classList.remove('sel'));
+  const tg = document.getElementById('dtag'); tg.textContent = 'Agent spec'; tg.style.color = HEX.agent;
+  document.getElementById('dtt').textContent = 'Replay this workflow'; document.getElementById('dsb').textContent = 'Every stage, step, file, prompt, command and check as JSON. Give it to an agent with access to the repos listed.';
+  db.innerHTML = `<h3>Download</h3><p><a href="workflow.json" download>workflow.json</a> (the same content as a file)</p><h3>JSON</h3>${pre(JSON.stringify(spec(), null, 2))}`;
+  db.scrollTop = 0; dr.classList.add('on');
+}
+window.__spec = spec;
+document.getElementById('spec').onclick = openSpec;
+document.getElementById('dx').onclick = () => { dr.classList.remove('on'); cards.forEach((x) => x.el.classList.remove('sel')); history.replaceState(null, '', location.pathname + location.search); };
+db.addEventListener('click', (e) => {
+  const cp = e.target.closest('.copy'); if (cp) { const t = cp.parentElement.textContent.replace(/^Copied|^Copy/, ''); navigator.clipboard?.writeText(t); cp.textContent = 'Copied'; setTimeout(() => (cp.textContent = 'Copy'), 1200); return; }
+  const im = e.target.closest('.imgs img'); if (im) { lb.querySelector('img').src = im.src; lb.classList.add('on'); return; }
+  const go = e.target.closest('[data-go]'); if (go) { e.preventDefault(); const c = byId[go.dataset.go]; openCard(c); fitTo([cardBox(c, 300)]); }
+});
+lb.onclick = () => lb.classList.remove('on');
+addEventListener('keydown', (e) => { if (e.key === 'Escape') { lb.classList.remove('on'); dr.classList.remove('on'); } });
+
 let drag = null;
-const save = () => { const s = {}; for (const o of [...nodes, ...frames]) if (o.x !== o.x0 || o.y !== o.y0) s[o.id] = { x: o.x, y: o.y }; localStorage.setItem(KEY, JSON.stringify(s)); };
+const save = () => { const s = {}; for (const o of [...frames, ...cards]) if (o.x !== o.x0 || o.y !== o.y0) s[o.id] = { x: o.x, y: o.y }; localStorage.setItem(KEY, JSON.stringify(s)); };
 vp.addEventListener('pointerdown', (ev) => {
-  const nodeEl = ev.target.closest('.node'), fh = ev.target.closest('.fh');
-  vp.setPointerCapture(ev.pointerId);
-  if (nodeEl) { const n = nodes.find((x) => x.el === nodeEl); drag = { t: 'node', items: [n], sx: ev.clientX, sy: ev.clientY, o: [[n.x, n.y]], img: ev.target.classList.contains('im') ? ev.target : null }; nodeEl.classList.add('dragging'); }
-  else if (fh) { const f = frames.find((x) => x.el === fh.parentElement); const items = [f, ...nodes.filter((n) => n.f === f.id)]; drag = { t: 'frame', items, sx: ev.clientX, sy: ev.clientY, o: items.map((i) => [i.x, i.y]) }; }
+  const ce = ev.target.closest('.card'), fh = ev.target.closest('.fh'); vp.setPointerCapture(ev.pointerId);
+  if (ce) { const c = cards.find((x) => x.el === ce); drag = { t: 'card', c, items: [c], sx: ev.clientX, sy: ev.clientY, o: [[c.x, c.y]] }; }
+  else if (fh) { const f = frames.find((x) => x.el === fh.parentElement); const items = [f, ...cards.filter((c) => c.frame === f.id)]; drag = { t: 'frame', items, sx: ev.clientX, sy: ev.clientY, o: items.map((i) => [i.x, i.y]) }; }
   else { drag = { t: 'pan', sx: ev.clientX, sy: ev.clientY, o: [tx, ty] }; vp.classList.add('panning'); }
 });
 vp.addEventListener('pointermove', (ev) => {
-  if (!drag) return;
-  const dx = ev.clientX - drag.sx, dy = ev.clientY - drag.sy;
-  if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true;
+  if (!drag) return; const dx = ev.clientX - drag.sx, dy = ev.clientY - drag.sy;
+  if (!drag.moved && Math.abs(dx) + Math.abs(dy) > 5) { drag.moved = true; if (drag.c) drag.c.el.classList.add('dragging'); }
+  if (!drag.moved) return;
   if (drag.t === 'pan') { tx = drag.o[0] + dx; ty = drag.o[1] + dy; view(); return; }
-  drag.items.forEach((it, i) => { it.x = drag.o[i][0] + dx / k; it.y = drag.o[i][1] + dy / k; });
-  place();
+  drag.items.forEach((it, i) => { it.x = drag.o[i][0] + dx / k; it.y = drag.o[i][1] + dy / k; }); place();
 });
 vp.addEventListener('pointerup', () => {
   if (!drag) return;
   if (drag.t !== 'pan' && drag.moved) save();
-  if (drag.img && !drag.moved) openLB(drag.img.src);
+  if (drag.t === 'card' && !drag.moved) openCard(drag.c);
   document.querySelectorAll('.dragging').forEach((e) => e.classList.remove('dragging')); vp.classList.remove('panning'); drag = null;
 });
-const lb = document.getElementById('lb');
-function openLB(src) { lb.querySelector('img').src = src; lb.classList.add('on'); }
-lb.onclick = () => lb.classList.remove('on');
-addEventListener('keydown', (e) => { if (e.key === 'Escape') lb.classList.remove('on'); });
 
-// Focus a track
-let current = 'all';
-document.querySelectorAll('[data-focus]').forEach((b) => b.onclick = () => {
-  current = b.dataset.focus;
-  document.querySelectorAll('[data-focus]').forEach((x) => x.classList.toggle('on', x === b));
-  world.classList.toggle('dim', current !== 'all');
-  document.querySelectorAll('.node,.frame').forEach((el) => el.classList.toggle('hl', el.dataset.group === current));
-  fit(current);
+Promise.all([...document.images].map((im) => (im.complete ? 0 : new Promise((r) => { im.onload = im.onerror = r; })))).then(() => document.fonts.ready).then(() => {
+  layout();
+  const saved = JSON.parse(localStorage.getItem(KEY) || '{}'); for (const o of [...frames, ...cards]) if (saved[o.id]) Object.assign(o, saved[o.id]);
+  place(); focus('all'); document.getElementById('load').remove();
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h && byId[h]) { if (byId[h].el.classList.contains('frame')) focus(h); else { openCard(byId[h]); fitTo([cardBox(byId[h], 300)]); } }
 });
-
-place();
-fit('all');
-let pending = document.images.length;
-[...document.images].forEach((im) => { if (im.complete) { if (--pending === 0) drawEdges(); } else im.addEventListener('load', () => { drawEdges(); }, { once: true }); });
-addEventListener('resize', () => fit(current));
 </script>
 </body>
 </html>

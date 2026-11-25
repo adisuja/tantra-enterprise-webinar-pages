@@ -1,0 +1,189 @@
+// The LinkedIn branding workflow as data. The canvas (map.html) draws it; "Agent spec" exports it as JSON.
+// File refs: "<REPO>:<path>". Every repo is pinned to the commit the work was done at.
+window.WF = (() => {
+const REPOS = {
+  WS: { repo: 'adisuja/tantra-enterprise-webinar-workspace', sha: '31c584a6b249348ade0f37765dbbcb6b705a9924', base: 'deliverables/29-linkedin-profile-branding/v2/', what: 'Card 29: the original rebrand run (spec, renders, runbook)' },
+  WSR: { repo: 'adisuja/tantra-enterprise-webinar-workspace', sha: '31c584a6b249348ade0f37765dbbcb6b705a9924', base: '', what: 'Same repo, from the root (shared config, board)' },
+  TC: { repo: 'adisuja/tantra-content', sha: '1477aafddde8be282f4ea89e845f1a6f208dc81c', base: '', what: 'Avatar library and the Kie.ai client' },
+  CRM: { repo: 'adisuja/tantra-crm', sha: '737c359a03887b14a6eb0d9b9faae2818da0484b', base: 'tantra-backend-v2/crm-worker/', what: 'Tantra CRM: the Brand tab backend' },
+  CRMR: { repo: 'adisuja/tantra-crm', sha: '737c359a03887b14a6eb0d9b9faae2818da0484b', base: '', what: 'Tantra CRM from the root (PRD)' },
+  PB: { repo: 'adisuja/tantra-branding-playbook', sha: '663b223658947e4010fd565a80dd7e6d9f6299ac', base: '', what: 'Standalone, reusable copy of the whole pipeline' },
+  PAGES: { repo: 'adisuja/tantra-enterprise-webinar-pages', sha: 'main', base: 'linkedin-profiles/v2/', what: 'Published team pack (public)' },
+};
+const I = (f) => 'img/' + f;
+const KEYS = ['adi', 'aquila', 'ben', 'bharath', 'bhaskar', 'nelbin'];
+
+// Types: ctx (context read), in (input), agent (who or what runs), prompt, cmd (exact commands), out (output), check (gate), human (only a person can do it)
+const STAGES = [
+{
+  id: 'S0', title: 'Context the agent loads first', goal: 'Know the decisions, rules, people and sources before writing or generating anything.',
+  cards: [
+    { t: 'ctx', id: 'S0.1', tt: 'Board card 29 + handoffs', sb: 'The task, its history and what is still open', files: ['WSR:tasks/tasks.json', 'WS:CLOUD_SESSION_CONTEXT_2026_11_15.md', 'WS:HANDOFF_BRANDING_PROMPT.md', 'WS:HANDOFF_CRM_BRANDING_PROMPT.md'], notes: ['Card 29 is the LinkedIn rebrand; card 102 moved it into the Brand tab', 'CLOUD_SESSION_CONTEXT section 3 holds the image pipeline facts'] },
+    { t: 'ctx', id: 'S0.2', tt: 'Decisions log (Adi, 13 to 14 Nov)', sb: 'Captions per person, titles, logos, company cover, no label text', files: ['WS:README.md'], notes: ['Titles: Leading the team (Adi), Leading marketing & product (Bhaskar), Leading automations (Aquila), Leading development (Bharath, Ben), Leading marketing ops (Nelbin), Evangelist (Scott, Conor)', 'Caption test: Haunts (Adi, Nelbin), Pipeline (Bhaskar, Bharath, page), Read (Aquila, Scott), Blankets (Ben, Conor)', 'Logos: the approved "Brands We\'ve Helped Grow" set of 7 Nov, imagineGROWTH left out', 'Company cover A2 (face strips, violet); logo D', 'No label text on images: headline, bar, logos only'] },
+    { t: 'ctx', id: 'S0.3', tt: 'Shared config', sb: 'Webinar day and time, domains, booking link', files: ['WSR:deliverables/_shared/funnel-config.json', 'WSR:deliverables/06-company-page/copy.json', 'WSR:deliverables/29-linkedin-profile-branding/copy.json'], notes: ['funnel-config: webinar.day_of_week, start_time_local, domains.funnel_domain, booking.round_robin_url', '06 copy.json: company page copy (card 06)', 'v1 copy.json: the approved About texts'] },
+    { t: 'ctx', id: 'S0.4', tt: 'Person library', sb: 'One folder per person, consent first', files: ['TC:content/brand/people/README.md', 'TC:content/brand/people/<key>/person.json', 'TC:content/brand/people/<key>/avatars/avatars.json'], notes: ['person.json: name, linkedin, look (one sentence from their photos)', 'refs/: 4 to 8 consented photos (reference only, never published)', 'avatars.json: pose, prompt, Kie task id, credits, refs, date'] },
+    { t: 'ctx', id: 'S0.5', tt: 'Brand and copy rules', sb: 'Hard rules every output is checked against', notes: ['No em dashes or en dashes anywhere', 'Voice: "I" and "you", open on a specific pain, proof, one action', 'Only approved proof: 400+ brands, 47+ industries, 21+ countries, 10+ years', 'Never mention how anyone is paid', 'Real people only as their AI avatar, with consent'] },
+    { t: 'ctx', id: 'S0.6', tt: 'Brand tab design (CRM PRD)', sb: 'Decisions B1 to B14 for the in-app version', files: ['CRMR:docs/crm/branding/PRD_BRANDING.md'] },
+    { t: 'agent', id: 'S0.7', tt: 'Claude Code session', sb: 'Local, on Adi\'s Mac, in the workspace repo', notes: ['Reads every context card before any write', 'Works one card at a time; records progress on card 29'] },
+    { t: 'out', id: 'S0.8', tt: 'Working plan', sb: 'People, elements, decisions in code', files: ['WS:gen_spec.py'], notes: ['TITLES, HEADLINES, ROLE_FIX dicts in gen_spec.py', 'PEOPLE, captions and logo lists in build.mjs and copy.json'] },
+  ],
+},
+{
+  id: 'S1', title: 'Intake and profile audit', goal: 'Get a "now" value for every element of every profile and the page, plus consent.',
+  cards: [
+    { t: 'in', id: 'S1.1', tt: 'Profile URLs', sb: '6 profiles + the company page', notes: ['adisuja, bkp31415, bhaskar-dev, nelbin-xav, aquilaeldho, ben-basil-tomy-5533b9218', 'Company: linkedin.com/company/13588687'] },
+    { t: 'in', id: 'S1.2', tt: 'Intake answers (Brand tab)', sb: '11 questions, 9 required', files: ['CRM:src/branding/schema.ts'], notes: ['company, title (word for word), offer, audience, pain, proof (approved only), role (one line, first person), links (workshop + booking), voice (optional), handle (other networks), avatar_consent'] },
+    { t: 'human', id: 'S1.3', tt: 'AI avatar consent + photos', sb: 'Only the person can give these', notes: ['Consent recorded with who and when', 'Bharath, Bhaskar, Nelbin: photos from the team photo folder', 'Scott, Conor: no photos, so no AI avatar'] },
+    { t: 'agent', id: 'S1.4', tt: 'OpenCLI in a signed in browser', sb: 'Read only. Never types a password', files: ['WS:RUNBOOK.md'], notes: ['OpenCLI 2.0.3+, daemon at 127.0.0.1:19825, extension connected (opencli doctor)', 'Must run on the Mac where the browser is signed in'] },
+    { t: 'cmd', id: 'S1.5', tt: 'Audit commands', cmd: ['opencli doctor', 'mkdir -p _work/linkedin-audit && for s in adisuja bkp31415 bhaskar-dev nelbin-xav aquilaeldho ben-basil-tomy-5533b9218; do opencli linkedin profile-read --profile-url "https://www.linkedin.com/in/$s/" --window background -f json > _work/linkedin-audit/$s.json; opencli linkedin profile-experience --profile-url "https://www.linkedin.com/in/$s/" --window background -f json > _work/linkedin-audit/$s-experience.json; sleep 20; done', 'opencli browser open --session co https://www.linkedin.com/company/13588687/about/ && opencli browser get text --session co > _work/linkedin-audit/company-about.txt && opencli browser close --session co'] },
+    { t: 'agent', id: 'S1.6', tt: 'Or in the Brand tab', sb: 'Same result inside Tantra', files: ['CRM:src/branding/intake.ts', 'CRM:src/branding/audit.ts'], notes: ['crm_branding_create_project, crm_branding_save_intake, crm_branding_audit', 'POST /api/branding/projects/:id/intake, POST /api/branding/projects/:id/audit'] },
+    { t: 'out', id: 'S1.7', tt: 'Raw audit JSON', sb: 'Git ignored, never committed', files: ['WS:_work/linkedin-audit/<slug>.json'] },
+    { t: 'out', id: 'S1.8', tt: 'AUDIT.md', sb: 'Field, now, should be, per person', files: ['WS:AUDIT.md'], img: I('adi-before.jpg') },
+    { t: 'check', id: 'S1.9', tt: 'Big gaps found', notes: ['Only Adi listed Tantra as current employer', 'Three headlines still sold GrowthClub', 'Live titles differed from the spec', 'Page said Founded 2024, should be 2018'] },
+  ],
+},
+{
+  id: 'S2', title: 'Write every text element', goal: 'A proposal for each copy element, inside its limits, from approved facts only.',
+  cards: [
+    { t: 'in', id: 'S2.1', tt: 'Approved copy sources', files: ['WSR:deliverables/29-linkedin-profile-branding/copy.json', 'WS:copy.json', 'WSR:deliverables/06-company-page/copy.json', 'WSR:deliverables/_shared/funnel-config.json'] },
+    { t: 'in', id: 'S2.2', tt: 'Audit + intake context', sb: 'From S1', files: ['WS:AUDIT.md'] },
+    { t: 'agent', id: 'S2.3', tt: 'Path A (card 29): gen_spec.py', sb: 'Python writes the spec from the approved copy', files: ['WS:gen_spec.py'], cmd: ['python3 deliverables/29-linkedin-profile-branding/v2/gen_spec.py'] },
+    { t: 'agent', id: 'S2.4', tt: 'Path B (Brand tab): branding writer', sb: 'Claude API (Opus 5.5, then Sonnet 5.5, then Opus 5) or an agent runner', files: ['CRM:src/branding/generate.ts', 'CRM:src/branding/writer.ts'], notes: ['Model registry task: branding.copy', 'Minute cron runs queued page_jobs with kind "branding"', 'Agent runner: crm_pages_job_brief, then crm_pages_job_submit; it answers with failed checks to fix', 'writer.ts applyBranding only writes proposals and a labelled version, never the live profile'] },
+    { t: 'prompt', id: 'S2.5', tt: 'Writer prompt v1', files: ['CRM:src/sites/prompts/branding/v1.md'], prompt: 'You write LinkedIn profiles and company pages for B2B founders and their teams at Tantra. You write like a sharp person talking to one reader: "I" and "you", plain words, short sentences, one idea per line. You open on a specific pain the reader already feels, then show how it gets fixed, then proof, then one clear action.\n\nHard rules:\n- Never use an em dash or an en dash.\n- Never use AI filler words: leverage, unlock, seamless, robust, delve, elevate, supercharge, game changer, synergy.\n- Never mention how anyone is paid.\n- Never write the word "CRM" in a headline, caption or tagline; say Tantra.\n- Use only proof that is in the context as approved.\n- Keep every limit: headline 220 starting with "<title> @ <company>"; About 2,600; experience description 2,000; Featured descriptions 200; tagline 120; overview 2,000; exactly five skills; at most 20 specialties; captions 60.\n- Every link is one of the links in the context, copied exactly.\n- Keep the title exactly as given.\n\nTask: write the elements under ELEMENTS TO WRITE. Up to three "options" for headline, About opening, tagline. For the cover caption return five humorous direct response options, best first.\n\nReturn exactly:\n{"elements": {"<element key>": {"value": <value>, "options": [...], "why": "<one line>"}}}' },
+    { t: 'out', id: 'S2.6', tt: 'PROFILE_SPEC.md', sb: 'Every field, 8 people + the page, with character counts', files: ['WS:PROFILE_SPEC.md', 'PAGES:PROFILE_SPEC.md'], notes: ['Example, Adi headline (175 / 220): Leading the team @ Tantra | AI RevOps that turns cold traffic into booked calls and closed revenue | 400+ brands, 21+ countries | Join my live AI RevOps workshop: link below', 'Adi About opens: "Referrals got you here. They won\'t get you to next year\'s number." (1,440 / 2,600)', 'Page tagline (111 / 120), About (1,692 / 2,000), 14 specialties'] },
+    { t: 'out', id: 'S2.7', tt: 'Proposals in the Brand tab', sb: 'One per element, with options and why', files: ['CRM:migrations/0065_branding.sql'], notes: ['branding_elements: current, reference, proposal, options, status', 'branding_versions: every proposal, labelled "Claude Code, branding v1"'] },
+    { t: 'check', id: 'S2.8', tt: 'Copy checks (checks.ts)', files: ['CRM:src/branding/checks.ts'], notes: ['limit: N of LIMIT characters, not empty', 'skills: exactly 5; list items each within limit', 'Featured: description within 200, has an https link', 'headline: starts with the title and " @ <company>"', 'caption: options exist, each at most 60', 'No em or en dashes, no filler, nothing about pay', 'A failing check never blocks saving; it blocks approval'] },
+  ],
+},
+{
+  id: 'S3', title: 'AI images on Kie.ai', goal: 'Two consistent, true to life images per consenting person: a waist up portrait and a strict side profile.',
+  cards: [
+    { t: 'in', id: 'S3.1', tt: 'look sentence + 4 to 8 photos', files: ['TC:content/brand/people/<key>/person.json', 'TC:content/brand/people/<key>/refs/'], notes: ['Example look: a South Asian man in his early thirties with short dark hair swept up, a full neatly trimmed dark beard and moustache, warm dark eyes and a medium-brown complexion'] },
+    { t: 'ctx', id: 'S3.2', tt: 'House prompt + client', files: ['TC:kits/content/avatars.py', 'TC:kits/content/image.py', 'PB:kie/kie.py'], notes: ['Model nano-banana-pro (takes up to 8 reference images)', '18 credits per image at 1K or 2K, about $0.09', 'Cache: identical request (model, prompt, aspect, resolution, ref bytes) costs nothing'] },
+    { t: 'prompt', id: 'S3.3', tt: 'Portrait prompt (verbatim)', prompt: 'Photorealistic professional photograph of the exact same real person shown in the reference photos ({look}). IDENTITY LOCK: reproduce their real face exactly as in the references: same face shape and width, same nose, same eye spacing and depth, same ears, same age and skin texture. Do not beautify, do not make them younger. Sharp focus on the eyes, full-frame camera, 85mm lens. Editorial waist-up portrait, arms loosely crossed, slight smile, plain warm grey studio wall, soft window light from the left, calm and credible.', notes: ['aspect_ratio 4:5, resolution 2K, output_format png'] },
+    { t: 'prompt', id: 'S3.4', tt: 'Side profile prompt', prompt: '<identity lock base as above> Strict side profile view of the head and shoulders, facing left, the whole face in exact profile (nose, lips and chin silhouette clear), neutral expression, pure black background, a thin violet rim light tracing the profile edge, low key studio lighting.', notes: ['Spec from the run notes: strict side view facing left, black background, violet rim light. Exact wording rebuilt; check the first result.'] },
+    { t: 'agent', id: 'S3.5', tt: 'Kie.ai API', sb: 'Upload refs, create task, poll, download', notes: ['1. POST https://kieai.redpandaai.co/api/file-base64-upload {base64Data, uploadPath:"images/refs", fileName} returns data.downloadUrl (Kie rejects Google Drive links)', '2. POST https://api.kie.ai/api/v1/jobs/createTask {model:"nano-banana-pro", input:{prompt, aspect_ratio, resolution:"2K", output_format:"png", image_input:[downloadUrl...]}} returns data.taskId', '3. GET /api/v1/jobs/recordInfo?taskId=... every 6 s until state success or fail', '4. Download resultJson.resultUrls[0] from tempfile.aiquickdraw.com at once (it expires)', 'Auth: Authorization: Bearer KIE_API_KEY (never printed or committed)'] },
+    { t: 'cmd', id: 'S3.6', tt: 'Commands', cmd: ['python3 kie/kie.py credit', 'python3 kie/kie.py avatar people/<key> portrait headshot', 'python3 kie/kie.py side people/<key> --rim violet', 'python3 kits/content/avatars.py create <key> portrait   # original, in tantra-content'] },
+    { t: 'agent', id: 'S3.7', tt: 'In the Brand tab', files: ['CRM:src/branding/kie.ts'], notes: ['crm_branding_make_image, POST /api/branding/projects/:id/images', 'Refused (409) without consent in the intake, or without KIE_API_KEY on the Worker', 'Result copied into R2 bucket tantra-branding (binding BRANDING_FILES), served at /branding/f/<workspace>/<project>/<random>.png'] },
+    { t: 'out', id: 'S3.8', tt: 'Portraits (6)', files: ['WS:src/avatars/<key>-portrait.png'], grid: KEYS.map((k) => [I(k + '-portrait.jpg'), k]), cols: 3 },
+    { t: 'out', id: 'S3.9', tt: 'Side profiles (6)', files: ['WS:src/side/<key>.jpg'], grid: KEYS.map((k) => [I(k + '-side.jpg'), k]), cols: 3 },
+    { t: 'out', id: 'S3.10', tt: 'avatars.json record', files: ['TC:content/brand/people/<key>/avatars/avatars.json'], notes: ['{pose: {file, aspect, prompt, kie_task, credits, refs, created}}'] },
+    { t: 'check', id: 'S3.11', tt: 'Gates', notes: ['Person confirms it looks like them', 'A pose that exists is never regenerated', 'Spend: 11 images, 252 credits, about $1.26'] },
+  ],
+},
+{
+  id: 'S4', title: 'Cutouts and measurements', goal: 'Turn AI images into clean layers that line up across the whole team.',
+  cards: [
+    { t: 'in', id: 'S4.1', tt: 'Portraits + side profiles', sb: 'From S3', files: ['WS:src/avatars/', 'WS:src/side/'] },
+    { t: 'agent', id: 'S4.2', tt: 'rembg birefnet-portrait', sb: 'Background removal, about 4 GB RAM, one process per image', files: ['PB:kie/cutout.sh'], cmd: ['rembg i -m birefnet-portrait people/<key>/avatars/portrait.png render/src/cutouts/<key>.png'] },
+    { t: 'agent', id: 'S4.3', tt: 'Face and landmark measures', sb: 'So every face lands in the same place', notes: ['OpenCV face boxes: src/avatars/faces.json (aligns eyes and smiles in the strip collage)', 'Nose tip and head top: src/side/metrics.json (side profile at the cover edge)', 'Eye, nose tip, chin by hand: src/sidecut/landmarks.json (scale by eye to chin, never hair)'] },
+    { t: 'out', id: 'S4.4', tt: 'Cutouts (6)', files: ['WS:src/cutouts/<key>.png'], grid: KEYS.map((k) => [I(k + '-cutout.png'), k]), cols: 3, chk: true },
+    { t: 'out', id: 'S4.5', tt: 'Measurement files', files: ['WS:src/avatars/faces.json', 'WS:src/side/metrics.json', 'WS:src/sidecut/landmarks.json'], notes: ['metrics.json example: adi {w 896, h 1200, top 84, nose 182, nose_y 573}'] },
+  ],
+},
+{
+  id: 'S5', title: 'Render every image element', goal: 'Covers, photos, Featured, collages, company covers and logos, with every word in code.',
+  cards: [
+    { t: 'in', id: 'S5.1', tt: 'Layers', files: ['WS:src/cutouts/', 'WS:src/side/', 'WS:src/sidecut/', 'WS:src/logos/', 'WS:src/logos/ratios.json', 'WS:src/bonus/', 'WS:src/tantra-mark-white.png', 'WS:src/inter-var.woff2'] },
+    { t: 'in', id: 'S5.2', tt: 'Words', files: ['WS:copy.json'], notes: ['captions, caption_by_asset, workshop, consult, cover, company_cover'] },
+    { t: 'ctx', id: 'S5.3', tt: 'LinkedIn layout rules', notes: ['Profile cover 1584 x 396; photo covers the lower left (desktop x 47 to 362 from y 175; phone x 65 to 489 from y 162)', 'Zones: mark top left, person x 360 to 920, caption x 806 to 1326, side profile x 1334 to 1584', 'Company cover 4200 x 700 (6:1); Featured 1200 x 627; photo square, circle crop'] },
+    { t: 'agent', id: 'S5.4', tt: 'build.mjs (Playwright)', sb: 'HTML + CSS to PNG at 1x and @2x', files: ['WS:build.mjs', 'PB:render/build.mjs'], notes: ['Jobs: 6 profile covers, 2 evangelist covers, 5 collages, 5 company covers, 2 Featured', 'Fails on a missing image or text that overflows its box', 'Writes <name>.layout.json: text lines, logo boxes in chips, caption box, safe zone'] },
+    { t: 'agent', id: 'S5.5', tt: 'photos.mjs (Playwright)', files: ['WS:photos.mjs'], notes: ['6 logo variants A to F (1200), 6 branded photos (1200), preview sheet', 'Photo: cutout on violet ground, violet to gold ring, Tantra badge'] },
+    { t: 'cmd', id: 'S5.6', tt: 'Commands', cmd: ['node render/build.mjs', 'node render/build.mjs --guides   # photo zones in red, review only', 'node render/photos.mjs'] },
+    { t: 'out', id: 'S5.7', tt: 'Profile covers (8)', files: ['WS:assets/<key>-cover-1584x396.png', 'WS:assets/<key>-cover-1584x396@2x.png'], grid: [...KEYS, 'scott', 'conor'].map((k) => [I(k + '-cover.jpg'), k]), cols: 2 },
+    { t: 'out', id: 'S5.8', tt: 'Branded photos (6)', files: ['WS:assets/<key>-photo-1200.png'], grid: KEYS.map((k) => [I(k + '-photo.jpg'), k]), cols: 3 },
+    { t: 'out', id: 'S5.9', tt: 'Featured (2, shared)', files: ['WS:assets/featured-workshop-1200x627.png', 'WS:assets/featured-consultation-1200x627.png'], grid: [[I('featured-workshop.jpg'), 'Workshop'], [I('featured-consultation.jpg'), 'Consultation']], cols: 2 },
+    { t: 'out', id: 'S5.10', tt: 'Company covers (5) + collages (5)', files: ['WS:assets/tantra-company-cover-<v>-4200x700.png', 'WS:assets/tantra-collage-<v>-1330x700.png'], grid: [['strips-violet', 'A2 live', 1], ['strips', 'A1'], ['panels', 'B1'], ['glow', 'B2'], ['tiles', 'B3']].map(([v, l, on]) => [I('company-cover-' + v + '.jpg'), l, on]), cols: 1 },
+    { t: 'out', id: 'S5.11', tt: 'Logos (6)', files: ['WS:assets/tantra-logo-<v>-1200.png'], grid: [['d', 1], ['a'], ['b'], ['c'], ['e'], ['f']].map(([v, on]) => [I('logo-' + v + '.jpg'), v.toUpperCase() + (on ? ' live' : ''), on]), cols: 3 },
+    { t: 'out', id: 'S5.12', tt: 'layout.json per image', files: ['WS:assets/<name>.layout.json'], notes: ['{width, height, text:[lines], logos:[{box, chip}], caption:{box, lines}, safe:[x,y,w,h]}', 'Read by the Brand tab image checks'] },
+    { t: 'check', id: 'S5.13', tt: 'Render checks', notes: ['No missing image, no overflowing text', 'Caption inside the safe zone, logos inside chips', 'No label text on images'], img: I('adi-cover-guides.jpg') },
+  ],
+},
+{
+  id: 'S6', title: 'Mock and approve the look', goal: 'See every image where LinkedIn will put it, then get the yes.',
+  cards: [
+    { t: 'in', id: 'S6.1', tt: 'Rendered covers + photos', sb: 'From S5' },
+    { t: 'agent', id: 'S6.2', tt: 'mock.mjs', sb: 'Desktop and phone top card, real photo placed where LinkedIn puts it', files: ['WS:mock.mjs'], cmd: ['node render/mock.mjs'] },
+    { t: 'out', id: 'S6.3', tt: 'Mocks (8 + page)', files: ['WS:shots/mock-<key>.png', 'WS:shots/mock-company.png'], grid: ['adi', 'aquila', 'company'].map((k) => [I(k + '-mock.jpg'), k]), cols: 1 },
+    { t: 'human', id: 'S6.4', tt: 'Adi approves', notes: ['13 Nov: six covers and both Featured approved; caption may still change', 'Teammates confirm their avatar'] },
+    { t: 'out', id: 'S6.5', tt: 'Published team pack', sb: 'Public, used by teammates to apply', files: ['PAGES:index.html', 'PAGES:assets/', 'PAGES:TEAM_GUIDE.md', 'PAGES:li-upload.sh'], notes: ['https://adisuja.github.io/tantra-enterprise-webinar-pages/linkedin-profiles/v2/'] },
+  ],
+},
+{
+  id: 'S7', title: 'Review in the Tantra Brand tab', goal: 'One project per person and per page; every element approved one by one.',
+  cards: [
+    { t: 'in', id: 'S7.1', tt: 'Seed from the spec', files: ['WS:branding_seed.py', 'WS:branding_seed.json'], cmd: ['python3 branding_seed.py   # writes branding_seed.json from gen_spec.py'], notes: ['8 people + the page, the approved spec as "reference", the live value as "current"', 'No consent is seeded'] },
+    { t: 'agent', id: 'S7.2', tt: 'Import', files: ['CRM:src/branding/routes.ts'], notes: ['crm_branding_import, POST /api/branding/import'] },
+    { t: 'agent', id: 'S7.3', tt: 'post-assets.mjs', sb: 'Sends renders + layout into each project', files: ['WS:post-assets.mjs'], cmd: ['node post-assets.mjs            # dry run: the plan', 'TANTRA_API_KEY=... node post-assets.mjs --send'], notes: ['POST /api/branding/projects/:id/assets with layout meta', 'Skips verified projects; 409 until the person gave avatar consent'] },
+    { t: 'ctx', id: 'S7.4', tt: 'Data model (migration 0065)', files: ['CRM:migrations/0065_branding.sql', 'CRM:src/branding/schema.ts', 'CRM:src/branding/store.ts'], notes: ['branding_projects, branding_elements, branding_versions, branding_assets', 'Element status: empty, current, proposed, approved, skipped, applied, verified', 'Project status: intake, audit, generating, review, approved, applying, verified, error'] },
+    { t: 'human', id: 'S7.5', tt: 'Approve each element', sb: 'The only manual step', notes: ['crm_branding_review: approve, skip, edit', 'Share link per element: crm.usetantra.com/content/brand/s/<token> (same workspace only)', 'crm_branding_regenerate for a new proposal'] },
+    { t: 'agent', id: 'S7.6', tt: 'Team flow', files: ['CRM:src/branding/teamFlow.ts', 'CRM:src/branding/teamFlowRoutes.ts'], notes: ['crm.usetantra.com/content/brand/team: find teammates, send invites, each opens their own project', 'crm_branding_team_find, _add, _send_invites, _open'] },
+    { t: 'out', id: 'S7.7', tt: 'Brand tab: projects', img: I('app-brand-list.jpg') },
+    { t: 'out', id: 'S7.8', tt: 'Brand tab: review', img: I('app-brand-review.jpg') },
+  ],
+},
+{
+  id: 'S8', title: 'Tracked links', goal: 'Every link on every profile reports per person, per spot and per caption.',
+  cards: [
+    { t: 'in', id: 'S8.1', tt: 'Destinations', notes: ['Workshop: https://jointantra.com/', 'Consultation: https://crm.usetantra.com/book/tantra/ai-revops-strategy-consultation'] },
+    { t: 'agent', id: 'S8.2', tt: 'Link builder', files: ['CRM:src/branding/links.ts'], notes: ['crm_branding_links (dry run first; existing codes never change)', 'Uses the tracking module createLink'] },
+    { t: 'out', id: 'S8.3', tt: 'Link scheme', notes: ['Code: <key>-<spot><kind>: spot f featured, w website, a about, r role; kind w workshop, c consultation', 'Page: tantra-aw, tantra-ac, tantra-btn', 'UTMs: utm_source=linkedin, utm_medium=profile|company_page, utm_campaign=enterprise-webinar, utm_content=<key>-<where>-<kind>', '51 links, campaign "LinkedIn organic: team profiles"', 'Report: GET https://crm-api.usetantra.com/api/trk/reports/campaign/<campaign id>'] },
+    { t: 'check', id: 'S8.4', tt: 'Link checks', notes: ['Short link resolves with UTMs plus tcid, tlink, tclid', 'LinkedIn previews go.usetantra.com (Featured switched from full UTM links once it did)'] },
+  ],
+},
+{
+  id: 'S9', title: 'Go live on LinkedIn', goal: 'Apply every approved element in the person\'s own browser, read it back, record it.',
+  cards: [
+    { t: 'in', id: 'S9.1', tt: 'Approved values + files', files: ['WS:PROFILE_SPEC.md', 'WS:assets/', 'WS:li-upload.sh'] },
+    { t: 'human', id: 'S9.2', tt: 'Signed in browser', sb: 'Only the person signs in. Never a password through the agent', notes: ['LinkedIn lets nobody edit another person\'s profile: each person applies their own', 'Adi\'s profile and the page: Claude applies in Adi\'s browser'] },
+    { t: 'agent', id: 'S9.3', tt: 'Claude Code + OpenCLI', sb: 'Edits field by field, reads each back', files: ['WS:RUNBOOK.md', 'WS:TEAM_GUIDE.md'], notes: ['Rules: only own profile, never post, message, connect or notify network; back up each old value to ./backup/; keep the browser window visible'] },
+    { t: 'cmd', id: 'S9.4', tt: 'Profile steps a to g', cmd: ['a Headline: open /in/me/edit/intro/; opencli browser fill --session me \'[contenteditable=true][aria-label="Headline"]\' "<headline>"; Save', 'b About + skills: /in/<slug>/edit/forms/summary/new/; fill aria-label "About"; Add skill, wait 3 s, click the [role=option] that matches exactly', 'c Cover: [aria-label="Edit background image"], "Edit cover image" by ref, "Change photo"; ./li-upload.sh me --catch; click "Upload single photo"; ./li-upload.sh me assets/<key>-cover-1584x396@2x.png; Save changes', 'd Photo: same catch and upload with assets/<key>-photo-1200.png, centred, no zoom', 'e Contact info: /in/<slug>/overlay/contact-info/, Edit contact info: workshop link (Company), consultation link (Other); remove old links', 'f Current role: /in/<slug>/details/experience/: title, company = the Tantra page from the dropdown, description, 5 skills, notify off; then intro Organization = Tantra', 'g Featured: /in/<slug>/details/featured/, Add a link, wait up to 60 s, title, description, Choose thumbnail via li-upload; add consultation first, workshop last so it shows first'] },
+    { t: 'cmd', id: 'S9.5', tt: 'Company page (admin)', cmd: ['Admin: https://www.linkedin.com/company/13588687/admin/dashboard/', 'Edit page, Header: tagline from the spec', 'Details: About, website, industry, size, specialties, founded 2018', 'Cover: upload tantra-company-cover-strips-violet-4200x700.png (li-upload: #org-image-editor__change-photo-input), no zoom, Save', 'Buttons: Custom button on, Register, https://go.usetantra.com/l/tantra-btn'] },
+    { t: 'ctx', id: 'S9.6', tt: 'Known blockers and fixes', notes: ['"Not allowed" on upload: use li-upload.sh (catch the file field, then attach)', '"Edit cover image" ignores script clicks: click its ref from opencli browser state', 'Featured "couldn\'t load a preview": wait, retry up to 3 times', 'Featured shows a bare domain: refresh at linkedin.com/post-inspector, re-add', 'Top card shows the wrong company: Edit intro, Organization: Tantra', '"Native input requires a visible browser page": bring the window to the front', 'Password, code or security check: stop, the person does it'] },
+    { t: 'agent', id: 'S9.7', tt: 'Brand tab apply (M5)', files: ['CRM:src/branding/routes.ts'], notes: ['crm_branding_apply_plan: POST /api/branding/projects/:id/apply (dry run)', 'crm_branding_apply_run, then crm_branding_record_applied: POST /api/branding/projects/:id/applied', 'Runs as runner job kind branding_apply on the person\'s own Mac; headline through the API where possible'] },
+    { t: 'out', id: 'S9.8', tt: 'Live: Adi', files: ['WS:shots/live/after-adi-top.png', 'WS:shots/live/after-adi-featured.png', 'WS:shots/live/after-adi-role.png'], grid: [[I('adi-after.jpg'), 'Top card'], [I('adi-after-featured.jpg'), 'Featured'], [I('adi-after-role.jpg'), 'Role']], cols: 1 },
+    { t: 'out', id: 'S9.9', tt: 'Live: company page', files: ['WS:shots/live/after-company.png'], img: I('company-after.jpg') },
+    { t: 'check', id: 'S9.10', tt: 'Verify (Runbook phase 4)', cmd: ['opencli linkedin profile-read --profile-url <url> -f json > backup/after.json', 'diff against PROFILE_SPEC.md: every field must match', 'opencli browser screenshot --session me profile-after.png'], notes: ['Screens at 1440 and 390 px against the mocks', 'Record done or what differs on card 29; element status applied, then verified'] },
+  ],
+},
+];
+
+const ELEMENTS = {
+  profile: [
+    ['Cover image', '1584 x 396 (@2x)', 'Kie.ai portrait + side profile, build.mjs', 'assets/<key>-cover-1584x396@2x.png', 'Browser upload (li-upload.sh)'],
+    ['Cover caption', '60 chars, 4 in test', 'Writer, chosen by Adi', 'copy.json captions', 'Part of the cover render'],
+    ['Profile photo', '1200 square, circle', 'Kie.ai portrait cutout, photos.mjs', 'assets/<key>-photo-1200.png', 'Browser upload'],
+    ['Headline', '220, "Title @ Tantra"', 'gen_spec.py / writer v1', 'PROFILE_SPEC.md', 'API (Unipile) or browser fill'],
+    ['About', '2,600', 'gen_spec.py / writer v1', 'PROFILE_SPEC.md', 'Browser fill'],
+    ['Experience title', '100, exact', 'Adi\'s decision', 'gen_spec.py TITLES', 'Browser'],
+    ['Experience description', '2,000', 'gen_spec.py / writer v1', 'PROFILE_SPEC.md', 'Browser'],
+    ['Top skills', 'Exactly 5', 'gen_spec.py / writer v1', 'PROFILE_SPEC.md', 'Browser (typeahead)'],
+    ['Featured 1 (workshop)', 'Desc 200 + 1200 x 627', 'build.mjs + spec text', 'featured-workshop-1200x627.png', 'Browser, add last'],
+    ['Featured 2 (consultation)', 'Desc 200 + 1200 x 627', 'build.mjs + spec text', 'featured-consultation-1200x627.png', 'Browser, add first'],
+    ['Website (Company)', 'Short link', 'links.ts', '<key>-ww', 'Browser'],
+    ['Website (Other)', 'Short link', 'links.ts', '<key>-wc', 'Browser'],
+  ],
+  page: [
+    ['Logo', '400 x 400 (1200 made)', 'photos.mjs, 6 options', 'assets/tantra-logo-d-1200.png', 'Admin upload'],
+    ['Cover image', '4200 x 700', 'build.mjs collage of team faces', 'tantra-company-cover-strips-violet-4200x700.png', 'Admin upload'],
+    ['Cover caption', '60 chars', 'Writer, chosen by Adi', 'copy.json (pipeline)', 'Part of the cover'],
+    ['Tagline', '120', 'Spec / writer', 'PROFILE_SPEC.md', 'Admin form'],
+    ['Overview (About)', '2,000', 'Spec / writer', 'PROFILE_SPEC.md', 'Admin form'],
+    ['Specialties', 'Up to 20', 'Spec / writer', 'PROFILE_SPEC.md (14)', 'Admin form'],
+    ['Year founded', '4 digits', 'Adi\'s decision', '2018', 'Admin form'],
+    ['Custom button', 'Label + link', 'links.ts', 'Register, tantra-btn', 'Admin form'],
+  ],
+};
+
+const PEOPLE = [
+  ['adi', 'Adithya Murali', 'Leading the team', 'Our AI Haunts Your Audience Until They Pay You.'],
+  ['aquila', 'Aquila Eldho', 'Leading automations', 'Leads Left on Read? Not on Our Watch.'],
+  ['ben', 'Ben Basil Tomy', 'Leading development', 'Cold Leads? We Bring Blankets.'],
+  ['bharath', 'Bharath', 'Leading development', "Your Pipeline Called. It's Hungry."],
+  ['bhaskar', 'Bhaskar', 'Leading marketing & product', "Your Pipeline Called. It's Hungry."],
+  ['nelbin', 'Nelbin', 'Leading marketing ops', 'Our AI Haunts Your Audience Until They Pay You.'],
+];
+const EVANG = [['scott', 'Scott McArthur', 'Evangelist', 'Leads Left on Read? Not on Our Watch.'], ['conor', 'Conor Norton', 'Evangelist', 'Cold Leads? We Bring Blankets.']];
+
+return { REPOS, STAGES, ELEMENTS, PEOPLE, EVANG };
+})();
