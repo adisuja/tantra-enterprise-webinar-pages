@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>LinkedIn Branding Workflow Map | Tantra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0b10;--dot:#22243a;--card:#12141d;--line:#262a3b;--ink:#eceaf6;--mute:#8d8aa3;--v:#8b6cff;--vb:#1c1636;--t:#2fc79a;--tb:#0f2a23;--g:#a8a59a;--gb:#1b1b19;--gold:#f5c76b}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#vp{position:fixed;inset:0;cursor:grab;touch-action:none;background-color:var(--bg);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.2px)}
+#vp.panning{cursor:grabbing}
+#world{position:absolute;left:0;top:0;transform-origin:0 0}
+#edges{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+#edges path{fill:none;stroke-width:2}
+#edges path.flow{stroke-dasharray:7 7;animation:flow 1.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+@media (prefers-reduced-motion:reduce){#edges path.flow{animation:none}}
+.frame{position:absolute;border:1.5px dashed #34375066;border-radius:22px;background:#ffffff05}
+.frame .fh{position:absolute;left:0;top:-46px;display:flex;align-items:center;gap:10px;cursor:move;user-select:none;padding:6px 14px 6px 8px;border-radius:12px;background:#15172299;border:1px solid var(--line)}
+.frame .fh b{font-size:20px;font-weight:800;letter-spacing:-.01em}
+.frame .fh span{font-size:13px;color:var(--mute)}
+.frame .fh i{width:12px;height:12px;border-radius:4px}
+.node{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:14px;user-select:none;cursor:move;box-shadow:0 10px 30px #0006;overflow:hidden}
+.node.dragging{box-shadow:0 18px 50px #000a,0 0 0 2px var(--v);z-index:5}
+.node .hd{padding:10px 12px 8px;border-bottom:1px solid var(--line)}
+.node .chip{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:2px 7px;margin-bottom:5px}
+.k-in .chip{background:var(--gb);color:var(--g);border:1px solid #3a3933}
+.k-gen .chip{background:var(--vb);color:#c4b5fd;border:1px solid #3b2f7a}
+.k-app .chip{background:var(--tb);color:var(--t);border:1px solid #1d5a49}
+.k-in{border-top:3px solid var(--g)}.k-gen{border-top:3px solid var(--v)}.k-app{border-top:3px solid var(--t)}
+.node .tt{font-size:15px;font-weight:700;line-height:1.25}
+.node .sb{font-size:12.5px;color:var(--mute);margin-top:3px;line-height:1.4}
+.node ul{list-style:none;padding:8px 12px 12px;font-size:13px;color:#cfcce0}
+.node li{padding:4px 0 4px 16px;position:relative;line-height:1.35}
+.node li:before{content:'';position:absolute;left:2px;top:10px;width:6px;height:6px;border-radius:2px;background:var(--v)}
+.node .im{display:block;width:100%;cursor:zoom-in;background:#07080c}
+.node .grid{display:grid;gap:6px;padding:8px}
+.node .grid .cell{position:relative}
+.node .grid .cell .im{border-radius:8px}
+.node .grid .cell.on .im{outline:2px solid var(--gold);outline-offset:1px}
+.node .grid .cell em{position:absolute;left:6px;bottom:6px;font-style:normal;font-size:10.5px;font-weight:700;background:#000b;padding:1px 6px;border-radius:5px}
+.node.img .hd{padding:7px 10px}
+.node.img .tt{font-size:13px}
+.node .chk{background:repeating-conic-gradient(#1a1c27 0 25%,#12131b 0 50%) 0/14px 14px}
+.node .pic{width:34px;height:34px;border-radius:50%;object-fit:cover;float:left;margin-right:10px}
+.node.port .im{aspect-ratio:4/5;object-fit:cover}
+#ui{position:fixed;left:16px;top:16px;display:flex;flex-direction:column;gap:10px;z-index:20;max-width:calc(100vw - 32px)}
+.bar{display:flex;align-items:center;gap:6px;background:#12141dee;border:1px solid var(--line);border-radius:14px;padding:8px;backdrop-filter:blur(8px);flex-wrap:wrap}
+.bar h1{font-size:15px;font-weight:800;padding:0 8px 0 4px;white-space:nowrap}
+.bar h1 small{display:block;font-size:11.5px;font-weight:500;color:var(--mute)}
+.bar button{font:inherit;font-size:13px;font-weight:600;color:var(--ink);background:#1b1e2b;border:1px solid var(--line);border-radius:9px;padding:7px 11px;cursor:pointer}
+.bar button:hover{border-color:var(--v)}
+.bar button.on{background:var(--vb);border-color:var(--v)}
+.legend{display:flex;gap:12px;font-size:12px;color:var(--mute);padding:0 6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:10px;height:10px;border-radius:3px}
+#zoom{font-size:12px;color:var(--mute);min-width:44px;text-align:center}
+#hint{position:fixed;right:16px;bottom:16px;font-size:12px;color:var(--mute);background:#12141dcc;border:1px solid var(--line);border-radius:10px;padding:8px 12px;z-index:20}
+#lb{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out;padding:4vh 4vw}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 20px 80px #000}
+.dim .node:not(.hl),.dim .frame:not(.hl){opacity:.18}
+</style>
+</head>
+<body>
+<div id="vp"><div id="world"><svg id="edges" width="1" height="1"></svg></div></div>
+<div id="ui">
+  <div class="bar">
+    <h1>LinkedIn branding workflow<small>Personal profiles + company page · Tantra</small></h1>
+    <button data-focus="all" class="on">All</button>
+    <button data-focus="profile">Profile track</button>
+    <button data-focus="team">Team results</button>
+    <button data-focus="company">Company page</button>
+  </div>
+  <div class="bar">
+    <button id="zo" aria-label="Zoom out">−</button><span id="zoom">100%</span><button id="zi" aria-label="Zoom in">+</button>
+    <button id="fit">Fit</button><button id="reset">Reset layout</button>
+    <div class="legend"><span><i style="background:var(--g)"></i>Inputs</span><span><i style="background:var(--v)"></i>Generated</span><span><i style="background:var(--t)"></i>Review and live in Tantra</span></div>
+  </div>
+</div>
+<div id="hint">Drag the canvas to pan · scroll or pinch to zoom · drag a card or a frame title to move it · click an image for full size</div>
+<div id="lb"><img alt=""></div>
+<script>
+const I = (f) => 'img/' + f;
+const PEOPLE = [
+  ['adi', 'Adithya Murali', 'Leading the team', 'Our AI Haunts Your Audience Until They Pay You.'],
+  ['aquila', 'Aquila Eldho', 'Leading automations', "Leads Left on Read? Not on Our Watch."],
+  ['ben', 'Ben Basil Tomy', 'Leading development', 'Cold Leads? We Bring Blankets.'],
+  ['bharath', 'Bharath', 'Leading development', "Your Pipeline Called. It's Hungry."],
+  ['bhaskar', 'Bhaskar', 'Leading marketing & product', "Your Pipeline Called. It's Hungry."],
+  ['nelbin', 'Nelbin', 'Leading marketing ops', 'Our AI Haunts Your Audience Until They Pay You.'],
+];
+const EVANG = [['scott', 'Scott McArthur', 'Evangelist', "Leads Left on Read? Not on Our Watch."], ['conor', 'Conor Norton', 'Evangelist', 'Cold Leads? We Bring Blankets.']];
+
+const frames = [
+  { id: 'F-profile', group: 'profile', x: -60, y: -40, w: 2600, h: 800, title: 'Personal profile track', sub: '12 elements per person, one approval each', color: 'var(--v)' },
+  { id: 'F-team', group: 'team', x: -60, y: 860, w: 2600, h: 2200, title: 'Team results: every element generated', sub: '6 AI avatar profiles + 2 evangelists', color: 'var(--gold)' },
+  { id: 'F-company', group: 'company', x: -60, y: 3170, w: 2600, h: 1020, title: 'Company page track', sub: 'Tantra page: 8 elements, reuses the team faces', color: 'var(--t)' },
+];
+const nodes = [];
+const edges = [];
+const N = (o) => (nodes.push(o), o.id);
+const E = (a, b, kind = 'gen', opt = {}) => edges.push({ a, b, kind, ...opt });
+
+// Personal profile track
+N({ id: 'intake', f: 'F-profile', x: 0, y: 20, w: 300, k: 'in', chip: '1 Inputs', tt: 'Intake or profile audit', sb: 'The person answers the intake, or OpenCLI reads their LinkedIn in their own browser', img: I('adi-before.jpg') });
+N({ id: 'consent', f: 'F-profile', x: 0, y: 380, w: 300, k: 'in', chip: '1 Inputs', tt: 'AI avatar consent + 4 to 8 photos', sb: 'Real photos are references only, never published', list: ['Consent recorded: who and when', 'One "look" sentence from the photos', 'Destinations: workshop, consultation'] });
+N({ id: 'sections', f: 'F-profile', x: 420, y: 20, w: 300, k: 'gen', chip: '2 Sections', tt: 'Rewrite 12 elements', list: ['Cover image + caption', 'Profile photo', 'Headline (220)', 'About (2,600)', 'Experience title + description', 'Top skills (exactly 5)', 'Featured 1 + 2', 'Contact websites (2)'] });
+N({ id: 'checks', f: 'F-profile', x: 420, y: 470, w: 300, k: 'gen', chip: '2 Sections', tt: 'Checks on every proposal', list: ['Character limits', 'Headline starts "Title @ Tantra"', 'No em or en dashes, no AI filler', 'Every link is a tracked link'] });
+N({ id: 'kie', f: 'F-profile', x: 840, y: 20, w: 300, k: 'gen', chip: '3 Kie.ai', tt: 'nano-banana-pro', sb: 'Identity lock prompt, their photos as references', list: ['Waist up portrait (4:5)', 'Strict side profile, violet rim light', '18 credits each, ~$0.09', '11 images, $1.26 for the team'] });
+N({ id: 'render', f: 'F-profile', x: 1260, y: 20, w: 300, k: 'gen', chip: '4 Render', tt: 'Code renders every word', list: ['rembg cutout of the portrait', 'build.mjs: covers, Featured', 'photos.mjs: photo, logo', 'Layout check + LinkedIn mock'] });
+N({ id: 'featured', f: 'F-profile', x: 1260, y: 330, w: 300, k: 'gen', chip: '4 Render', tt: 'Featured images (shared)', grid: [[I('featured-workshop.jpg'), 'Workshop'], [I('featured-consultation.jpg'), 'Consultation']], cols: 1 });
+N({ id: 'brandList', f: 'F-profile', x: 1680, y: 20, w: 400, k: 'app', chip: '5 Brand tab', tt: 'One project per person', sb: 'crm.usetantra.com/content/brand', img: I('app-brand-list.jpg') });
+N({ id: 'brandReview', f: 'F-profile', x: 1680, y: 400, w: 400, k: 'app', chip: '5 Brand tab', tt: 'Approve each element', sb: 'Live vs proposal, checks, LinkedIn mock', img: I('app-brand-review.jpg') });
+N({ id: 'live', f: 'F-profile', x: 2160, y: 20, w: 340, k: 'app', chip: '6 Live', tt: 'Applied and read back', sb: 'Cover, photo, headline', img: I('adi-after.jpg') });
+N({ id: 'liveF', f: 'F-profile', x: 2160, y: 300, w: 340, k: 'app', chip: '6 Live', tt: 'Featured + role live', img: I('adi-after-featured.jpg') });
+N({ id: 'liveR', f: 'F-profile', x: 2160, y: 600, w: 340, k: 'app', chip: '6 Live', tt: 'Tracked short links', sb: 'go.usetantra.com/l/<person>-<spot>, per person and spot' });
+E('intake', 'sections', 'in'); E('consent', 'kie', 'in'); E('sections', 'checks'); E('kie', 'render'); E('render', 'featured');
+E('checks', 'brandReview'); E('render', 'brandList'); E('featured', 'brandReview'); E('brandList', 'brandReview', 'app');
+E('brandReview', 'live', 'app'); E('live', 'liveF', 'app'); E('liveF', 'liveR', 'app');
+
+// Team results: one row per person
+const ROW = 260, TY = 900;
+PEOPLE.forEach(([k, name, title, cap], i) => {
+  const y = TY + i * ROW;
+  N({ id: k + '-who', f: 'F-team', x: 0, y, w: 250, k: 'in', chip: 'Person', tt: name, sb: title + ' @ Tantra', pic: I(k + '-photo.jpg'), list: ['Caption: ' + cap] });
+  N({ id: k + '-port', f: 'F-team', x: 300, y, w: 150, k: 'gen', cls: 'img port', tt: 'Kie.ai portrait', img: I(k + '-portrait.jpg') });
+  N({ id: k + '-side', f: 'F-team', x: 470, y, w: 150, k: 'gen', cls: 'img port', tt: 'Kie.ai side profile', img: I(k + '-side.jpg') });
+  N({ id: k + '-cut', f: 'F-team', x: 640, y, w: 150, k: 'gen', cls: 'img port', tt: 'Cutout', img: I(k + '-cutout.png'), chk: true });
+  N({ id: k + '-photo', f: 'F-team', x: 810, y, w: 170, k: 'gen', cls: 'img', tt: 'Branded photo', img: I(k + '-photo.jpg') });
+  N({ id: k + '-cover', f: 'F-team', x: 1030, y, w: 640, k: 'gen', cls: 'img', tt: 'Cover 1584 x 396', img: I(k + '-cover.jpg') });
+  N({ id: k + '-mock', f: 'F-team', x: 1720, y, w: 520, k: 'app', cls: 'img', tt: 'Checked in a LinkedIn mock', img: I(k + '-mock.jpg') });
+  E(k + '-who', k + '-port', 'in'); E(k + '-port', k + '-cut'); E(k + '-cut', k + '-photo'); E(k + '-side', k + '-cover', 'gen', { side: true });
+  E(k + '-cut', k + '-cover', 'gen', { under: true }); E(k + '-cover', k + '-mock', 'app');
+});
+EVANG.forEach(([k, name, title, cap], i) => {
+  const y = TY + PEOPLE.length * ROW + i * 300;
+  N({ id: k + '-who', f: 'F-team', x: 0, y, w: 250, k: 'in', chip: 'Evangelist', tt: name, sb: 'No consented photos, so no AI avatar', list: ['Caption: ' + cap] });
+  N({ id: k + '-strip', f: 'F-team', x: 300, y, w: 380, k: 'gen', cls: 'img', tt: 'Team face strips instead of a portrait', img: I('collage-strips-violet.jpg') });
+  N({ id: k + '-cover', f: 'F-team', x: 1030, y, w: 640, k: 'gen', cls: 'img', tt: 'Cover 1584 x 396', img: I(k + '-cover.jpg') });
+  N({ id: k + '-mock', f: 'F-team', x: 1720, y, w: 520, k: 'app', cls: 'img', tt: 'Checked in a LinkedIn mock', img: I(k + '-mock.jpg') });
+  E(k + '-who', k + '-strip', 'in'); E(k + '-strip', k + '-cover'); E(k + '-cover', k + '-mock', 'app');
+});
+E('kie', 'adi-port', 'gen', { faint: true }); E('kie', 'adi-side', 'gen', { faint: true });
+E('adi-mock', 'brandList', 'app', { faint: true });
+
+// Company page track
+const CY = 3210;
+N({ id: 'caudit', f: 'F-company', x: 0, y: CY, w: 320, k: 'in', chip: '1 Inputs', tt: 'Page audit (admin view)', sb: 'Tagline, About, cover, logo, button', img: I('company-before.jpg') });
+N({ id: 'csections', f: 'F-company', x: 400, y: CY, w: 300, k: 'gen', chip: '2 Sections', tt: 'Rewrite 8 elements', list: ['Tagline (111 / 120)', 'About (1,692 / 2,000)', 'Specialties (14 / 20)', 'Industry, size, founded', 'Register button, tracked', 'Logo', 'Cover + caption'] });
+N({ id: 'creuse', f: 'F-company', x: 400, y: CY + 420, w: 300, k: 'gen', chip: '3 No new AI', tt: 'Reuse the team faces', sb: 'Side profiles and portraits become the collage' });
+N({ id: 'collages', f: 'F-company', x: 780, y: CY, w: 440, k: 'gen', chip: '4 Render', tt: 'Collages (1330 x 700)', cols: 2, grid: [['collage-strips-violet.jpg', 'A2 strips violet', 1], ['collage-strips.jpg', 'A1 strips'], ['collage-panels.jpg', 'B1 panels'], ['collage-glow.jpg', 'B2 glow'], ['collage-tiles.jpg', 'B3 tiles']].map(([f, l, on]) => [I(f), l, on]) });
+N({ id: 'logos', f: 'F-company', x: 780, y: CY + 560, w: 440, k: 'gen', chip: '4 Render', tt: 'Logo options', cols: 3, grid: [['d', 1], ['a'], ['b'], ['c'], ['e'], ['f']].map(([v, on]) => [I('logo-' + v + '.jpg'), v.toUpperCase(), on]) });
+N({ id: 'ccovers', f: 'F-company', x: 1300, y: CY, w: 620, k: 'gen', chip: '4 Render', tt: 'Company covers 4200 x 700', sb: 'A2 chosen. Caption: Your Pipeline Called. It\'s Hungry.', cols: 1, grid: [['strips-violet', 'A2 live', 1], ['strips', 'A1'], ['panels', 'B1'], ['glow', 'B2'], ['tiles', 'B3']].map(([v, l, on]) => [I('company-cover-' + v + '.jpg'), l, on]) });
+N({ id: 'cmock', f: 'F-company', x: 2000, y: CY, w: 500, k: 'app', chip: '4 Check', tt: 'Cover in a LinkedIn mock', img: I('company-mock.jpg') });
+N({ id: 'cbrand', f: 'F-company', x: 2000, y: CY + 300, w: 500, k: 'app', chip: '5 Brand tab', tt: 'Tantra page project: 8 of 8 approved', sb: 'Same Brand tab, one page project' });
+N({ id: 'clive', f: 'F-company', x: 2000, y: CY + 470, w: 500, k: 'app', chip: '6 Live', tt: 'Live on LinkedIn', sb: 'Logo D, cover A2, Register button on a tracked short link', img: I('company-after.jpg') });
+E('caudit', 'csections', 'in'); E('csections', 'creuse'); E('creuse', 'collages'); E('collages', 'ccovers'); E('creuse', 'logos');
+E('ccovers', 'cmock', 'app'); E('logos', 'cmock', 'app'); E('cmock', 'cbrand', 'app'); E('cbrand', 'clive', 'app'); E('csections', 'cbrand', 'app', { faint: true });
+E('nelbin-side', 'creuse', 'gen', { faint: true }); E('brandList', 'cbrand', 'app', { faint: true });
+
+// Build DOM
+const world = document.getElementById('world'), svg = document.getElementById('edges'), vp = document.getElementById('vp');
+const KEY = 'tantra-branding-map-v2';
+const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+const byId = {};
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+for (const f of frames) {
+  const el = document.createElement('div'); el.className = 'frame'; el.dataset.group = f.group;
+  el.innerHTML = `<div class="fh"><i style="background:${f.color}"></i><b>${esc(f.title)}</b><span>${esc(f.sub)}</span></div>`;
+  Object.assign(f, saved[f.id] || {}); f.el = el; byId[f.id] = f; world.appendChild(el);
+}
+for (const n of nodes) {
+  n.x0 = n.x; n.y0 = n.y; Object.assign(n, saved[n.id] || {});
+  const el = document.createElement('div'); el.className = `node k-${n.k} ${n.cls || ''}`; el.dataset.group = byId[n.f].group; el.style.width = n.w + 'px';
+  let h = `<div class="hd">${n.pic ? `<img class="pic" src="${n.pic}" alt="">` : ''}${n.chip ? `<span class="chip">${esc(n.chip)}</span><br>` : ''}<div class="tt">${esc(n.tt)}</div>${n.sb ? `<div class="sb">${esc(n.sb)}</div>` : ''}</div>`;
+  if (n.img) h += `<img class="im${n.chk ? ' chk' : ''}" src="${n.img}" alt="${esc(n.tt)}" draggable="false">`;
+  if (n.grid) h += `<div class="grid" style="grid-template-columns:repeat(${n.cols || 2},1fr)">${n.grid.map(([s, l, on]) => `<div class="cell${on ? ' on' : ''}"><img class="im" src="${s}" alt="${esc(l)}" draggable="false"><em>${esc(l)}</em></div>`).join('')}</div>`;
+  if (n.list) h += `<ul>${n.list.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  el.innerHTML = h; n.el = el; byId[n.id] = n; world.appendChild(el);
+}
+for (const f of frames) { f.x0 = f.x; f.y0 = f.y; }
+const COL = { in: '#a8a59a', gen: '#8b6cff', app: '#2fc79a' };
+for (const e of edges) {
+  const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  p.setAttribute('stroke', COL[e.kind]); p.setAttribute('class', e.faint ? '' : 'flow');
+  if (e.faint) { p.setAttribute('stroke-dasharray', '3 7'); p.setAttribute('opacity', '.45'); }
+  p.setAttribute('marker-end', `url(#m-${e.kind})`); e.p = p; svg.appendChild(p);
+}
+svg.insertAdjacentHTML('afterbegin', '<defs>' + Object.entries(COL).map(([k, c]) => `<marker id="m-${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9z" fill="${c}"/></marker>`).join('') + '</defs>');
+
+function place() {
+  for (const f of frames) Object.assign(f.el.style, { left: f.x + 'px', top: f.y + 'px', width: f.w + 'px', height: f.h + 'px' });
+  for (const n of nodes) Object.assign(n.el.style, { left: n.x + 'px', top: n.y + 'px' });
+  drawEdges();
+}
+function box(n) { return { x: n.x, y: n.y, w: n.el.offsetWidth, h: n.el.offsetHeight }; }
+function drawEdges() {
+  for (const e of edges) {
+    const a = box(byId[e.a]), b = box(byId[e.b]);
+    let d;
+    const vertical = b.y > a.y + a.h + 20 && Math.abs((a.x + a.w / 2) - (b.x + b.w / 2)) < Math.max(a.w, b.w) / 2;
+    if (e.under) {
+      const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w * 0.3, y2 = b.y + b.h;
+      const dy = 40; d = `M${x1},${y1} C${x1},${y1 + dy} ${x2},${y2 + dy} ${x2},${y2 + 2}`;
+    } else if (vertical) {
+      const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y - 4, m = (y2 - y1) / 2;
+      d = `M${x1},${y1} C${x1},${y1 + m} ${x2},${y2 - m} ${x2},${y2}`;
+    } else if (e.side) {
+      const x1 = a.x + a.w / 2, y1 = a.y, x2 = b.x + b.w * 0.85, y2 = b.y - 4, top = Math.min(y1, y2) - 18;
+      d = `M${x1},${y1} C${x1},${top} ${x2},${top} ${x2},${y2}`;
+    } else {
+      const back = b.x < a.x + a.w;
+      const x1 = back ? a.x + a.w / 2 : a.x + a.w, y1 = back ? a.y + a.h : a.y + Math.min(a.h / 2, 60);
+      const x2 = b.x - 4, y2 = b.y + Math.min(b.h / 2, 60), c = Math.max(60, Math.abs(x2 - x1) / 2);
+      d = back ? `M${x1},${y1} C${x1},${y1 + 120} ${x2 - 120},${y2} ${x2},${y2}` : `M${x1},${y1} C${x1 + c},${y1} ${x2 - c},${y2} ${x2},${y2}`;
+    }
+    e.p.setAttribute('d', d);
+  }
+}
+
+// View: pan and zoom
+let k = 1, tx = 0, ty = 0;
+const zl = document.getElementById('zoom');
+function view() { world.style.transform = `translate(${tx}px,${ty}px) scale(${k})`; zl.textContent = Math.round(k * 100) + '%'; vp.style.backgroundSize = `${24 * k}px ${24 * k}px`; vp.style.backgroundPosition = `${tx}px ${ty}px`; }
+function zoomAt(f, cx, cy) { const nk = Math.min(2.5, Math.max(0.08, k * f)); tx = cx - (cx - tx) * (nk / k); ty = cy - (cy - ty) * (nk / k); k = nk; view(); }
+function fit(group) {
+  const items = group && group !== 'all' ? frames.filter((f) => f.group === group) : frames;
+  const x0 = Math.min(...items.map((f) => f.x)), y0 = Math.min(...items.map((f) => f.y - 60)), x1 = Math.max(...items.map((f) => f.x + f.w)), y1 = Math.max(...items.map((f) => f.y + f.h));
+  const top = document.getElementById('ui').offsetHeight + 30, W = innerWidth - 60, H = innerHeight - top - 50;
+  k = Math.min(W / (x1 - x0), H / (y1 - y0), 1.4); tx = 30 + (W - (x1 - x0) * k) / 2 - x0 * k; ty = top + (H - (y1 - y0) * k) / 2 - y0 * k; view();
+}
+vp.addEventListener('wheel', (ev) => {
+  ev.preventDefault();
+  if (ev.ctrlKey || ev.metaKey) zoomAt(Math.exp(-ev.deltaY * 0.01), ev.clientX, ev.clientY);
+  else if (ev.deltaMode === 1) zoomAt(ev.deltaY < 0 ? 1.12 : 1 / 1.12, ev.clientX, ev.clientY);
+  else { tx -= ev.deltaX; ty -= ev.deltaY; view(); }
+}, { passive: false });
+document.getElementById('zi').onclick = () => zoomAt(1.2, innerWidth / 2, innerHeight / 2);
+document.getElementById('zo').onclick = () => zoomAt(1 / 1.2, innerWidth / 2, innerHeight / 2);
+document.getElementById('fit').onclick = () => fit(current);
+document.getElementById('reset').onclick = () => { localStorage.removeItem(KEY); for (const o of [...nodes, ...frames]) { o.x = o.x0; o.y = o.y0; } place(); fit(current); };
+
+// Dragging: canvas pans, cards move, frame titles move the frame with its cards
+let drag = null;
+const save = () => { const s = {}; for (const o of [...nodes, ...frames]) if (o.x !== o.x0 || o.y !== o.y0) s[o.id] = { x: o.x, y: o.y }; localStorage.setItem(KEY, JSON.stringify(s)); };
+vp.addEventListener('pointerdown', (ev) => {
+  const nodeEl = ev.target.closest('.node'), fh = ev.target.closest('.fh');
+  vp.setPointerCapture(ev.pointerId);
+  if (nodeEl) { const n = nodes.find((x) => x.el === nodeEl); drag = { t: 'node', items: [n], sx: ev.clientX, sy: ev.clientY, o: [[n.x, n.y]], img: ev.target.classList.contains('im') ? ev.target : null }; nodeEl.classList.add('dragging'); }
+  else if (fh) { const f = frames.find((x) => x.el === fh.parentElement); const items = [f, ...nodes.filter((n) => n.f === f.id)]; drag = { t: 'frame', items, sx: ev.clientX, sy: ev.clientY, o: items.map((i) => [i.x, i.y]) }; }
+  else { drag = { t: 'pan', sx: ev.clientX, sy: ev.clientY, o: [tx, ty] }; vp.classList.add('panning'); }
+});
+vp.addEventListener('pointermove', (ev) => {
+  if (!drag) return;
+  const dx = ev.clientX - drag.sx, dy = ev.clientY - drag.sy;
+  if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true;
+  if (drag.t === 'pan') { tx = drag.o[0] + dx; ty = drag.o[1] + dy; view(); return; }
+  drag.items.forEach((it, i) => { it.x = drag.o[i][0] + dx / k; it.y = drag.o[i][1] + dy / k; });
+  place();
+});
+vp.addEventListener('pointerup', () => {
+  if (!drag) return;
+  if (drag.t !== 'pan' && drag.moved) save();
+  if (drag.img && !drag.moved) openLB(drag.img.src);
+  document.querySelectorAll('.dragging').forEach((e) => e.classList.remove('dragging')); vp.classList.remove('panning'); drag = null;
+});
+const lb = document.getElementById('lb');
+function openLB(src) { lb.querySelector('img').src = src; lb.classList.add('on'); }
+lb.onclick = () => lb.classList.remove('on');
+addEventListener('keydown', (e) => { if (e.key === 'Escape') lb.classList.remove('on'); });
+
+// Focus a track
+let current = 'all';
+document.querySelectorAll('[data-focus]').forEach((b) => b.onclick = () => {
+  current = b.dataset.focus;
+  document.querySelectorAll('[data-focus]').forEach((x) => x.classList.toggle('on', x === b));
+  world.classList.toggle('dim', current !== 'all');
+  document.querySelectorAll('.node,.frame').forEach((el) => el.classList.toggle('hl', el.dataset.group === current));
+  fit(current);
+});
+
+place();
+fit('all');
+let pending = document.images.length;
+[...document.images].forEach((im) => { if (im.complete) { if (--pending === 0) drawEdges(); } else im.addEventListener('load', () => { drawEdges(); }, { once: true }); });
+addEventListener('resize', () => fit(current));
+</script>
+</body>
+</html>
