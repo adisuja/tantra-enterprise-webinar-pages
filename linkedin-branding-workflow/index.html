@@ -120,7 +120,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font
 <div id="hint">Click a card for every detail · drag cards or frame titles · drag the canvas to pan · pinch or ctrl + scroll to zoom</div>
 <aside id="dr" aria-live="polite"><div class="dh"><div><div class="tag" id="dtag"></div><h2 id="dtt"></h2><p id="dsb"></p></div><button class="x" id="dx" aria-label="Close">×</button></div><div class="db" id="db"></div></aside>
 <div id="lb"><img alt=""></div>
-<script src="workflow-data.js"></script>
+<script src="workflow-data.js?v=20261125184724"></script>
 <script>
 const { REPOS, STAGES, ELEMENTS, PEOPLE, EVANG } = window.WF;
 const TYPES = { ctx: ['Context', 'var(--ctx)'], in: ['Input', 'var(--in)'], agent: ['Agent / tool', 'var(--agent)'], prompt: ['Prompt', 'var(--prompt)'], cmd: ['Commands', 'var(--cmd)'], out: ['Output', 'var(--out)'], check: ['Check', 'var(--check)'], human: ['Human step', 'var(--human)'] };
@@ -326,7 +326,7 @@ function openSpec() {
   cards.forEach((x) => x.el.classList.remove('sel'));
   const tg = document.getElementById('dtag'); tg.textContent = 'Agent spec'; tg.style.color = HEX.agent;
   document.getElementById('dtt').textContent = 'Replay this workflow'; document.getElementById('dsb').textContent = 'Every stage, step, file, prompt, command and check as JSON. Give it to an agent with access to the repos listed.';
-  db.innerHTML = `<h3>Download</h3><p><a href="workflow.json" download>workflow.json</a> (the same content as a file)</p><h3>JSON</h3>${pre(JSON.stringify(spec(), null, 2))}`;
+  db.innerHTML = `<h3>Download</h3><p><a href="workflow.json?v=20261125184724" download>workflow.json</a> (the same content as a file)</p><h3>JSON</h3>${pre(JSON.stringify(spec(), null, 2))}`;
   db.scrollTop = 0; dr.classList.add('on');
 }
 window.__spec = spec;
